@@ -19,17 +19,32 @@ export class Project extends Component
      * @property schoolName the name of the institution
      * @property startDate the start date of the project
      * @property endDate the end date of the project
+     * @property description brief description of the project
+     * 
      */
 
     constructor(props)
     {
         super(props)
+        this.state =
+        {
+            description: '',
+        }
+    }
+
+    componentDidMount()
+    {
+        this.setState(
+            {
+                description: this.props.description,
+            }
+        )
     }
     render()
     {
         return (
-            <TouchableOpacity>
-                <View style={styles.ViewStyle}>
+            <TouchableOpacity onPress = {this.props.onPress}>
+                <View style={styles.ViewStyle} >
                     <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
                     <Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>
                     <Text style={styles.startDateStyle}>Start {this.props.startDate}</Text>

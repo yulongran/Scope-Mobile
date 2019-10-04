@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import {createAppContainer} from "react-navigation";
 import {createDrawerNavigator, DrawerNavigatorItems} from "react-navigation-drawer";
-import HomeScreen from "../Screen/HomeScreen";
-import SettingScreen from "../Screen/SettingScreen";
+import HomeScreen from "../Screen/HomeScreen"
+import SettingScreen from "../Screen/SettingScreen"
 import ProjectScreen from '../Screen/ProjectScreen'
+import ProjectReviewScreen from '../Screen/ProjectReviewScreen'
 import {View, Icon} from "native-base";
 import SJSULOGO from "../assets/SJSU.png";
 import {Ionicons} from "@expo/vector-icons";
@@ -39,7 +40,7 @@ const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: {
-            drawerIcon: <Ionicons name="md-home" size={32} color="blue"/>
+            drawerIcon: <Ionicons name="md-home" size={32} color="blue"/>,
         }
     },
     Project: {
@@ -53,7 +54,15 @@ const DrawerNavigator = createDrawerNavigator({
         navigationOptions: {
             drawerIcon: <Ionicons name="ios-settings" size={32} color="blue"/>
         }
-    }
+    },
+    Review:
+    {
+        screen: ProjectReviewScreen,
+        navigationOptions:
+        {
+            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue"/>
+        }
+    },
 }, {
     contentComponent: CustomDrawerComponet,
     drawerWidth: WIDTH * 0.83

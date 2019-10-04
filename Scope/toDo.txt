@@ -1,0 +1,10 @@
+Project Review:
+    - Add profile Icon
+    - Clickable name
+    - Styling
+
+
+Person:
+
+    - Person profile  
+    - Project View

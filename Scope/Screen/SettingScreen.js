@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import MenuButton from '../Components/MenuButton'
 
+// Testing purpose: delete after
+import {Review} from '../Components/Review'
+
 class SettingScreen extends Component 
 {
     render()
@@ -10,6 +13,7 @@ class SettingScreen extends Component
             <View style = {styles.container}>
                  <MenuButton navigation = {this.props.navigation}/>
                 <Text style = {styles.text}>Settings</Text>
+                <Review/>
             </View>
         )
     }

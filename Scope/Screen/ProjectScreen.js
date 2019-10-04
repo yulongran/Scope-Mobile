@@ -11,6 +11,10 @@ import { SearchBar } from "react-native-elements";
 import MenuButton from "../Components/MenuButton";
 import Project from "../Components/Project";
 import { reload } from "expo/build/Updates/Updates";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import HomeScreen from "./HomeScreen";
+import ProjectReviewScreen from "./ProjectReviewScreen";
 
 const PROJECT = [
   {
@@ -18,56 +22,20 @@ const PROJECT = [
     courseName: "CS122",
     schoolName: "SJSU",
     startDate: "2019-08-01",
-    endDate: "2017-12-01"
-  },
-  {
-    projectName: "Scope",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2019-12-01"
-  },
-  {
-    projectName: "Scope1",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2019-12-01"
-  },
-  {
-    projectName: "Scope2",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2019-12-01"
-  },
-  {
-    projectName: "Scope3",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2018-12-01"
-  },
-  {
-    projectName: "Scope4",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2018-12-01"
-  },
-  {
-    projectName: "Scope5",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2018-12-01"
-  },
-  {
-    projectName: "Scope6",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2018-12-01"
+    endDate: "2017-12-01",
+    description: "Creating a database with MySQl",
+    review: [
+      {
+        review:
+          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+        author: "David"
+      },
+      {
+        review:
+          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+        author: "Tom"
+      }
+    ]
   }
 ];
 class ProjectScreen extends Component {
@@ -84,72 +52,46 @@ class ProjectScreen extends Component {
         courseName: "CS122",
         schoolName: "SJSU",
         startDate: "2019-08-01",
-        endDate: "2017-12-01"
-      },
-      {
-        projectName: "Scope",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2019-12-01"
-      },
-      {
-        projectName: "Scope1",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2019-12-01"
-      },
-      {
-        projectName: "Scope2",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2019-12-01"
-      },
-      {
-        projectName: "Scope3",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2018-12-01"
-      },
-      {
-        projectName: "Scope4",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2018-12-01"
-      },
-      {
-        projectName: "Scope5",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2018-12-01"
-      },
-      {
-        projectName: "Scope6",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2018-12-01"
+        endDate: "2017-12-01",
+        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
+        review: [
+          {
+            review:
+              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+            author: "David"
+          },
+          {
+            review:
+              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+            author: "Tom"
+          }
+        ]
       }
     ]
   };
 
+  /**
+   *  Get an array of project which due date is before today's date
+   */
   getHistoryProject() {
     return (history = this.state.Projects.filter(function(project) {
       return Date.parse(project.endDate) < Date.now();
     }));
   }
 
+  /**
+   *  Get an array of project which due date is after today's date
+   */
   getOngoingProject() {
     return (ongoing = this.state.Projects.filter(function(project) {
       return Date.parse(project.endDate) >= Date.now();
     }));
   }
 
+  /**
+   *  Filter out project's projectName don't contains search input
+   * @param {string} text the search input
+   */
   filterProject(text) {
     const filter = this.state.Projects.filter(item =>
       item.projectName.includes(text)
@@ -158,8 +100,15 @@ class ProjectScreen extends Component {
       Projects: filter,
       search: text
     });
+
+    if (text.length == 0) {
+      this.reload();
+    }
   }
 
+  /**
+   * Reload project from database
+   */
   reload() {
     this.setState({
       Projects: PROJECT
@@ -194,6 +143,9 @@ class ProjectScreen extends Component {
                 schoolName={item.schoolName}
                 startDate={item.startDate}
                 endDate={item.endDate}
+                onPress={() =>
+                  this.props.navigation.navigate("Review", { review: item })
+                }
               />
             )}
             numColumns={2}
@@ -215,6 +167,10 @@ class ProjectScreen extends Component {
                 schoolName={item.schoolName}
                 startDate={item.startDate}
                 endDate={item.endDate}
+                description= {item.description}
+                onPress={() =>
+                  this.props.navigation.navigate("Review", { review: item })
+                }
               />
             )}
             numColumns={2}
@@ -225,6 +181,9 @@ class ProjectScreen extends Component {
   }
 }
 
+/**
+ * Styles
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -262,6 +221,19 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.9,
     marginBottom: 7,
     backgroundColor: "white"
+  }
+});
+
+/**
+ * Screen Navigation
+ */
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen
+  },
+  Review: {
+    screen: ProjectReviewScreen
   }
 });
 
