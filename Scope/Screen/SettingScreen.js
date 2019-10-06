@@ -13,7 +13,6 @@ class SettingScreen extends Component
             <View style = {styles.container}>
                  <MenuButton navigation = {this.props.navigation}/>
                 <Text style = {styles.text}>Settings</Text>
-                <Review/>
             </View>
         )
     }

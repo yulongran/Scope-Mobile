@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Dimensions, Button, SafeAreaView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, FlatList } from 'react-native'
+import { Button } from 'react-native-elements';
 import MenuButton from '../Components/MenuButton'
 import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
+import { SearchBar } from "react-native-elements";
 
 class ProjectReviewScreen extends Component {
 
@@ -22,7 +24,7 @@ class ProjectReviewScreen extends Component {
 
     state =
         {
-            members :[
+            members: [
                 {
                     name: "Miguel Morales-Suazo",
                 },
@@ -58,36 +60,47 @@ class ProjectReviewScreen extends Component {
                 </Ionicons>
                 <Text style={styles.title}>{this.props.navigation.getParam('review').projectName}</Text>
                 <Text style={styles.description}>{this.props.navigation.getParam('review').description}</Text>
-                <View style={{ height: Dimensions.get('window').height * 0.30, justifyContent:'center', flexDirection:'row'}}>
-                    <View style ={{alignContent:'center'}}>
-                    <Text style ={{fontSize: 15, marginTop: 40, }}>Group Members</Text>
-                    <FlatList
-                        data={this.state.members}
-                        renderItem={({ item }) => (
-                            <Text style= {{fontSize: 12, color:'blue', marginTop: 10, }}>{item.name}</Text>
-                        )}
-                        contentContainerStyle={{marginRight:11}}
-                    />
+                <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ alignContent: 'center' }}>
+                        <Text style={{ fontSize: 15, marginTop: 30, }}>Group Members</Text>
+                        <FlatList
+                            data={this.state.members}
+                            key={this.state.members}
+                            renderItem={({ item }) => (
+                                <Text style={{ fontSize: 12, color: 'blue', marginTop: 10, }}>{item.name}</Text>
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={{ marginRight: 11 }}
+                        />
                     </View>
                     <View>
-                    <Text style ={{fontSize: 15, marginTop: 40,}}>Teachers & TAs</Text>
-                    <FlatList
-                        data={this.state.members}
-                        renderItem={({ item }) => (
-                            <Text style= {{fontSize: 12, color:'blue', marginTop: 10, }}>{item.name}</Text>
-                        )}
-                        contentContainerStyle={{}}
-                    />
+                        <Text style={{ fontSize: 15, marginTop: 30, }}>Teachers & TAs</Text>
+                        <FlatList
+                            data={this.state.members}
+                            renderItem={({ item }) => (
+                                <Text style={{ fontSize: 12, color: 'blue', marginTop: 10, }}>{item.name}</Text>
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                        />
                     </View>
                 </View>
+                <View style={{ alignItems: 'flex-end', marginRight: 15, height:Dimensions.get('screen').height*0.08 }}>
+                    <Button icon={
+                        <Ionicons name="ios-add" size={30} color='blue' stlye= {{paddingRight: 10}}/>
+                    }
+                        type='outline'
+                        title="AddReview"></Button>
+                </View>
 
-                
+
                 <SafeAreaView style={styles.contentContainer}>
                     <FlatList
                         data={this.getReviews()}
                         renderItem={({ item }) => (
-                            <Review name={item.author} review={item.review} date="09/07/2016"></Review>
+                            <Review name={item.author} review={item.review} keyWord={item.keyWord} date="09/07/2016"></Review>
                         )}
+                        keyExtractor={(item, index) => index.toString()}
                         extraData={this.state}
                         contentContainerStyle={{ alignItems: 'center', flexGrow: 1, borderRadius: 5, }}
                     />
@@ -129,7 +142,7 @@ const styles = StyleSheet.create(
             width: Dimensions.get('window').width * 0.92,
             alignSelf: 'center',
             borderRadius: 5,
-            marginTop: 10,
+            flex: 1,
 
         }
     }

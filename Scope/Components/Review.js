@@ -17,11 +17,11 @@ export class Review extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.reviewHead}>from {this.props.name}</Text>
+                <Text style={styles.keyWord}>{this.props.keyWord}</Text>
                 <Text stlye={styles.reviewMain}>{this.props.review}</Text>
                 <Text style={styles.reviewClosing}>by
-                    <Text> {this.props.name}
-                        <Text> at {this.props.date}</Text>
+                    <Text style={{color: 'blue',}}> {this.props.name}
+                        <Text style={{color: 'black',}}> at {this.props.date}</Text>
                     </Text>
                 </Text>
             </View>
@@ -41,10 +41,13 @@ const styles = StyleSheet.create(
             marginTop: 5,
             width: Dimensions.get('screen').width * 0.95,
         },
-        reviewHead:
+        keyWord:
         {
             fontSize: 17,
             marginBottom: 3,
+            fontWeight: 'bold',
+            color: 'blue',
+            fontFamily: 'Baskerville-SemiBoldItalic',
         },
         reviewClosing:
         {

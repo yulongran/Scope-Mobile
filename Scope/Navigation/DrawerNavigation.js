@@ -12,7 +12,9 @@ import {createDrawerNavigator, DrawerNavigatorItems} from "react-navigation-draw
 import HomeScreen from "../Screen/HomeScreen"
 import SettingScreen from "../Screen/SettingScreen"
 import ProjectScreen from '../Screen/ProjectScreen'
+import SearchScreen from '../Screen/SearchScreen'
 import ProjectReviewScreen from '../Screen/ProjectReviewScreen'
+import Hidden from '../Components/Hidden'
 import {View, Icon} from "native-base";
 import SJSULOGO from "../assets/SJSU.png";
 import {Ionicons} from "@expo/vector-icons";
@@ -49,6 +51,14 @@ const DrawerNavigator = createDrawerNavigator({
             drawerIcon: <Ionicons name="ios-archive" size={32} color="blue"/>
         }
     },
+    Search:
+    {
+        screen: SearchScreen,
+        navigationOptions:
+        {
+            drawerIcon: <Ionicons name="ios-search" size={32} color="blue"/>
+        }
+    },
     Setting: {
         screen: SettingScreen,
         navigationOptions: {
@@ -57,10 +67,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Review:
     {
-        screen: ProjectReviewScreen,
-        navigationOptions:
-        {
-            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue"/>
+        screen:ProjectReviewScreen,
+        navigationOptions: {
+            drawerLabel:<Hidden/>
         }
     },
 }, {

@@ -8,3 +8,10 @@ Person:
 
     - Person profile  
     - Project View
+
+
+
+
+
+Bugs:
+    1) If the flatlist does not scoll to the next item, add flex:1 to the view.

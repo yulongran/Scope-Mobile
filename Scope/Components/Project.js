@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     Text,
     View,
@@ -7,10 +7,9 @@ import {
     Button,
     TouchableOpacity
 } from 'react-native'
-import {stringify} from 'qs'
+import { stringify } from 'qs'
 
-export class Project extends Component
-{
+export class Project extends Component {
     /**
      * Construct a ProjectDisplay object
      * @param {*} props
@@ -23,27 +22,24 @@ export class Project extends Component
      * 
      */
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
         this.state =
-        {
-            description: '',
-        }
+            {
+                description: '',
+            }
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.setState(
             {
                 description: this.props.description,
             }
         )
     }
-    render()
-    {
+    render() {
         return (
-            <TouchableOpacity onPress = {this.props.onPress}>
+            <TouchableOpacity onPress={this.props.onPress}>
                 <View style={styles.ViewStyle} >
                     <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
                     <Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>
@@ -57,14 +53,19 @@ export class Project extends Component
 const WIDTH = Dimensions
     .get('window')
     .width
+
+const HEIGHT = Dimensions.get('screen').height
+
 const styles = StyleSheet.create({
     ViewStyle: {
-        width: WIDTH*0.38,
-        height: 100,
+        width: WIDTH * 0.38,
+        height: HEIGHT * 0.15,
         borderColor: 'blue',
         borderWidth: 1,
         borderRadius: 10,
-        margin: 10
+        margin: 10,
+        alignContent: 'center',
+        justifyContent: 'center',
     },
     ProjectNameStyle: {
         paddingTop: 7,
@@ -75,10 +76,10 @@ const styles = StyleSheet.create({
     },
     CourseStyle: {
         textAlign: 'center',
-        paddingTop: 10
+        paddingTop: HEIGHT*0.01,
     },
     startDateStyle: {
-        paddingTop: 10,
+        paddingTop: HEIGHT*0.001,
         textAlign: 'center',
         fontSize: 12
     },
@@ -89,3 +90,6 @@ const styles = StyleSheet.create({
 })
 
 export default Project
+
+
+
