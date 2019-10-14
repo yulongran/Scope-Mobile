@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import MenuButton from '../Components/MenuButton'
 import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
-import { SearchBar } from "react-native-elements";
+
 
 class ProjectReviewScreen extends Component {
 
@@ -26,16 +26,16 @@ class ProjectReviewScreen extends Component {
         {
             members: [
                 {
-                    name: "Miguel Morales-Suazo",
+                    name: "Adams, John",
                 },
                 {
-                    name: "Yulong Ran",
+                    name: "Buck, Pearl",
                 },
                 {
-                    name: "Jingyi Wang",
+                    name: "Chapin, Harry",
                 },
                 {
-                    name: "Elizabeth Wong",
+                    name: "Corgan, Billy",
                 },
             ],
 
@@ -62,7 +62,7 @@ class ProjectReviewScreen extends Component {
                 <Text style={styles.description}>{this.props.navigation.getParam('review').description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row' }}>
                     <View style={{ alignContent: 'center' }}>
-                        <Text style={{ fontSize: 15, marginTop: 30, }}>Group Members</Text>
+                        <Text style={{ fontSize: 15, marginTop: 30, marginRight:5}}>Group Members</Text>
                         <FlatList
                             data={this.state.members}
                             key={this.state.members}

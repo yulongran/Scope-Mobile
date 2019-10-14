@@ -18,7 +18,7 @@ import ProjectReviewScreen from "./ProjectReviewScreen";
 
 const PROJECT = [
   {
-    projectName: "Scope",
+    projectName: "Sample Project",
     courseName: "CS122",
     schoolName: "SJSU",
     startDate: "2018-08-01",
@@ -260,7 +260,7 @@ class ProjectScreen extends Component {
     search: "",
     Projects: [
       {
-        projectName: "Scope",
+        projectName: "Sample Project",
         courseName: "CS122",
         schoolName: "SJSU",
         startDate: "2018-08-01",
@@ -269,16 +269,16 @@ class ProjectScreen extends Component {
         review: [
           {
             review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+              "He ensures coworkers coordinate to meet deadlines and work effectively as a team and He will do whatever is necessary to get the job done, even taking on extra tasks that are not his own.",
             author: "David",
             keyWord: "Meet on Time",
 
           },
           {
             review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
+              "He is not a willing team player and prefers to work individually ",
             author: "Tom",
-            keyWord: "Reliable",
+            keyWord: "Unreliable",
           },
           {
             review:

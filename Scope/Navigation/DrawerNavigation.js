@@ -14,6 +14,7 @@ import SettingScreen from "../Screen/SettingScreen"
 import ProjectScreen from '../Screen/ProjectScreen'
 import SearchScreen from '../Screen/SearchScreen'
 import ProjectReviewScreen from '../Screen/ProjectReviewScreen'
+import ExampleScreen from '../Screen/ExampleScreen'
 import Hidden from '../Components/Hidden'
 import {View, Icon} from "native-base";
 import SJSULOGO from "../assets/SJSU.png";
