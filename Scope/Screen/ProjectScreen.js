@@ -12,9 +12,11 @@ import MenuButton from "../Components/MenuButton";
 import Project from "../Components/Project";
 import { reload } from "expo/build/Updates/Updates";
 import { createAppContainer } from "react-navigation";
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./HomeScreen";
 import ProjectReviewScreen from "./ProjectReviewScreen";
+import SearchScreen from "./SearchScreen";
 
 const PROJECT = [
   {
@@ -615,7 +617,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: Dimensions.get("window").height * 0.1
+    paddingTop: Dimensions.get("window").height * 0.09
   },
   listStyle: {
     backgroundColor: "#fff"
@@ -647,7 +649,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.9,
     marginBottom: 7,
     backgroundColor: "white",
-    marginTop: Dimensions.get("window").height * 0.03,
+    marginTop: Dimensions.get("window").height * 0.004,
   }
 });
 

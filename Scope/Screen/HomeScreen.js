@@ -4,6 +4,10 @@ import MenuButton from '../Components/MenuButton'
 
 class HomeScreen extends Component 
 {
+    constructor(props)
+    {
+        super(props);
+    }
     render()
     {
         return(
