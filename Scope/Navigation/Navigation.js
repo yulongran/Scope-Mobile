@@ -12,8 +12,9 @@ import {
 import HomeScreen from "../Screen/HomeScreen"
 import SettingScreen from "../Screen/SettingScreen"
 import ProjectScreen from '../Screen/ProjectScreen'
-import SearchScreen from '../Screen/SearchScreen'
-import ProjectReviewScreen from '../Screen/ProjectReviewScreen'
+import SearchScreen from '../Screen/SearchScreen';
+import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
+import SignUpScreen from '../Screen/SignUpScreen';
 import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
@@ -85,6 +86,14 @@ const DrawerNavigator = createDrawerNavigator({
     {
         screen: ProjectReviewScreen,
         navigationOptions: {
+            drawerLabel: <Hidden />
+        }
+    },
+    SignUp:
+    {
+        screen: SignUpScreen,
+        navigationOptions:
+        {
             drawerLabel: <Hidden />
         }
     },
