@@ -1,17 +1,1 @@
-Project Review:
-    - Add profile Icon
-    - Clickable name
-    - Styling
-
-
-Person:
-
-    - Person profile  
-    - Project View
-
-
-
-
-
-Bugs:
-    1) If the flatlist does not scoll to the next item, add flex:1 to the view.
+1) Adding Back arrow in the signup page

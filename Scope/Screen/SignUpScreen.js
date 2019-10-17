@@ -8,28 +8,70 @@ class SignUpScreen extends Component {
     constructor(props) {
         super(props);
     }
+
+    state =
+        {
+            firstname: '',
+            lastname: '',
+            username: '',
+            password: '',
+
+        }
+
+    onChangeText = (key, val) => {
+        this.setState({ [key]: val })
+    }
+
+    /**
+    * POST Sign Up request to the sever
+    */
+    signUp = async () => {
+        const { firstname, lastname, username, password } = this.state
+        fetch('http://localhost:8001/users/register',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    {
+                        firstname, firstname,
+                        lastname: lastname,
+                        username: username,
+                        password: password,
+                }
+                ),
+                
+            })
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <MenuButton navigation={this.props.navigation} />
                 <Image source={ScopeLogo} style={styles.logo}></Image>
                 <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="First Name" />
+                    <TextInput style={styles.textInput} placeholder="First Name"
+                        onChangeText={val => this.onChangeText('firstname', val)} />
                     <Ionicons name="md-person" size={20} color="#0260F7" />
                 </View>
                 <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Last Name" />
+                    <TextInput style={styles.textInput} placeholder="Last Name"
+                        onChangeText={val => this.onChangeText('lastname', val)} />
                     <Ionicons name="md-lock" size={20} color="#0260F7" />
                 </View>
                 <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Username" />
+                    <TextInput style={styles.textInput} placeholder="Username"
+                        onChangeText={val => this.onChangeText('username', val)} />
                     <Ionicons name="md-lock" size={20} color="#0260F7" />
                 </View>
                 <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Password" />
+                    <TextInput style={styles.textInput} placeholder="Password"
+                        onChangeText={val => this.onChangeText('password', val)} />
                     <Ionicons name="md-lock" size={20} color="#0260F7" />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle}>
+                <TouchableOpacity style={styles.touchableStyle} onPress={this.signUp}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -61,7 +103,7 @@ const styles = StyleSheet.create(
         {
             height: HEIGHT * 0.05,
             width: WIDTH * 0.70,
-            marginLeft: WIDTH*0.03,
+            marginLeft: WIDTH * 0.03,
         },
         inputView:
         {
@@ -87,7 +129,7 @@ const styles = StyleSheet.create(
         forgetStyle:
         {
             marginRight: 150,
-            marginTop: HEIGHT*0.02,
+            marginTop: HEIGHT * 0.02,
         },
     }
 )
