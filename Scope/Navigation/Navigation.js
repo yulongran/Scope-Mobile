@@ -141,7 +141,7 @@ const TabNavigator = createBottomTabNavigator(
             labelStyle:
             {
                 fontSize:13,
-                paddingTop:3,
+                paddingTop:4,
             },
             tabStyle:
             {
