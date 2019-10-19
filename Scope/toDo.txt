@@ -1,1 +1,8 @@
+// Command List
+    - nodemon --exec npm start
+
 1) Adding Back arrow in the signup page
+
+
+
+2) User login input checking and removing space

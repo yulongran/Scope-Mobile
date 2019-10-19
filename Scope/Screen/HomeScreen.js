@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native'
+import {
+    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert,
+    TouchableWithoutFeedback, Keyboard
+} from 'react-native'
 import MenuButton from '../Components/MenuButton';
 import ScopeLogo from '../assets/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
@@ -8,37 +11,86 @@ class HomeScreen extends Component {
     constructor(props) {
         super(props);
     }
+
+    state =
+        {
+            username: '',
+            password: '',
+
+        }
+    onChangeText = (key, val) => {
+        this.setState({ [key]: val })
+    }
+
+    /**
+    * POST Login request to the sever
+    */
+    login = async () => {
+        const { username, password } = this.state
+        fetch('http://localhost:8001/users/login',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    {
+                        username: username,
+                        password: password,
+                    }
+                ),
+
+            })
+            .then(Response => 
+                {
+                    console.log(Response)
+                })
+    
+    }
     render() {
+
         return (
             <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
-                <Image source={ScopeLogo} style={styles.logo}></Image>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Username" />
-                    <Ionicons name="md-person" size={20} color="#0260F7" />
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Password" />
-                    <Ionicons name="md-lock" size={20} color="#0260F7" />
-                </View>
-                <TouchableOpacity style={styles.touchableStyle}>
-                    <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', }}>
-                    <TouchableOpacity style={styles.forgetStyle}>
-                        <Text style={{ color: '#0260F7' }}>Forget Password</Text>
+                    <MenuButton navigation={this.props.navigation} />
+                    <Image source={ScopeLogo} style={styles.logo}></Image>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Username"
+                            onChangeText={val => this.onChangeText('username', val)} />
+                        <Ionicons name="md-person" size={20} color="#0260F7" />
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput style={styles.textInput} placeholder="Password"
+                            onChangeText={val => this.onChangeText('password', val)} />
+                        <Ionicons name="md-lock" size={20} color="#0260F7" />
+                    </View>
+                    <TouchableOpacity style={styles.touchableStyle}
+                        onPress={this.login}>
+                        <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
-                        onPress={() =>
-                            this.props.navigation.navigate("SignUp")
-                        }>
-                        <Text style={{ color: '#0260F7' }}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                    <View style={{ flexDirection: 'row', }}>
+                        <TouchableOpacity style={styles.forgetStyle}>
+                            <Text style={{ color: '#0260F7' }}>Forget Password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
+                            onPress={() =>
+                                this.props.navigation.navigate("SignUp")
+
+                            }>
+                            <Text style={{ color: '#0260F7' }}>Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+            </View >
         )
     }
 }
+
+
+// Alert.alert(
+//     'Password and Username do not match',
+// )
 
 
 const HEIGHT = Dimensions.get('screen').height;

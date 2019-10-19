@@ -8,7 +8,6 @@ class SignUpScreen extends Component {
     constructor(props) {
         super(props);
     }
-
     state =
         {
             firstname: '',
@@ -17,7 +16,6 @@ class SignUpScreen extends Component {
             password: '',
 
         }
-
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
