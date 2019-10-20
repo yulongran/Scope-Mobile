@@ -4,6 +4,10 @@ import {Ionicons} from '@expo/vector-icons'
 
 export default class MenuButton extends React.Component
 {
+    constructor(props)
+    {
+        super(props);
+    }
     render()
     {
         return(
@@ -13,7 +17,6 @@ export default class MenuButton extends React.Component
                 size = {32}
                 style = {styles.menuIcon}
                 onPress= {() => this.props.navigation.toggleDrawer()}
-
             />
         )
     }

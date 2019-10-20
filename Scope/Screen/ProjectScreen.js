@@ -5,18 +5,22 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
-  Dimensions
+  Dimensions,
+  Button,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import MenuButton from "../Components/MenuButton";
 import Project from "../Components/Project";
 import { reload } from "expo/build/Updates/Updates";
 import { createAppContainer } from "react-navigation";
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./HomeScreen";
 import ProjectReviewScreen from "./ProjectReviewScreen";
 import SearchScreen from "./SearchScreen";
+import RedirectScreen from '../Screen/RedirectScreen';
+import { AsyncStorage } from 'react-native';
+import deviceStorage from "../Components/deviceStorage";
 
 const PROJECT = [
   {
@@ -541,71 +545,103 @@ class ProjectScreen extends Component {
     });
   }
 
+  async fetchProject()
+  {
+    const token = await AsyncStorage.getItem('id_token');
+    if(!token)
+    {
+      return false;
+    }
+    var isLogged = false;
+    fetch('http://localhost:8001/project/',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                  {
+                      auth_token : token
+                  }
+              ),
+
+            })
+    return isLogged;
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <MenuButton navigation={this.props.navigation} />
-        <SearchBar
-          placeholder="Search"
-          showCancel={true}
-          inputStyle={{ backgroundColor: "white" }}
-          inputContainerStyle={{ backgroundColor: "white" }}
-          containerStyle={styles.searchStyle}
-          lightTheme={true}
-          onChangeText={text => this.filterProject(text)}
-          value={this.state.search}
-          onClear={this.reload}
-        />
-        <View style={styles.sectionStlye}>
-          <Text style={styles.textStyle}>Ongoing</Text>
-        </View>
-        <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
-          <FlatList
-            data={this.getOngoingProject()}
-            renderItem={({ item }) => (
-              <Project
-                projectName={item.projectName}
-                courseName={item.courseName}
-                schoolName={item.schoolName}
-                startDate={item.startDate}
-                endDate={item.endDate}
-                onPress={() =>
-                  this.props.navigation.navigate("Review", { review: item })
-                }
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
-            extraData={this.state}
+    if (!this.fetchProject()) {
+      return (
+        <RedirectScreen/>
+      )
+    }
+    else {
+      return (
+        <View style={styles.container}>
+          <MenuButton navigation={this.props.navigation} />
+          <SearchBar
+            placeholder="Search"
+            showCancel={true}
+            inputStyle={{ backgroundColor: "white" }}
+            inputContainerStyle={{ backgroundColor: "white" }}
+            containerStyle={styles.searchStyle}
+            lightTheme={true}
+            onChangeText={text => this.filterProject(text)}
+            value={this.state.search}
+            onClear={this.reload}
           />
-        </SafeAreaView>
-        <View style={styles.historySectionStlye}>
-          <Text style={styles.textStyle}>History</Text>
+          <View style={styles.sectionStlye}>
+            <Text style={styles.textStyle}>Ongoing</Text>
+          </View>
+          <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
+            <FlatList
+              data={this.getOngoingProject()}
+              renderItem={({ item }) => (
+                <Project
+                  projectName={item.projectName}
+                  courseName={item.courseName}
+                  schoolName={item.schoolName}
+                  startDate={item.startDate}
+                  endDate={item.endDate}
+                  onPress={() =>
+                    this.props.navigation.navigate("Review", { review: item })
+                  }
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+              extraData={this.state}
+            />
+          </SafeAreaView>
+          <View style={styles.historySectionStlye}>
+            <Text style={styles.textStyle}>History</Text>
+          </View>
+          <SafeAreaView
+            style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
+          >
+            <FlatList
+              data={this.getHistoryProject()}
+              renderItem={({ item }) => (
+                <Project
+                  projectName={item.projectName}
+                  courseName={item.courseName}
+                  schoolName={item.schoolName}
+                  startDate={item.startDate}
+                  endDate={item.endDate}
+                  description={item.description}
+                  onPress={() =>
+                    this.props.navigation.navigate("Review", { review: item })
+                  }
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+            />
+          </SafeAreaView>
         </View>
-        <SafeAreaView
-          style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
-        >
-          <FlatList
-            data={this.getHistoryProject()}
-            renderItem={({ item }) => (
-              <Project
-                projectName={item.projectName}
-                courseName={item.courseName}
-                schoolName={item.schoolName}
-                startDate={item.startDate}
-                endDate={item.endDate}
-                description={item.description}
-                onPress={() =>
-                  this.props.navigation.navigate("Review", { review: item })
-                }
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
-          />
-        </SafeAreaView>
-      </View>
-    );
+      );
+    }
   }
 }
 

@@ -46,7 +46,6 @@ router.post('/login', async function (req, res, next) {
   var username = req.body.username;
   connection.query(sql, username, function (err, result) {
     if (err) throw err
-    console.log(result)
     // Check if user exists in our database
     if (result.user_password = undefined) {
       console.log('User does not exist')
@@ -57,7 +56,7 @@ router.post('/login', async function (req, res, next) {
       console.log('Log in')
       // Create and Assign JWT token
       const token = jwt.sign({ _id: result.user_id }, 'secret');
-      res.header('auth-token', token).send(token);
+      res.header('auth_token', token).send(token);
     }
   })
 
