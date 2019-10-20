@@ -7,6 +7,8 @@ import MenuButton from '../Components/MenuButton';
 import ScopeLogo from '../assets/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
 import deviceStorage from '../Components/deviceStorage';
+import checkLogin from '../Function/checkLogIn';
+import WelcomeScreen from '../Screen/WelcomeScreen'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -53,41 +55,80 @@ class HomeScreen extends Component {
 
 
     }
-    render() {
-        return (
-            <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
-                <Image source={ScopeLogo} style={styles.logo}></Image>
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Username"
-                        onChangeText={val => this.onChangeText('username', val)} />
-                    <Ionicons name="md-person" size={20} color="#0260F7" />
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.textInput} placeholder="Password"
-                        onChangeText={val => this.onChangeText('password', val)} />
-                    <Ionicons name="md-lock" size={20} color="#0260F7" />
-                </View>
-                <TouchableOpacity style={styles.touchableStyle}
-                    onPress={this.login}>
-                    <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', }}>
-                    <TouchableOpacity style={styles.forgetStyle}>
-                        <Text style={{ color: '#0260F7' }}>Forget Password</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
-                        onPress={() =>
-                            this.props.navigation.navigate("SignUp")
 
-                        }>
-                        <Text style={{ color: '#0260F7' }}>Sign Up</Text>
+    loggedIn = async () => {
+        const token = await AsyncStorage.getItem('id_token')
+        if (!token) {
+            return false;
+        }
+        var isLogged = false;
+        try {
+            let response = await fetch('http://localhost:8001/users/status',
+                {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        {
+                            auth_token: token
+                        }
+                    ),
+                });
+            if(response.status = 500)
+            {
+                isLogged = true;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return isLogged;
+    }
+
+    render() {
+        if (this.loggedIn()) {
+            return (
+                <WelcomeScreen navigation = {this.props.navigation}/>
+            )
+        }
+        else {
+            return (
+                <View style={styles.container}>
+                    <MenuButton navigation={this.props.navigation} />
+                    <Image source={ScopeLogo} style={styles.logo}></Image>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Username"
+                            onChangeText={val => this.onChangeText('username', val)} />
+                        <Ionicons name="md-person" size={20} color="#0260F7" />
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput style={styles.textInput} placeholder="Password"
+                            onChangeText={val => this.onChangeText('password', val)} />
+                        <Ionicons name="md-lock" size={20} color="#0260F7" />
+                    </View>
+                    <TouchableOpacity style={styles.touchableStyle}
+                        onPress={this.login}>
+                        <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                     </TouchableOpacity>
-                </View>
-            </View >
-        )
+                    <View style={{ flexDirection: 'row', }}>
+                        <TouchableOpacity style={styles.forgetStyle}>
+                            <Text style={{ color: '#0260F7' }}>Forget Password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
+                            onPress={() =>
+                                this.props.navigation.navigate("SignUp")
+
+                            }>
+                            <Text style={{ color: '#0260F7' }}>Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View >
+            )
+        }
 
     }
 }

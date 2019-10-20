@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql')
+var verify = require('../function/Authorization')
 var jwt = require('jsonwebtoken')
 var connection = mysql.createConnection(
   {
@@ -59,8 +60,14 @@ router.post('/login', async function (req, res, next) {
       res.header('auth_token', token).send(token);
     }
   })
-
-
 });
 
+/**
+ * User status check
+ */
+
+ router.post('/status', verify, async function (req, res, next)
+ {
+ });
+ 
 module.exports = router;

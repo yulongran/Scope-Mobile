@@ -15,6 +15,7 @@ import ProjectScreen from '../Screen/ProjectScreen'
 import SearchScreen from '../Screen/SearchScreen';
 import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
 import SignUpScreen from '../Screen/SignUpScreen';
+import ProfileScreen from '../Screen/ProfileScreen';
 import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
@@ -37,87 +38,10 @@ const WIDTH = Dimensions
     .width;
 
 /**
- * Drawer Navigation of the Scope
- * @param {} props 
- */
-const CustomDrawerComponet = props => (
-    <SafeAreaView>
-        <View style={styles.container}>
-            <View style={{
-                height: 220
-            }}></View>
-            <Image source={SJSULOGO} style={styles.logo}></Image>
-            <DrawerNavigatorItems
-                {...props}
-                activeBackgroundColor="white"
-                labelStyle={styles.itemStyle} />
-        </View>
-    </SafeAreaView>
-);
-
-const DrawerNavigator = createDrawerNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            drawerIcon: <Ionicons name="md-home" size={32} color="blue" />,
-        }
-    },
-    Project: {
-        screen: ProjectScreen,
-        navigationOptions: {
-            drawerIcon: <Ionicons name="ios-archive" size={32} color="blue" />
-        }
-    },
-    Search:
-    {
-        screen: SearchScreen,
-        navigationOptions:
-        {
-            drawerIcon: <Ionicons name="ios-search" size={32} color="blue" />
-        }
-    },
-    Setting: {
-        screen: SettingScreen,
-        navigationOptions: {
-            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
-        }
-    },
-    Review:
-    {
-        screen: ProjectReviewScreen,
-        navigationOptions: {
-            drawerLabel: <Hidden />
-        }
-    },
-    SignUp:
-    {
-        screen: SignUpScreen,
-        navigationOptions:
-        {
-            drawerLabel: <Hidden />
-        }
-    },
-}, {
-    contentComponent: CustomDrawerComponet,
-    drawerWidth: WIDTH * 0.83
-});
-
-/**
- * TabNavigator of the Scope
- */
+* TabNavigator of the Scope
+*/
 const TabNavigator = createBottomTabNavigator(
     {
-        Home:
-        {
-            screen: DrawerNavigator,
-            navigationOptions:
-            {
-                tabBarLabel: 'Home',
-                tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="md-home" size={23} color="#0260F7" />
-                )
-            },
-        },
         Project:
         {
             screen: ProjectScreen,
@@ -149,22 +73,81 @@ const TabNavigator = createBottomTabNavigator(
             },
             labelStyle:
             {
-                fontSize:13,
-                paddingTop:4,
+                fontSize: 13,
+                paddingTop: 4,
             },
             tabStyle:
             {
-                justifyContent:'center',  
-                alignContent:'center',
-                marginTop:7,
+                justifyContent: 'center',
+                alignContent: 'center',
+                marginTop: 7,
             },
-            inactiveTintColor:'black',
-            activeTintColor:'#0260F7',
+            inactiveTintColor: 'black',
+            activeTintColor: '#0260F7',
         }
     },
 
 );
 
+/**
+ * Drawer Navigation of the Scope
+ * @param {} props 
+ */
+const CustomDrawerComponet = props => (
+    <SafeAreaView>
+        <View style={styles.container}>
+            <View style={{
+                height: 220
+            }}></View>
+            <Image source={SJSULOGO} style={styles.logo}></Image>
+            <DrawerNavigatorItems
+                {...props}
+                activeBackgroundColor="white"
+                labelStyle={styles.itemStyle} />
+        </View>
+    </SafeAreaView>
+);
+
+const DrawerNavigator = createDrawerNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            drawerIcon: <Ionicons name="md-home" size={32} color="blue" />,
+        }
+    },
+    Setting: {
+        screen: SettingScreen,
+        navigationOptions: {
+            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
+        }
+    },
+    Review:
+    {
+        screen: ProjectReviewScreen,
+        navigationOptions: {
+            drawerLabel: <Hidden />
+        }
+    },
+    SignUp:
+    {
+        screen: SignUpScreen,
+        navigationOptions:
+        {
+            drawerLabel: <Hidden />
+        }
+    },
+    Project:
+    {
+        screen: TabNavigator,
+        navigationOptions:
+        {
+            drawerLabel: <Hidden />
+        }
+    }
+}, {
+    contentComponent: CustomDrawerComponet,
+    drawerWidth: WIDTH * 0.83
+});
 
 /**
  * Style Sheet of Navigation
@@ -189,4 +172,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default createAppContainer(TabNavigator);
+export default createAppContainer(DrawerNavigator);
