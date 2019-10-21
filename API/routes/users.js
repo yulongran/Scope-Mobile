@@ -40,9 +40,8 @@ router.post('/register', async function (req, res, next) {
 /**
  * User Login
  */
-
+const secret = "adadaasdasd"
 router.post('/login', async function (req, res, next) {
-
   var sql = 'SELECT * FROM User WHERE user_email = ?';
   var username = req.body.username;
   connection.query(sql, username, function (err, result) {
@@ -55,8 +54,8 @@ router.post('/login', async function (req, res, next) {
     if (result[0].user_password = req.body.password) {
       console.log('Log in')
       // Create and Assign JWT token
-      const token = jwt.sign({ _id: result[0].user_email}, 'secret');
-      res.header('auth_token', token).send("Did you get it");
+      const token = jwt.sign({ _id: result[0].user_email }, secret);
+      res.header('auth_token', token).send(token)
     }
   })
 });
@@ -65,8 +64,7 @@ router.post('/login', async function (req, res, next) {
  * User status check
  */
 
- router.post('/status', verify, async function (req, res, next)
- {
- });
- 
+router.post('/status', verify, async function (req, res, next) {
+});
+
 module.exports = router;

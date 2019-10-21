@@ -559,13 +559,8 @@ class ProjectScreen extends Component {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    auth_token: token
                 },
-                body: JSON.stringify(
-                  {
-                      auth_token : token
-                  }
-              ),
-
             })
     return isLogged;
   }

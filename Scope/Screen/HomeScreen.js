@@ -33,7 +33,7 @@ class HomeScreen extends Component {
     */
     login = async () => {
         const { username, password } = this.state
-        let response =fetch('http://localhost:8001/users/login',
+        await fetch('http://localhost:8001/users/login',
             {
                 method: 'POST',
                 headers: {
@@ -47,47 +47,57 @@ class HomeScreen extends Component {
                     }
                 ),
 
+            }).then((response) => {
+                console.log(response.status)
+
+                // Log in Successful
+                if (response.status == 200) {
+                    deviceStorage.saveItem("id_token", response.headers.map.auth_token);
+                    this.props.navigation.navigate("Project")
+                    this.setState(
+                        {
+                            username: '',
+                            password: '',
+                        }
+                    )
+                }
             })
-            console.log(response)
-            // .then(res =>{
-            //     deviceStorage.saveItem("id_token", Response.headers.map.auth_token);
-            // })
-        this.props.navigation.navigate("Project")
-
-
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     async componentDidMount() {
         this.checkUserStatus()
     }
 
-    async checkUserStatus(){
+    async checkUserStatus() {
         const token = await AsyncStorage.getItem('id_token')
-        try {
-            let response = await fetch('http://localhost:8001/users/status',
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        auth_token: token,
-                    },
+        await fetch('http://localhost:8001/users/status',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                },
 
-                });
-            if (response.status == 500) {
-                this.setState(
-                    {
-                        userLogedIn: true
-                    }
-                )
-            }
-        } catch (error) {
-            console.log(error);
-        }
+            }).then((response) => {
+                console.log("User status: " + response)
+                if (response.status == 200) {
+                    this.setState(
+                        {
+                            userLogedIn: true
+                        }
+                    )
+                }
+            }).catch((error) => {
+                console.log("User Status: " + error)
+            })
+
     }
 
     render() {
-        console.log(this.state.userLogedIn)
         if (this.state.userLogedIn) {
             return (
                 <WelcomeScreen navigation={this.props.navigation} />
