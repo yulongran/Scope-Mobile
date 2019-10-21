@@ -1,9 +1,8 @@
 module.exports = function(req, res, next){
-    console.log(req.body)
-    const token = req.body('auth_token');
+    const token = req.headers.auth_token;
+    console.log(req.headers.auth_token)
     if(!token)
     {
-       
         return res.status(401).send('Access Denied');
     }
 

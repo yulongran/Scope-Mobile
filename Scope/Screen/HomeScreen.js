@@ -19,6 +19,7 @@ class HomeScreen extends Component {
         {
             username: '',
             password: '',
+            userLogedIn: false,
 
         }
 
@@ -32,7 +33,7 @@ class HomeScreen extends Component {
     */
     login = async () => {
         const { username, password } = this.state
-        fetch('http://localhost:8001/users/login',
+        let response =fetch('http://localhost:8001/users/login',
             {
                 method: 'POST',
                 headers: {
@@ -47,21 +48,21 @@ class HomeScreen extends Component {
                 ),
 
             })
-            .then(Response => {
-                //console.log(Response.headers.map.auth_token)
-                deviceStorage.saveItem("id_token", Response.headers.map.auth_token);
-            })
+            console.log(response)
+            // .then(res =>{
+            //     deviceStorage.saveItem("id_token", Response.headers.map.auth_token);
+            // })
         this.props.navigation.navigate("Project")
 
 
     }
 
-    loggedIn = async () => {
+    async componentDidMount() {
+        this.checkUserStatus()
+    }
+
+    async checkUserStatus(){
         const token = await AsyncStorage.getItem('id_token')
-        if (!token) {
-            return false;
-        }
-        var isLogged = false;
         try {
             let response = await fetch('http://localhost:8001/users/status',
                 {
@@ -69,28 +70,27 @@ class HomeScreen extends Component {
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
+                        auth_token: token,
                     },
-                    body: JSON.stringify(
-                        {
-                            auth_token: token
-                        }
-                    ),
+
                 });
-            if(response.status = 500)
-            {
-                isLogged = true;
+            if (response.status == 500) {
+                this.setState(
+                    {
+                        userLogedIn: true
+                    }
+                )
             }
         } catch (error) {
             console.log(error);
         }
-
-        return isLogged;
     }
 
     render() {
-        if (this.loggedIn()) {
+        console.log(this.state.userLogedIn)
+        if (this.state.userLogedIn) {
             return (
-                <WelcomeScreen navigation = {this.props.navigation}/>
+                <WelcomeScreen navigation={this.props.navigation} />
             )
         }
         else {

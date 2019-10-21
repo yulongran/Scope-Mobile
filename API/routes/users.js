@@ -48,16 +48,15 @@ router.post('/login', async function (req, res, next) {
   connection.query(sql, username, function (err, result) {
     if (err) throw err
     // Check if user exists in our database
-    if (result.user_password = undefined) {
+    if (result[0].user_password = undefined) {
       console.log('User does not exist')
     }
-
     // User password matching
-    if (result.user_password = req.body.password) {
+    if (result[0].user_password = req.body.password) {
       console.log('Log in')
       // Create and Assign JWT token
-      const token = jwt.sign({ _id: result.user_id }, 'secret');
-      res.header('auth_token', token).send(token);
+      const token = jwt.sign({ _id: result[0].user_email}, 'secret');
+      res.header('auth_token', token).send("Did you get it");
     }
   })
 });

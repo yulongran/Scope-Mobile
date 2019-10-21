@@ -112,7 +112,21 @@ const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: {
-            drawerIcon: <Ionicons name="md-home" size={32} color="blue" />,
+            drawerLabel: <Hidden />
+        }
+    },
+    Project:
+    {
+        screen: ProjectScreen,
+        navigationOptions:
+        {
+            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
+        }
+    },
+    Profile: {
+        screen: ProfileScreen,
+        navigationOptions: {
+            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
         }
     },
     Setting: {
