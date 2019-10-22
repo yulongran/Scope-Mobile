@@ -1,6 +1,8 @@
 // Command List
     - nodemon --exec npm start
 
+
+- Work on re render screen after sign out
 1) Adding Back arrow in the signup page
 
 
