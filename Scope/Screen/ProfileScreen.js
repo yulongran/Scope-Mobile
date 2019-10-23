@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
 import ProfilePic from '../assets/profile_default.jpg'
 import MenuButton from '../Components/MenuButton'
-
+import BackArrow from '../Components/BackArrow'
 // Testing purpose: delete after
 import { Review } from '../Components/Review'
 import { Button } from 'react-native-elements'
@@ -11,24 +11,23 @@ import { Button } from 'react-native-elements'
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 class ProfileScreen extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
     }
 
     state =
-    {
-        institution: 'San Jose State University',
-        firstName: 'Everett',
-        lastName: 'Parker',
-        studentID: '010010101',
+        {
+            institution: 'San Jose State University',
+            firstName: 'Everett',
+            lastName: 'Parker',
+            studentID: '010010101',
 
-    }
+        }
 
     /**
      * Log out by deleting User's JWT toekn
      */
-    logOut = async ()=>{
+    logOut = async () => {
         try {
             await AsyncStorage.removeItem('id_token');
             this.props.navigation.navigate('Home')
@@ -39,15 +38,28 @@ class ProfileScreen extends Component {
         }
     }
 
+    onChangeText = (key, val) => {
+        this.setState({ [key]: val })
+    }
+
+    /**
+     * Update Information to the data base
+     * when user clicked back button or logout
+     */
+    updateInformation() {
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
+                <BackArrow navigation={this.props.navigation} />
                 <View style={{
                     alignSelf: 'center',
                     marginTop: HEIGHT * 0.1,
                     marginBottom: HEIGHT * 0.06,
                 }}>
+                    {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
                     <Image source={ProfilePic} style={{
                         width: WIDTH * 0.3,
                         height: WIDTH * 0.3,
@@ -65,28 +77,44 @@ class ProfileScreen extends Component {
                         color: '#0260F7',
                         fontSize: 20,
                     }}>Institution</Text>
-                    <TextInput style={styles.inputStyle}></TextInput>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.institution}
+                        onChangeText={value => this.onChangeText('institution', value)}
+                    ></TextInput>
                 </View>
                 <View style={styles.viewStyle}>
                     <Text style={{
                         color: '#0260F7',
                         fontSize: 20,
                     }}>First Name</Text>
-                    <TextInput style={styles.inputStyle}></TextInput>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.firstName}
+                        onChangeText={value => this.onChangeText('firstName', value)}
+                    ></TextInput>
                 </View>
                 <View style={styles.viewStyle}>
                     <Text style={{
                         color: '#0260F7',
                         fontSize: 20,
                     }}>Last Name</Text>
-                    <TextInput style={styles.inputStyle}></TextInput>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.lastName}
+                        onChangeText={value => this.onChangeText('lastName', value)}
+                    ></TextInput>
                 </View>
                 <View style={styles.viewStyle}>
                     <Text style={{
                         color: '#0260F7',
                         fontSize: 20,
                     }}>Student ID</Text>
-                    <TextInput style={styles.inputStyle}></TextInput>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.studentID}
+                        onChangeText={value => this.onChangeText('studentID', value)}
+                    ></TextInput>
                 </View>
                 <View>
 

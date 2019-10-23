@@ -54,7 +54,7 @@ router.post('/login', async function (req, res, next) {
     if (result[0].user_password = req.body.password) {
       console.log('Log in')
       // Create and Assign JWT token
-      const token = jwt.sign({ _id: result[0].user_email }, secret);
+      const token = jwt.sign({ _id: result[0].user_id }, secret);
       res.header('auth_token', token).send(token)
     }
   })

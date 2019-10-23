@@ -552,7 +552,6 @@ class ProjectScreen extends Component {
     {
       return false;
     }
-    var isLogged = false;
     fetch('http://localhost:8001/project/',
             {
                 method: 'POST',
@@ -561,8 +560,10 @@ class ProjectScreen extends Component {
                     'Content-Type': 'application/json',
                     auth_token: token
                 },
-            })
-    return isLogged;
+            }).then((Response) =>
+            {
+               console.log(Response)
+            }) 
   }
 
   render() {
