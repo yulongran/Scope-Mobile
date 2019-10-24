@@ -22,240 +22,6 @@ import RedirectScreen from '../Screen/RedirectScreen';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from "../Components/deviceStorage";
 
-const PROJECT = [
-  {
-    projectName: "Sample Project",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2018-08-01",
-    endDate: "2019-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "E-commerce web application",
-    courseName: "CS122",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2019-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "CS100W-Project",
-    courseName: "CS100W",
-    schoolName: "SJSU",
-    startDate: "2019-08-01",
-    endDate: "2019-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "CS47A-Project",
-    courseName: "CS47A",
-    schoolName: "SJSU",
-    startDate: "2017-04-10",
-    endDate: "2018-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "Data Structure and Algorithm",
-    courseName: "CS146A",
-    schoolName: "SJSU",
-    startDate: "2017-10-01",
-    endDate: "2018-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "DataBase Project",
-    courseName: "CS42B",
-    schoolName: "SJSU",
-    startDate: "2017-08-01",
-    endDate: "2018-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-  {
-    projectName: "CS46A-Project",
-    courseName: "CS46A",
-    schoolName: "SJSU",
-    startDate: "2017-08-01",
-    endDate: "2018-12-01",
-    description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-    review: [
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "David",
-        keyWord: "Meet on Time",
-
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom",
-        keyWord: "Reliable",
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-      {
-        review:
-          "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-        author: "Tom"
-      },
-    ]
-  },
-
-];
 class ProjectScreen extends Component {
   constructor(props) {
     super(props);
@@ -264,248 +30,15 @@ class ProjectScreen extends Component {
   }
   state = {
     search: "",
-    Projects: [
-      {
-        projectName: "Sample Project",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2018-08-01",
-        endDate: "2019-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "He ensures coworkers coordinate to meet deadlines and work effectively as a team and He will do whatever is necessary to get the job done, even taking on extra tasks that are not his own.",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "He is not a willing team player and prefers to work individually ",
-            author: "Tom",
-            keyWord: "Unreliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "E-commerce web application",
-        courseName: "CS122",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2019-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "CS100W-Project",
-        courseName: "CS100W",
-        schoolName: "SJSU",
-        startDate: "2019-08-01",
-        endDate: "2019-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "CS47A-Project",
-        courseName: "CS47A",
-        schoolName: "SJSU",
-        startDate: "2017-04-10",
-        endDate: "2018-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "Data Structure and Algorithm",
-        courseName: "CS146A",
-        schoolName: "SJSU",
-        startDate: "2017-10-01",
-        endDate: "2018-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "DataBase Project",
-        courseName: "CS42B",
-        schoolName: "SJSU",
-        startDate: "2017-08-01",
-        endDate: "2018-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-      {
-        projectName: "CS46A-Project",
-        courseName: "CS46A",
-        schoolName: "SJSU",
-        startDate: "2017-08-01",
-        endDate: "2018-12-01",
-        description: " Angular is a rewrite of AngularJS. It focuses on good mobile development, modularity, and improved dependency injection. Angular is designed to comprehensively address a developer's web application workflow",
-        review: [
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "David",
-            keyWord: "Meet on Time",
-
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom",
-            keyWord: "Reliable",
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-          {
-            review:
-              "Google News is a news aggregator app developed by Google. It presents a continuous, customizable flow of articles organized from thousands of publishers and magazines. Google News is available as an app on Android, iOS, and the Web. ",
-            author: "Tom"
-          },
-        ]
-      },
-
-    ]
+    project: [],
   };
 
   /**
    *  Get an array of project which due date is before today's date
    */
   getHistoryProject() {
-    return (history = this.state.Projects.filter(function (project) {
-      return Date.parse(project.endDate) < Date.now();
+    return (history = this.state.project.filter(function (project) {
+      return Date.parse(project.project_endDate) < Date.now();
     }));
   }
 
@@ -513,8 +46,8 @@ class ProjectScreen extends Component {
    *  Get an array of project which due date is after today's date
    */
   getOngoingProject() {
-    return (ongoing = this.state.Projects.filter(function (project) {
-      return Date.parse(project.endDate) >= Date.now();
+    return (ongoing = this.state.project.filter(function (project) {
+      return Date.parse(project.project_endDate) >= Date.now();
     }));
   }
 
@@ -523,11 +56,11 @@ class ProjectScreen extends Component {
    * @param {string} text the search input
    */
   filterProject(text) {
-    const filter = this.state.Projects.filter(item =>
+    const filter = this.state.project.filter(item =>
       item.projectName.includes(text)
     );
     this.setState({
-      Projects: filter,
+      project: filter,
       search: text
     });
 
@@ -541,104 +74,105 @@ class ProjectScreen extends Component {
    */
   reload() {
     this.setState({
-      Projects: PROJECT
+      project: PROJECT
     });
   }
 
-  async fetchProject()
-  {
+  async fetchProject() {
     const token = await AsyncStorage.getItem('id_token');
-    if(!token)
-    {
+    if (!token) {
       return false;
     }
-    fetch('http://localhost:8001/project/',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token
-                },
-            }).then((Response) =>
-            {
-               console.log(Response)
-            }) 
+    let response = await fetch('http://localhost:8001/project/',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          auth_token: token
+        },
+      })
+    let responseJson = await response.json();
+    this.setState(
+      {
+        project: responseJson
+      }
+    )
+    return true
+
+  }
+
+  componentDidMount() {
+    this.fetchProject()
   }
 
   render() {
-    if (!this.fetchProject()) {
-      return (
-        <RedirectScreen/>
-      )
-    }
-    else {
-      return (
-        <View style={styles.container}>
-          <MenuButton navigation={this.props.navigation} />
-          <SearchBar
-            placeholder="Search"
-            showCancel={true}
-            inputStyle={{ backgroundColor: "white" }}
-            inputContainerStyle={{ backgroundColor: "white" }}
-            containerStyle={styles.searchStyle}
-            lightTheme={true}
-            onChangeText={text => this.filterProject(text)}
-            value={this.state.search}
-            onClear={this.reload}
-          />
-          <View style={styles.sectionStlye}>
-            <Text style={styles.textStyle}>Ongoing</Text>
-          </View>
-          <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
-            <FlatList
-              data={this.getOngoingProject()}
-              renderItem={({ item }) => (
-                <Project
-                  projectName={item.projectName}
-                  courseName={item.courseName}
-                  schoolName={item.schoolName}
-                  startDate={item.startDate}
-                  endDate={item.endDate}
-                  onPress={() =>
-                    this.props.navigation.navigate("Review", { review: item })
-                  }
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-              extraData={this.state}
-            />
-          </SafeAreaView>
-          <View style={styles.historySectionStlye}>
-            <Text style={styles.textStyle}>History</Text>
-          </View>
-          <SafeAreaView
-            style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
-          >
-            <FlatList
-              data={this.getHistoryProject()}
-              renderItem={({ item }) => (
-                <Project
-                  projectName={item.projectName}
-                  courseName={item.courseName}
-                  schoolName={item.schoolName}
-                  startDate={item.startDate}
-                  endDate={item.endDate}
-                  description={item.description}
-                  onPress={() =>
-                    this.props.navigation.navigate("Review", { review: item })
-                  }
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-            />
-          </SafeAreaView>
+    return (
+      <View style={styles.container}>
+        <MenuButton navigation={this.props.navigation} />
+        <SearchBar
+          placeholder="Search"
+          showCancel={true}
+          inputStyle={{ backgroundColor: "white" }}
+          inputContainerStyle={{ backgroundColor: "white" }}
+          containerStyle={styles.searchStyle}
+          lightTheme={true}
+          onChangeText={text => this.filterProject(text)}
+          value={this.state.search}
+          onClear={this.reload}
+        />
+        <View style={styles.sectionStlye}>
+          <Text style={styles.textStyle}>Ongoing</Text>
         </View>
-      );
-    }
+        <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
+          <FlatList
+            data={this.getOngoingProject()}
+            renderItem={({ item }) => (
+              <Project
+                projectName={item.project_title}
+                courseName={item.project_course}
+                schoolName={item.project_institution}
+                startDate={item.project_startDate}
+                endDate={item.project_endDate}
+                onPress={() =>
+                  this.props.navigation.navigate("Review", { project: item })
+                }
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            extraData={this.state}
+          />
+        </SafeAreaView>
+        <View style={styles.historySectionStlye}>
+          <Text style={styles.textStyle}>History</Text>
+        </View>
+        <SafeAreaView
+          style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
+        >
+          <FlatList
+            data={this.getHistoryProject()}
+            renderItem={({ item }) => (
+              <Project
+                projectName={item.projectName}
+                courseName={item.courseName}
+                schoolName={item.schoolName}
+                startDate={item.project_startDate}
+                endDate={item.project_endDate}
+                description={item.description}
+                onPress={() =>
+                  this.props.navigation.navigate("Review", { project: item })
+                }
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+          />
+        </SafeAreaView>
+      </View>
+    );
   }
+
 }
 
 /**

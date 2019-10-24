@@ -55,7 +55,7 @@ class HomeScreen extends Component {
                 ),
 
             }).then((response) => {
-                console.log(response.status)
+                console.log(response.headers.map.auth_token)
 
                 // Log in Successful
                 if (response.status == 200) {

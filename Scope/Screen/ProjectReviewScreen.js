@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import MenuButton from '../Components/MenuButton'
 import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
+import MileStone from '../Components/MileStone';
 
 
 class ProjectReviewScreen extends Component {
@@ -24,6 +25,7 @@ class ProjectReviewScreen extends Component {
 
     state =
         {
+            project: '',
             members: [
                 {
                     name: "Adams, John",
@@ -38,6 +40,20 @@ class ProjectReviewScreen extends Component {
                     name: "Corgan, Billy",
                 },
             ],
+            milestone:[
+                {
+                    milestone_number: 1,
+                    milestone_description: 'E/R Diagram'
+                },
+                {
+                    milestone_number: 2,
+                    milestone_description: 'E/R Diagram'
+                },
+                {
+                    milestone_number: 3,
+                    milestone_description: 'E/R Diagram'
+                },
+            ],
 
         }
 
@@ -47,22 +63,24 @@ class ProjectReviewScreen extends Component {
             date: '09/07/2016'
      */
 
-    getReviews() {
-        return this.props.navigation.getParam('review').review
+    componentDidMount() {
+        this.setState(
+            {
+                project: this.props.navigation.getParam('project')
+            }
+        )
     }
 
     render() {
-
-
         return (
             <View style={styles.container}>
                 <Ionicons onPress={() => this.props.navigation.navigate('Project')} name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}>
                 </Ionicons>
-                <Text style={styles.title}>{this.props.navigation.getParam('review').projectName}</Text>
-                <Text style={styles.description}>{this.props.navigation.getParam('review').description}</Text>
+                <Text style={styles.title}>{this.state.project.project_title}</Text>
+                <Text style={styles.description}>{this.state.project.project_description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row' }}>
                     <View style={{ alignContent: 'center' }}>
-                        <Text style={{ fontSize: 15, marginTop: 30, marginRight:5}}>Group Members</Text>
+                        <Text style={{ fontSize: 15, marginTop: 30, marginRight: 5 }}>Group Members</Text>
                         <FlatList
                             data={this.state.members}
                             key={this.state.members}
@@ -85,9 +103,9 @@ class ProjectReviewScreen extends Component {
                         />
                     </View>
                 </View>
-                <View style={{ alignItems: 'flex-end', marginRight: 15, height:Dimensions.get('screen').height*0.08 }}>
+                <View style={{ alignItems: 'flex-end', marginRight: 15, height: Dimensions.get('screen').height * 0.08 }}>
                     <Button icon={
-                        <Ionicons name="ios-add" size={30} color='blue' stlye= {{paddingRight: 10}}/>
+                        <Ionicons name="ios-add" size={30} color='blue' stlye={{ paddingRight: 10 }} />
                     }
                         type='outline'
                         title="AddReview"></Button>
@@ -96,13 +114,13 @@ class ProjectReviewScreen extends Component {
 
                 <SafeAreaView style={styles.contentContainer}>
                     <FlatList
-                        data={this.getReviews()}
+                        data = {this.state.milestone}
                         renderItem={({ item }) => (
-                            <Review name={item.author} review={item.review} keyWord={item.keyWord} date="09/07/2016"></Review>
+                            <MileStone milestone_number= {item.milestone_number} milestone_description={item.milestone_description}></MileStone>
                         )}
                         keyExtractor={(item, index) => index.toString()}
                         extraData={this.state}
-                        contentContainerStyle={{ alignItems: 'center', flexGrow: 1, borderRadius: 5, }}
+                        contentContainerStyle={{ alignItems: 'center', flexGrow: 1}}
                     />
                 </SafeAreaView>
             </View>
