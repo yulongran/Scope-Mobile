@@ -11,25 +11,28 @@ export class People extends Component {
         super(props)
     }
 
+    // Props should pass in a image size
+
     state =
         {
 
         }
 
     render() {
+        var size = this.props.image_size;
         return (
-            <View style = {{paddingTop: 6, paddingRight:6}}>
+            <View style={{ paddingTop: 6, paddingRight: 6 }}>
                 <TouchableOpacity>
                     <Image source={ProfilePic} style={{
                         width: WIDTH * 0.06,
                         height: WIDTH * 0.06,
                         borderRadius: WIDTH * 0.06 / 2,
-                        alignSelf:'center',
+                        alignSelf: 'center',
                     }} />
                     <Text style={{
                         marginTop: HEIGHT * 0.008,
-                        fontSize: 9,
-                        alignSelf:'center'
+                        fontSize: 10,
+                        alignSelf: 'center'
                     }}>Everett Parker</Text>
                 </TouchableOpacity>
             </View>

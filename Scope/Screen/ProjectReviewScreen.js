@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Dimensions, SafeAreaView, FlatList } from 'react-native'
+import { View, Text,
+    Image,  StyleSheet, Dimensions, SafeAreaView, FlatList, ImageBackground, TouchableOpacity } from 'react-native'
 import { Button } from 'react-native-elements';
 import MenuButton from '../Components/MenuButton'
 import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
 import MileStone from '../Components/MileStone';
+import People from '../Components/People';
+import ProfilePic from '../assets/profile_default.jpg'
 
+
+const WIDTH = Dimensions.get('screen').width;
+const HEIGHT = Dimensions.get('screen').height;
 
 class ProjectReviewScreen extends Component {
 
@@ -40,7 +46,7 @@ class ProjectReviewScreen extends Component {
                     name: "Corgan, Billy",
                 },
             ],
-            milestone:[
+            milestone: [
                 {
                     milestone_number: 1,
                     milestone_description: 'E/R Diagram'
@@ -78,28 +84,53 @@ class ProjectReviewScreen extends Component {
                 </Ionicons>
                 <Text style={styles.title}>{this.state.project.project_title}</Text>
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
-                <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row' }}>
-                    <View style={{ alignContent: 'center' }}>
-                        <Text style={{ fontSize: 15, marginTop: 30, marginRight: 5 }}>Group Members</Text>
+                <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row', marginLeft:WIDTH*0.1 }}>
+                    <View style={{ alignContent: 'center', alignItems: 'center', width: WIDTH * 0.4}}>
+                        <Text style={{ fontSize: 16, marginTop: 30, marginBottom: 10 }}>Group Members</Text>
                         <FlatList
                             data={this.state.members}
                             key={this.state.members}
                             renderItem={({ item }) => (
-                                <Text style={{ fontSize: 12, color: 'blue', marginTop: 10, }}>{item.name}</Text>
+                                <TouchableOpacity style={{marginRight:WIDTH*0.015}}>
+                                    <Image source={ProfilePic} style={{
+                                        width: WIDTH * 0.1,
+                                        height: WIDTH * 0.1,
+                                        borderRadius: WIDTH * 0.1 / 2,
+                                        alignSelf: 'center',
+                                    }} />
+                                    <Text style={{
+                                        marginTop: HEIGHT * 0.008,
+                                        fontSize: 12,
+                                        alignSelf: 'center'
+                                    }}>Everett Parker</Text>
+                                </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ marginRight: 11 }}
+                            contentContainerStyle={{ width: WIDTH * 0.5 }}
+                            numColumns={2}
                         />
                     </View>
-                    <View>
-                        <Text style={{ fontSize: 15, marginTop: 30, }}>Teachers & TAs</Text>
+                    <View style={{ alignContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 16, marginTop: 30, marginBottom:10}}>Teachers & TAs</Text>
                         <FlatList
                             data={this.state.members}
                             renderItem={({ item }) => (
-                                <Text style={{ fontSize: 12, color: 'blue', marginTop: 10, }}>{item.name}</Text>
+                                <TouchableOpacity>
+                                    <Image source={ProfilePic} style={{
+                                        width: WIDTH * 0.1,
+                                        height: WIDTH * 0.1,
+                                        borderRadius: WIDTH * 0.1 / 2,
+                                        alignSelf: 'center',
+                                    }} />
+                                    <Text style={{
+                                        marginTop: HEIGHT * 0.008,
+                                        fontSize: 12,
+                                        alignSelf: 'center'
+                                    }}>Everett Parker</Text>
+                                </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ flexGrow: 1 }}
+                            contentContainerStyle={{ width: WIDTH * 0.5 }}
                         />
                     </View>
                 </View>
@@ -114,13 +145,13 @@ class ProjectReviewScreen extends Component {
 
                 <SafeAreaView style={styles.contentContainer}>
                     <FlatList
-                        data = {this.state.milestone}
+                        data={this.state.milestone}
                         renderItem={({ item }) => (
-                            <MileStone milestone_number= {item.milestone_number} milestone_description={item.milestone_description}></MileStone>
+                            <MileStone milestone_number={item.milestone_number} milestone_description={item.milestone_description}></MileStone>
                         )}
                         keyExtractor={(item, index) => index.toString()}
                         extraData={this.state}
-                        contentContainerStyle={{ alignItems: 'center', flexGrow: 1}}
+                        contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
                     />
                 </SafeAreaView>
             </View>
