@@ -90,7 +90,6 @@ class HomeScreen extends Component {
                 },
 
             }).then((response) => {
-                console.log("User status: " + response)
                 if (response.status == 200) {
                     this.setState(
                         {

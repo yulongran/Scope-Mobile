@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text,
-    Image, StyleSheet, AsyncStorage,
-    Dimensions, SafeAreaView, FlatList, ImageBackground, TouchableOpacity
+    Image, StyleSheet, Dimensions, SafeAreaView, FlatList, ImageBackground, TouchableOpacity
 } from 'react-native'
 import { Button } from 'react-native-elements';
 import MenuButton from '../Components/MenuButton'
@@ -16,7 +15,7 @@ import ProfilePic from '../assets/profile_default.jpg'
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
-class ProjectReviewScreen extends Component {
+class ReviewScreen extends Component {
 
     /**
      * Construct a ProjectDisplay object
@@ -49,13 +48,23 @@ class ProjectReviewScreen extends Component {
                     name: "Corgan, Billy",
                 },
             ],
-            milestone: [],
+            milestone: [
+                {
+                    milestone_number: 1,
+                    milestone_description: 'E/R Diagram'
+                },
+                {
+                    milestone_number: 2,
+                    milestone_description: 'E/R Diagram'
+                },
+                {
+                    milestone_number: 3,
+                    milestone_description: 'E/R Diagram'
+                },
+            ],
             reviews: [
 
             ],
-            milestone_button: true,
-            review_button: false,
-            display: 'milestone', // milestone // review
 
         }
 
@@ -65,60 +74,17 @@ class ProjectReviewScreen extends Component {
             date: '09/07/2016'
      */
 
-    async fetchMilestone() {
-
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/review/',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project.project_id
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                milestone: responseJson
-            }
-        )
-
-    }
     componentDidMount() {
         this.setState(
             {
                 project: this.props.navigation.getParam('project')
             }
         )
-        this.fetchMilestone()
     }
 
     render() {
-        const milestoneList =
-            <FlatList
-                data={this.state.milestone}
-                renderItem={({ item }) => (
-                    <MileStone milestone_number={item.milestone_number} milestone_description={item.milestone_description}></MileStone>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                extraData={this.state}
-                contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
-            />
-
-        const reivewList =
-            <View>
-                <Text>
-                    Hello World
-            </Text>
-            </View>
-
         return (
-            <View style={styles.container} >
+            <View style={styles.container}>
                 <Ionicons onPress={() => this.props.navigation.navigate('Project')} name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}>
                 </Ionicons>
                 <Text style={styles.title}>{this.state.project.project_title}</Text>
@@ -173,35 +139,21 @@ class ProjectReviewScreen extends Component {
                         />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', height: HEIGHT * 0.03 }}>
-                    <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}
-                        onPress={() => {
-                            this.setState(
-                                {
-                                    milestone_button: true,
-                                    review_button: false,
-                                }
-                            )
-                        }}>
-                        <Text>Milestone</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[this.state.review_button ? styles.touchOnStyle : styles.touchStyle]}
-                        onPress={() => {
-                            this.setState(
-                                {
-                                    review_button: true,
-                                    milestone_button: false,
-                                }
-                            )
-                        }}>
-                        <Text>Review</Text>
-                    </TouchableOpacity>
+                <View style={{ flexDirection: 'row', height: HEIGHT * 0.05 }}>
                 </View>
 
-                < SafeAreaView style={styles.contentContainer} >
-                    {this.state.milestone_button ? milestoneList : reivewList}
-                </SafeAreaView>
 
+                <SafeAreaView style={styles.contentContainer}>
+                    <FlatList
+                        data={this.state.milestone}
+                        renderItem={({ item }) => (
+                            <MileStone milestone_number={item.milestone_number} milestone_description={item.milestone_description}></MileStone>
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                        extraData={this.state}
+                        contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
+                    />
+                </SafeAreaView>
             </View>
 
         )
@@ -246,22 +198,12 @@ const styles = StyleSheet.create(
         {
             borderWidth: 0.5,
             borderRadius: 10 / 2,
-            width: WIDTH * 0.20,
+            width: WIDTH * 0.5,
             alignItems: 'center',
             justifyContent: 'center',
-            borderColor: '#f9c2ff',
-        },
-        touchOnStyle:
-        {
-            borderWidth: 0.5,
-            borderRadius: 10 / 2,
-            width: WIDTH * 0.20,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderColor: '#d7ecfc',
-            backgroundColor: '#d7ecfc',
+            borderColor: 'blue',
         }
     }
 )
 
-export default ProjectReviewScreen;
+export default ReviewScreen;
