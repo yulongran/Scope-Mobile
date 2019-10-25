@@ -19,7 +19,6 @@ export class People extends Component {
         }
 
     render() {
-        var size = this.props.image_size;
         return (
             <View style={{ paddingTop: 6, paddingRight: 6 }}>
                 <TouchableOpacity>

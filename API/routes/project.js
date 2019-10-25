@@ -3,6 +3,7 @@ var router = express.Router();
 var verify = require('../function/Authorization')
 var mysql = require('mysql')
 var jwt = require('jsonwebtoken')
+var auth = require('../function/Authentication')
 var connection = mysql.createConnection(
   {
     host: 'localhost',
@@ -59,5 +60,25 @@ router.post('/', function (req, res) {
   })
 
 });
+
+/**
+ * Get Project Team members
+ */
+router.post('/member', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User")
+  }
+
+  const project_id = req.headers.project_id
+
+  // Query User data based on the project_id
+  var sql = 'SELECT user_firstname, user_lastname FROM User WHERE user_id IN (SELECT user_id from UserHasProject WHERE project_id =?)'
+  connection.query(sql, project_id, function (err, result) {
+    if (err) throw err
+
+    res.send(result);
+  })
+
+})
 
 module.exports = router;

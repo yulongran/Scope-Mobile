@@ -26,16 +26,20 @@ export class MileStone extends Component {
                     <Text style={styles.titleStyle}>Milestone {this.props.milestone_number}</Text>
                     <Text style={styles.descriptionStyle}>{this.props.milestone_description}</Text>
                 </View>
-                <FlatList
-                    data={this.state.team_member}
-                    renderItem={({ item }) => (
-                        <People></People>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                    extraData={this.state}
-                    contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
-                    horizontal={true}
-                />
+                <View style={{alignItems:'center', justifyContent:'center'}}>
+                    <Text>
+                        Start Date
+                    </Text>
+                    <Text>
+                    {this.props.milestone_startDate.slice(0,10)}
+                    </Text>
+                    <Text>
+                        End Date 
+                    </Text>
+                    <Text>
+                    {this.props.milestone_endDate.slice(0,10)}
+                    </Text>
+                </View>
             </View>
         )
     }

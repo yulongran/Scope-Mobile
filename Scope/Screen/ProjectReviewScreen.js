@@ -35,23 +35,16 @@ class ProjectReviewScreen extends Component {
     state =
         {
             project: '',
-            members: [
+            group_members: [
+            ],
+            teacher: [
                 {
-                    name: "Adams, John",
-                },
-                {
-                    name: "Buck, Pearl",
-                },
-                {
-                    name: "Chapin, Harry",
-                },
-                {
-                    name: "Corgan, Billy",
-                },
+                    user_firstname: 'Yulong',
+                    user_lastname: 'Ran'
+                }
             ],
             milestone: [],
             reviews: [
-
             ],
             milestone_button: true,
             review_button: false,
@@ -89,6 +82,30 @@ class ProjectReviewScreen extends Component {
         )
 
     }
+
+    async fetchTeamMember() {
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/project/member',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    project_id: this.state.project.project_id
+                },
+            })
+        let responseJson = await response.json();
+        this.setState(
+            {
+                group_members: responseJson
+            }
+        )
+        console.log(this.state.group_members)
+    }
     componentDidMount() {
         this.setState(
             {
@@ -96,6 +113,7 @@ class ProjectReviewScreen extends Component {
             }
         )
         this.fetchMilestone()
+        this.fetchTeamMember()
     }
 
     render() {
@@ -103,7 +121,11 @@ class ProjectReviewScreen extends Component {
             <FlatList
                 data={this.state.milestone}
                 renderItem={({ item }) => (
-                    <MileStone milestone_number={item.milestone_number} milestone_description={item.milestone_description}></MileStone>
+                    <MileStone project_id = {this.state.project.project_id}
+                                milestone_number={item.milestone_number} 
+                                milestone_description={item.milestone_description}
+                                milestone_startDate={item.milestone_startDate}
+                                milestone_endDate ={item.milestone_endDate}></MileStone>
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 extraData={this.state}
@@ -125,12 +147,14 @@ class ProjectReviewScreen extends Component {
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row', marginLeft: WIDTH * 0.1 }}>
                     <View style={{ alignContent: 'center', alignItems: 'center', width: WIDTH * 0.4 }}>
-                        <Text style={{ fontSize: 16, marginTop: 28, marginBottom: 10 }}>Group Members</Text>
+                        <Text style={{ fontSize: 16, marginTop: HEIGHT*0.03, marginBottom: 10 }}>Group Members</Text>
                         <FlatList
-                            data={this.state.members}
-                            key={this.state.members}
+                            data={this.state.group_members}
+                            key={this.state.group_members}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={{ marginRight: WIDTH * 0.015 }}>
+                                <TouchableOpacity style={{ marginRight: WIDTH * 0.015, 
+                                                        width: WIDTH * 0.17,
+                                                        height: WIDTH * 0.20,}}>
                                     <Image source={ProfilePic} style={{
                                         width: WIDTH * 0.1,
                                         height: WIDTH * 0.1,
@@ -139,22 +163,28 @@ class ProjectReviewScreen extends Component {
                                     }} />
                                     <Text style={{
                                         marginTop: HEIGHT * 0.008,
-                                        fontSize: 12,
+                                        fontSize: WIDTH*0.025,
                                         alignSelf: 'center'
-                                    }}>Everett Parker</Text>
+                                    }}>{item.user_firstname}</Text>
+                                    <Text style= {{
+                                        fontSize: WIDTH*0.025,
+                                        alignSelf: 'center'}}>
+                                    {item.user_lastname}
+                                    </Text>
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5, }}
+                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems:'center', paddingRight:WIDTH*0.1}}
                             numColumns={2}
                         />
                     </View>
                     <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginTop: 28, marginBottom: 10 }}>Teachers & TAs</Text>
+                        <Text style={{ fontSize: 16, marginTop: HEIGHT*0.03, marginBottom: 10 }}>Teachers & TAs</Text>
                         <FlatList
-                            data={this.state.members}
+                            data={this.state.teacher}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={{ marginTop: 11 }}>
+                                <TouchableOpacity style={{ marginTop: 11, width: WIDTH * 0.17,
+                                    height: WIDTH * 0.20}}>
                                     <Image source={ProfilePic} style={{
                                         width: WIDTH * 0.1,
                                         height: WIDTH * 0.1,
@@ -163,13 +193,18 @@ class ProjectReviewScreen extends Component {
                                     }} />
                                     <Text style={{
                                         marginTop: HEIGHT * 0.008,
-                                        fontSize: 12,
+                                        fontSize: WIDTH*0.025,
                                         alignSelf: 'center'
-                                    }}>Everett Parker</Text>
+                                    }}>{item.user_firstname}</Text>
+                                    <Text style= {{
+                                        fontSize: WIDTH*0.025,
+                                        alignSelf: 'center'}}>
+                                    {item.user_lastname}
+                                    </Text>
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5 }}
+                            contentContainerStyle={{ width: WIDTH * 0.5 , alignItems:'center'}}
                         />
                     </View>
                 </View>
