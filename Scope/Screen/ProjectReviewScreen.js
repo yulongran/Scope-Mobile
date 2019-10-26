@@ -34,6 +34,7 @@ class ProjectReviewScreen extends Component {
 
     state =
         {
+            
             project: '',
             group_members: [
             ],
@@ -49,6 +50,8 @@ class ProjectReviewScreen extends Component {
             milestone_button: true,
             review_button: false,
             display: 'milestone', // milestone // review
+            team_number:'',
+            project_id:'',
 
         }
 
@@ -71,7 +74,7 @@ class ProjectReviewScreen extends Component {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                     auth_token: token,
-                    project_id: this.state.project.project_id
+                    project_id: this.state.project_id
                 },
             })
         let responseJson = await response.json();
@@ -82,20 +85,21 @@ class ProjectReviewScreen extends Component {
         )
 
     }
-
     async fetchTeamMember() {
+
         const token = await AsyncStorage.getItem('id_token');
         if (!token) {
             return false;
         }
-        let response = await fetch('http://localhost:8001/project/member',
+        let response = await fetch('http://localhost:8001/team/member',
             {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                     auth_token: token,
-                    project_id: this.state.project.project_id
+                    project_id: this.state.project.project_id,
+                    team_number: this.state.team_number,
                 },
             })
         let responseJson = await response.json();
@@ -104,16 +108,47 @@ class ProjectReviewScreen extends Component {
                 group_members: responseJson
             }
         )
-        console.log(this.state.group_members)
+
     }
+
+    async ProjectInfo() {
+
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/project/project',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    project_id: this.state.project.project_id,
+                },
+            })
+        let responseJson = await response.json();
+        this.setState(
+            {
+                project: responseJson[0]
+            }
+        )
+
+    }
+
     componentDidMount() {
         this.setState(
             {
-                project: this.props.navigation.getParam('project')
+                project: this.props.navigation.getParam('project'),
+                team_number: this.props.navigation.getParam('team_number'),
+                project_id: this.props.navigation.getParam('project_id'),
+                
             }
         )
         this.fetchMilestone()
         this.fetchTeamMember()
+        this.ProjectInfo()
+      
     }
 
     render() {
@@ -121,7 +156,7 @@ class ProjectReviewScreen extends Component {
             <FlatList
                 data={this.state.milestone}
                 renderItem={({ item }) => (
-                    <MileStone project_id = {this.state.project.project_id}
+                    <MileStone project_id = {this.state.project_id}
                                 milestone_number={item.milestone_number} 
                                 milestone_description={item.milestone_description}
                                 milestone_startDate={item.milestone_startDate}

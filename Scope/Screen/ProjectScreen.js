@@ -31,6 +31,7 @@ class ProjectScreen extends Component {
   state = {
     search: "",
     project: [],
+    user_identity: 'instructor',
   };
 
   /**
@@ -69,6 +70,7 @@ class ProjectScreen extends Component {
     }
   }
 
+
   /**
    * Reload project from database
    */
@@ -89,7 +91,8 @@ class ProjectScreen extends Component {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          auth_token: token
+          auth_token: token,
+          project_id: this.state.project.project_id
         },
       })
     let responseJson = await response.json();
@@ -134,9 +137,14 @@ class ProjectScreen extends Component {
                 schoolName={item.project_institution}
                 startDate={item.project_startDate}
                 endDate={item.project_endDate}
-                onPress={() =>
-                  this.props.navigation.navigate("Review", { project: item })
-                }
+                onPress={() => {
+                  if (this.state.user_identity == 'student') {
+                    this.props.navigation.navigate("Review", { project: item })
+                  }
+                  else {
+                    this.props.navigation.navigate("Team", { project: item })
+                  }
+                }}
               />
             )}
             keyExtractor={(item, index) => index.toString()}
@@ -160,9 +168,14 @@ class ProjectScreen extends Component {
                 startDate={item.project_startDate}
                 endDate={item.project_endDate}
                 description={item.description}
-                onPress={() =>
-                  this.props.navigation.navigate("Review", { project: item })
-                }
+                onPress={() => {
+                  if (this.state.user_identity == 'student') {
+                    this.props.navigation.navigate("Review", { project: item })
+                  }
+                  else {
+                    this.props.navigation.navigate("Team", { project: item })
+                  }
+                }}
               />
             )}
             keyExtractor={(item, index) => index.toString()}

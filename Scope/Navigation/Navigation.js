@@ -16,6 +16,7 @@ import SearchScreen from '../Screen/SearchScreen';
 import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
 import SignUpScreen from '../Screen/SignUpScreen';
 import ProfileScreen from '../Screen/ProfileScreen';
+import TeamScreen from '../Screen/TeamScreen';
 import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
@@ -157,7 +158,15 @@ const DrawerNavigator = createDrawerNavigator({
         {
             drawerLabel: <Hidden />
         }
-    }
+    },
+    Team:
+    {
+        screen: TeamScreen,
+        navigationOptions:
+        {
+            drawerLabel: <Hidden />
+        }
+    },
 }, {
     contentComponent: CustomDrawerComponet,
     drawerWidth: WIDTH * 0.83

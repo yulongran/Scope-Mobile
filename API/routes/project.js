@@ -62,6 +62,48 @@ router.post('/', function (req, res) {
 });
 
 /**
+ * Get team info in specific project
+ */
+
+router.post('/team', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User")
+  }
+
+  const project_id = req.headers.project_id
+
+  // Query team data based on the project_id
+  var sql = 'SELECT * FROM  ProjectHasTeam WHERE project_id = ?'
+  connection.query(sql, project_id, function (err, result) {
+    if (err) throw err
+
+    res.send(result);
+  })
+});
+
+/**
+ * Get team member in specific project and team
+ */
+router.post('./team/team_member', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User")
+  }
+
+  const project_id = req.headers.project_id
+  const team_number = req.headers.team_number
+
+  // Query team data based on the project_id
+  var sql = 'SELECT * FROM  ProjectHasTeam WHERE project_id = ?'
+  connection.query(sql, project_id, function (err, result) {
+    if (err) throw err
+
+    res.send(result);
+  })
+
+})
+
+
+/**
  * Get Project Team members
  */
 router.post('/member', function (req, res) {
@@ -80,5 +122,24 @@ router.post('/member', function (req, res) {
   })
 
 })
+
+/**
+ * Fetch project data based on the project_id
+ */
+router.post('/project', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User")
+  }
+
+  const project_id = req.headers.project_id
+
+  // Query team data based on the project_id
+  var sql = 'SELECT * FROM  Project WHERE project_id = ?'
+  connection.query(sql, project_id, function (err, result) {
+    if (err) throw err
+
+    res.send(result);
+  })
+});
 
 module.exports = router;
