@@ -8,22 +8,50 @@ import {
     TouchableOpacity
 } from 'react-native'
 
+const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('screen').width;
 
 export class Review extends Component {
     constructor(props) {
         super(props)
     }
 
+    state = {
+        reviewee: '',
+        reviewer: '',
+        review_description: '',
+    }
+
+
+    componentDidMount() {
+        this.setState(
+            {
+                review_description: this.props.review_description
+            }
+        )
+    }
+
+    fetchUserName() {
+
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.keyWord}>{this.props.keyWord}</Text>
-                <Text stlye={styles.reviewMain}>{this.props.review}</Text>
-                <Text style={styles.reviewClosing}>by
-                    <Text style={{color: 'blue',}}> {this.props.name}
-                        <Text style={{color: 'black',}}> at {this.props.date}</Text>
+            <View style={styles.viewStyle}>
+                <Text style={{
+                    marginTop: HEIGHT * 0.006,        
+                    fontSize: 15,
+                    fontStyle: 'italic',
+                    fontWeight: 'bold',
+                }}>From
+                    <Text>  Janna
+                        <Text>  To</Text>
+                        <Text>  Yulong</Text>
                     </Text>
                 </Text>
+                <Text style={{marginLeft: WIDTH*0.1,
+                            marginRight: WIDTH*0.1,
+                            marginTop: HEIGHT * 0.006,}}>{this.state.review_description}</Text>
             </View>
         )
     }
@@ -31,38 +59,16 @@ export class Review extends Component {
 
 const styles = StyleSheet.create(
     {
-        container:
+        viewStyle:
         {
-            borderColor: 'gray',
-            borderRadius: 10,
-            borderWidth: 1,
-            padding: 12,
-            marginBottom: 10,
-            marginTop: 5,
-            width: Dimensions.get('screen').width * 0.95,
+            borderWidth: 0.3,
+            borderBottomColor: 'gray',
+            paddingLeft: Dimensions.get('window').width * 0.05,
+            paddingRight: Dimensions.get('window').width * 0.05,
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height * 0.12,
+            paddingBottom: Dimensions.get('window').height * 0.01,
         },
-        keyWord:
-        {
-            fontSize: 17,
-            marginBottom: 3,
-            fontWeight: 'bold',
-            color: 'blue',
-            fontFamily: 'Baskerville-SemiBoldItalic',
-        },
-        reviewClosing:
-        {
-            textAlign: 'right',
-            fontStyle: 'italic',
-            marginRight: 10,
-        },
-        reviewMain:
-        {
-        },
-        nameStyle:
-        {
-            color: 'blue',
-            fontWeight: 'bold',
-        }
     })
 
 export default Review

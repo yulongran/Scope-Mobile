@@ -34,7 +34,7 @@ class ProjectReviewScreen extends Component {
 
     state =
         {
-            
+
             project: '',
             group_members: [
             ],
@@ -50,8 +50,8 @@ class ProjectReviewScreen extends Component {
             milestone_button: true,
             review_button: false,
             display: 'milestone', // milestone // review
-            team_number:'',
-            project_id:'',
+            team_number: '',
+            project_id: '',
 
         }
 
@@ -111,7 +111,7 @@ class ProjectReviewScreen extends Component {
 
     }
 
-    async ProjectInfo() {
+    async fetchProject() {
 
         const token = await AsyncStorage.getItem('id_token');
         if (!token) {
@@ -136,19 +136,45 @@ class ProjectReviewScreen extends Component {
 
     }
 
+    async fetchReview() {
+
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/review/review',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    project_id: this.state.project.project_id,
+                },
+            })
+        let responseJson = await response.json();
+        this.setState(
+            {
+                reviews: responseJson
+            }
+        )
+
+    }
+
     componentDidMount() {
         this.setState(
             {
                 project: this.props.navigation.getParam('project'),
                 team_number: this.props.navigation.getParam('team_number'),
                 project_id: this.props.navigation.getParam('project_id'),
-                
+
             }
         )
         this.fetchMilestone()
         this.fetchTeamMember()
-        this.ProjectInfo()
-      
+        this.fetchProject()
+        this.fetchReview()
+
     }
 
     render() {
@@ -156,23 +182,27 @@ class ProjectReviewScreen extends Component {
             <FlatList
                 data={this.state.milestone}
                 renderItem={({ item }) => (
-                    <MileStone project_id = {this.state.project_id}
-                                milestone_number={item.milestone_number} 
-                                milestone_description={item.milestone_description}
-                                milestone_startDate={item.milestone_startDate}
-                                milestone_endDate ={item.milestone_endDate}></MileStone>
+                    <MileStone project_id={this.state.project_id}
+                        milestone_number={item.milestone_number}
+                        milestone_description={item.milestone_description}
+                        milestone_startDate={item.milestone_startDate}
+                        milestone_endDate={item.milestone_endDate}></MileStone>
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 extraData={this.state}
                 contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
             />
 
-        const reivewList =
-            <View>
-                <Text>
-                    Hello World
-            </Text>
-            </View>
+        const reviewList =
+            <FlatList
+                data={this.state.reviews}
+                renderItem={({ item }) => (
+                    <Review reviewee_id ={item.reviewee_id} reviewer_id ={item.reviewer_id} review_description={item.review_description}/>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                extraData={this.state}
+                contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
+            />
 
         return (
             <View style={styles.container} >
@@ -182,14 +212,16 @@ class ProjectReviewScreen extends Component {
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row', marginLeft: WIDTH * 0.1 }}>
                     <View style={{ alignContent: 'center', alignItems: 'center', width: WIDTH * 0.4 }}>
-                        <Text style={{ fontSize: 16, marginTop: HEIGHT*0.03, marginBottom: 10 }}>Group Members</Text>
+                        <Text style={{ fontSize: 16, marginTop: HEIGHT * 0.03, marginBottom: 10 }}>Group Members</Text>
                         <FlatList
                             data={this.state.group_members}
                             key={this.state.group_members}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={{ marginRight: WIDTH * 0.015, 
-                                                        width: WIDTH * 0.17,
-                                                        height: WIDTH * 0.20,}}>
+                                <TouchableOpacity style={{
+                                    marginRight: WIDTH * 0.015,
+                                    width: WIDTH * 0.17,
+                                    height: WIDTH * 0.20,
+                                }}>
                                     <Image source={ProfilePic} style={{
                                         width: WIDTH * 0.1,
                                         height: WIDTH * 0.1,
@@ -198,28 +230,31 @@ class ProjectReviewScreen extends Component {
                                     }} />
                                     <Text style={{
                                         marginTop: HEIGHT * 0.008,
-                                        fontSize: WIDTH*0.025,
+                                        fontSize: WIDTH * 0.025,
                                         alignSelf: 'center'
                                     }}>{item.user_firstname}</Text>
-                                    <Text style= {{
-                                        fontSize: WIDTH*0.025,
-                                        alignSelf: 'center'}}>
-                                    {item.user_lastname}
+                                    <Text style={{
+                                        fontSize: WIDTH * 0.025,
+                                        alignSelf: 'center'
+                                    }}>
+                                        {item.user_lastname}
                                     </Text>
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems:'center', paddingRight:WIDTH*0.1}}
+                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems: 'center', paddingRight: WIDTH * 0.1 }}
                             numColumns={2}
                         />
                     </View>
                     <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginTop: HEIGHT*0.03, marginBottom: 10 }}>Teachers & TAs</Text>
+                        <Text style={{ fontSize: 16, marginTop: HEIGHT * 0.03, marginBottom: 10 }}>Teachers & TAs</Text>
                         <FlatList
                             data={this.state.teacher}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={{ marginTop: 11, width: WIDTH * 0.17,
-                                    height: WIDTH * 0.20}}>
+                                <TouchableOpacity style={{
+                                    marginTop: 11, width: WIDTH * 0.17,
+                                    height: WIDTH * 0.20
+                                }}>
                                     <Image source={ProfilePic} style={{
                                         width: WIDTH * 0.1,
                                         height: WIDTH * 0.1,
@@ -228,18 +263,19 @@ class ProjectReviewScreen extends Component {
                                     }} />
                                     <Text style={{
                                         marginTop: HEIGHT * 0.008,
-                                        fontSize: WIDTH*0.025,
+                                        fontSize: WIDTH * 0.025,
                                         alignSelf: 'center'
                                     }}>{item.user_firstname}</Text>
-                                    <Text style= {{
-                                        fontSize: WIDTH*0.025,
-                                        alignSelf: 'center'}}>
-                                    {item.user_lastname}
+                                    <Text style={{
+                                        fontSize: WIDTH * 0.025,
+                                        alignSelf: 'center'
+                                    }}>
+                                        {item.user_lastname}
                                     </Text>
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5 , alignItems:'center'}}
+                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems: 'center' }}
                         />
                     </View>
                 </View>
@@ -269,7 +305,7 @@ class ProjectReviewScreen extends Component {
                 </View>
 
                 < SafeAreaView style={styles.contentContainer} >
-                    {this.state.milestone_button ? milestoneList : reivewList}
+                    {this.state.milestone_button ? milestoneList : reviewList}
                 </SafeAreaView>
 
             </View>
