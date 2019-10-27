@@ -10,20 +10,11 @@ class BackArrow extends React.Component {
         super(props)
     }
 
-    back() {
-        const refreshSceen= this.props.navigation.state.params.refreshScreen
-        if(typeof refreshSceen == 'function')
-        {
-            refreshSceen()
-        }
-        this.props.navigation.goBack()
-    }
     render() {
 
         return (
-            <Ionicons onPress={this.back
-                
-            } name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}></Ionicons>
+            <Ionicons onPress={() => this.props.navigation.navigate('Project')}
+                name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}></Ionicons>
         )
     }
 }

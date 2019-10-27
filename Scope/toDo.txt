@@ -1,10 +1,8 @@
 // Command List
     - nodemon --exec npm start
 
-- Create stack navigator 
+- Adding Project / Modify Project Setting (Project Screen)
+    - Adding Plus icon in  the save level of menu button
+    - Long Press project to edit or delete
+    
 - Work on re render screen after sign out
-1) Adding Back arrow in the signup page
-
-
-
-2) User login input checking and removing space

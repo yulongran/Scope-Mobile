@@ -62,7 +62,7 @@ class ProjectScreen extends Component {
    */
   filterProject(text) {
     const filter = this.state.project.filter(item =>
-      item.projectName.includes(text)
+      item.project_title.includes(text)
     );
     this.setState({
       project: filter,
@@ -79,9 +79,7 @@ class ProjectScreen extends Component {
    * Reload project from database
    */
   reload() {
-    this.setState({
-      project: PROJECT
-    });
+    this.fetchProject()
   }
 
   async fetchProject() {

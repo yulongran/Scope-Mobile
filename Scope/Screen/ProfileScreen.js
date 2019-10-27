@@ -53,6 +53,7 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                 <BackArrow navigation={this.props.navigation} />
                 <View style={{
                     alignSelf: 'center',
                     marginTop: HEIGHT * 0.07,
