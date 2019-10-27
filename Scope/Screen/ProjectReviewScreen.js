@@ -206,8 +206,6 @@ class ProjectReviewScreen extends Component {
 
         return (
             <View style={styles.container} >
-                <Ionicons onPress={() => this.props.navigation.navigate('Project')} name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}>
-                </Ionicons>
                 <Text style={styles.title}>{this.state.project.project_title}</Text>
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row', marginLeft: WIDTH * 0.1 }}>
@@ -319,6 +317,7 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 3,
+            marginTop: HEIGHT*0.03,
 
         },
         title: {

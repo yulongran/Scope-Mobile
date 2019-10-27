@@ -22,7 +22,7 @@ class TeamScreen extends Component {
     }
 
     state = {
-        project_id : '',
+        project_id: '',
         team: [
         ],
     }
@@ -69,7 +69,6 @@ class TeamScreen extends Component {
     render() {
         return (
             <View>
-                <BackArrow navigation={this.props.navigation} />
                 <View style={{
                     marginLeft: WIDTH * 0.05,
                     marginRight: WIDTH * 0.05,
@@ -82,12 +81,11 @@ class TeamScreen extends Component {
                     <FlatList
                         data={this.state.team}
                         renderItem={({ item }) => (
-                            <Team team_number={item.team_number} 
-                            project_id={this.state.project_id}
-                            onPress={()=>
-                            {
-                                this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
-                            }}/>
+                            <Team team_number={item.team_number}
+                                project_id={this.state.project_id}
+                                onPress={() => {
+                                    this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
+                                }} />
                         )}
                         keyExtractor={(item, index) => index.toString()}
                         numColumns={2}

@@ -22,7 +22,6 @@ class WelcomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
                 <Text style={styles.text}>Welcome</Text>
             </View>
         )

@@ -22,6 +22,9 @@ import RedirectScreen from '../Screen/RedirectScreen';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from "../Components/deviceStorage";
 
+const WIDTH = Dimensions.get('screen').width;
+const HEIGHT = Dimensions.get('screen').height;
+
 class ProjectScreen extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +35,7 @@ class ProjectScreen extends Component {
     search: "",
     project: [],
     user_identity: 'instructor',
+    refresh: true,
   };
 
   /**
@@ -105,6 +109,14 @@ class ProjectScreen extends Component {
 
   }
 
+  refreshScreen() {
+    this.setState(
+      {
+        refresh: !refresh
+      }
+    )
+  }
+
   componentDidMount() {
     this.fetchProject()
   }
@@ -139,10 +151,10 @@ class ProjectScreen extends Component {
                 endDate={item.project_endDate}
                 onPress={() => {
                   if (this.state.user_identity == 'student') {
-                    this.props.navigation.navigate("Review", { project: item })
+                    this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
                   }
                   else {
-                    this.props.navigation.navigate("Team", { project: item })
+                    this.props.navigation.navigate("Team", { project: item, refreshScreen: this.refreshScreen })
                   }
                 }}
               />
@@ -196,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: Dimensions.get("window").height * 0.09
+    marginTop: HEIGHT * 0.015,
   },
   listStyle: {
     backgroundColor: "#fff"

@@ -17,6 +17,7 @@ import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
 import SignUpScreen from '../Screen/SignUpScreen';
 import ProfileScreen from '../Screen/ProfileScreen';
 import TeamScreen from '../Screen/TeamScreen';
+import { createStackNavigator } from 'react-navigation-stack'
 import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
@@ -37,6 +38,31 @@ import { View, Icon } from "native-base";
 const WIDTH = Dimensions
     .get("window")
     .width;
+/**
+ * Stack Navigator
+ * @param {*} props 
+ */
+
+const Stack = createStackNavigator(
+    {
+        Project:
+        {
+            screen: ProjectScreen,
+        },
+        Team:
+        {
+            screen: TeamScreen,
+        },
+        Review:
+        {
+            screen: ProjectReviewScreen,
+        },
+
+    },
+    {
+        initialRouteName: 'Project',
+    }
+)
 
 /**
 * TabNavigator of the Scope
@@ -45,7 +71,7 @@ const TabNavigator = createBottomTabNavigator(
     {
         Project:
         {
-            screen: ProjectScreen,
+            screen: Stack,
             navigationOptions:
             {
                 tabBarLabel: 'Project',
@@ -90,6 +116,7 @@ const TabNavigator = createBottomTabNavigator(
 
 );
 
+
 /**
  * Drawer Navigation of the Scope
  * @param {} props 
@@ -118,7 +145,7 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Project:
     {
-        screen: ProjectScreen,
+        screen: TabNavigator,
         navigationOptions:
         {
             drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
@@ -136,13 +163,6 @@ const DrawerNavigator = createDrawerNavigator({
             drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
         }
     },
-    Review:
-    {
-        screen: ProjectReviewScreen,
-        navigationOptions: {
-            drawerLabel: <Hidden />
-        }
-    },
     SignUp:
     {
         screen: SignUpScreen,
@@ -151,22 +171,14 @@ const DrawerNavigator = createDrawerNavigator({
             drawerLabel: <Hidden />
         }
     },
-    Project:
-    {
-        screen: TabNavigator,
-        navigationOptions:
-        {
-            drawerLabel: <Hidden />
-        }
-    },
-    Team:
-    {
-        screen: TeamScreen,
-        navigationOptions:
-        {
-            drawerLabel: <Hidden />
-        }
-    },
+    // Project:
+    // {
+    //     screen: TabNavigator,
+    //     navigationOptions:
+    //     {
+    //         drawerLabel: <Hidden />
+    //     }
+    // },
 }, {
     contentComponent: CustomDrawerComponet,
     drawerWidth: WIDTH * 0.83

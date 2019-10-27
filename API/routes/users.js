@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = require('mysql')
 var verify = require('../function/Authorization')
 var jwt = require('jsonwebtoken')
+var auth = require('../function/Authentication')
 var connection = mysql.createConnection(
   {
     host: 'localhost',
@@ -11,17 +12,6 @@ var connection = mysql.createConnection(
     database: 'Scope_Mobile'
   }
 )
-
-/* GET users listing. */
-router.get('/login', function (req, res, next) {
-
-  connection.query('SELECT * FROM User WHERE user_email = "apaiton2@facebook.com"', function (err, result) {
-    if (err) throw err
-    res.send(result)
-
-  })
-});
-
 
 /**
  * Handles Users registration
@@ -66,5 +56,30 @@ router.post('/login', async function (req, res, next) {
 
 router.post('/status', verify, async function (req, res, next) {
 });
+
+
+/**
+ * Get all user with search firstname and lastname
+ */
+
+router.post('/people', function (req, res) {
+  // Verify User token 
+  if (!auth(req)) {
+    res.status(401).send("Invalid User")
+  }
+
+  const user_firstname = req.headers.user_firstname
+  const user_lastname = req.headers.user_lastname
+  const variable = [user_firstname, user_lastname]
+  const sql = 'SELECT user_id , user_firstname , user_lastname FROM User WHERE user_firstname=? OR user_lastname=?'
+
+  connection.query(sql, variable, function (err, result) {
+    if (err) {
+      throw err
+    }
+
+    res.send(result)
+  })
+})
 
 module.exports = router;
