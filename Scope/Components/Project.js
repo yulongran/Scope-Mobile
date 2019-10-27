@@ -4,11 +4,19 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Button,
     TouchableOpacity
 } from 'react-native'
-import { stringify } from 'qs'
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+    MenuProvider,
+} from 'react-native-popup-menu';
+import { Ionicons } from '@expo/vector-icons'
 
+const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('screen').width;
 export class Project extends Component {
     /**
      * Construct a ProjectDisplay object
@@ -39,31 +47,48 @@ export class Project extends Component {
     }
     render() {
         return (
+
             <TouchableOpacity onPress={this.props.onPress}>
-                <View style={styles.ViewStyle} >
-                    <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
-                    <Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>
-                    <Text style={styles.startDateStyle}>Start {this.props.startDate}</Text>
-                    <Text style={styles.endDateStyle}>End {this.props.endDate}</Text>
+                <View style= {styles.containerStyle}>
+                    <Menu style={{marginLeft:WIDTH * 0.33,}}>
+                        <MenuTrigger>
+                            <Ionicons
+                                name="md-menu"
+                                color="#000000"
+                                size={WIDTH * 0.04}
+                            />
+                        </MenuTrigger>
+                        <MenuOptions optionsContainerStyle={{width: WIDTH*0.2, borderRadius:8}}>
+                            <MenuOption text='Edit'/>
+                            <MenuOption text='Remove'/>
+                        </MenuOptions>
+                    </Menu>
+                    <View style={styles.ViewStyle} >
+                        <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
+                        <Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>
+                        <Text style={styles.startDateStyle}>Start {this.props.startDate}</Text>
+                        <Text style={styles.endDateStyle}>End {this.props.endDate}</Text>
+                    </View>
+
                 </View>
             </TouchableOpacity>
+
+
+
         )
     }
 }
-const WIDTH = Dimensions
-    .get('window')
-    .width
-
-const HEIGHT = Dimensions.get('screen').height
-
 const styles = StyleSheet.create({
-    ViewStyle: {
+    containerStyle:
+    {
         width: WIDTH * 0.38,
         height: HEIGHT * 0.15,
         borderColor: 'blue',
         borderWidth: 1,
         borderRadius: 10,
         margin: 10,
+    },
+    ViewStyle: {
         alignContent: 'center',
         justifyContent: 'center',
     },
@@ -76,10 +101,10 @@ const styles = StyleSheet.create({
     },
     CourseStyle: {
         textAlign: 'center',
-        paddingTop: HEIGHT*0.01,
+        paddingTop: HEIGHT * 0.01,
     },
     startDateStyle: {
-        paddingTop: HEIGHT*0.001,
+        paddingTop: HEIGHT * 0.001,
         textAlign: 'center',
         fontSize: 12
     },
