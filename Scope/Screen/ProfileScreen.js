@@ -11,6 +11,11 @@ import { Button } from 'react-native-elements'
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 class ProfileScreen extends Component {
+
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props) {
         super(props)
     }
@@ -53,7 +58,7 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                 <BackArrow navigation={this.props.navigation} />
+                <BackArrow navigation={this.props.navigation} />
                 <View style={{
                     alignSelf: 'center',
                     marginTop: HEIGHT * 0.07,

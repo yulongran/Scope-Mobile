@@ -26,6 +26,14 @@ const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 class ProjectScreen extends Component {
+
+  /**
+   * Remove Stack Navigation header
+   */
+  static navigationOptions = {
+    header: null,
+    headerBackTitle: null,
+  }
   constructor(props) {
     super(props);
     this.filterProject = this.filterProject.bind(this);
@@ -206,7 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    marginTop: HEIGHT * 0.015,
+    marginTop: HEIGHT * 0.06,
   },
   listStyle: {
     backgroundColor: "#fff"

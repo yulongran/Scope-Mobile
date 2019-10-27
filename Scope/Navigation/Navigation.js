@@ -48,6 +48,7 @@ const Stack = createStackNavigator(
         Project:
         {
             screen: ProjectScreen,
+            
         },
         Team:
         {
@@ -61,7 +62,8 @@ const Stack = createStackNavigator(
     },
     {
         initialRouteName: 'Project',
-    }
+    },
+    
 )
 
 /**

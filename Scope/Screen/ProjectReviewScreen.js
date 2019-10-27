@@ -10,7 +10,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
 import MileStone from '../Components/MileStone';
 import People from '../Components/People';
-import ProfilePic from '../assets/profile_default.jpg'
+import ProfilePic from '../assets/profile_default.jpg';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const WIDTH = Dimensions.get('screen').width;
@@ -54,6 +55,26 @@ class ProjectReviewScreen extends Component {
             project_id: '',
 
         }
+
+    /**
+    * Config Stack Navigator Header
+    */
+    static navigationOptions = {
+        headerBackTitle: null,
+        headerStyle: {
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerBackground: (
+            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+                style={{ flex: 1 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }} />
+        ),
+
+    };
 
     /**
      * name: 'David',
@@ -197,7 +218,7 @@ class ProjectReviewScreen extends Component {
             <FlatList
                 data={this.state.reviews}
                 renderItem={({ item }) => (
-                    <Review reviewee_id ={item.reviewee_id} reviewer_id ={item.reviewer_id} review_description={item.review_description}/>
+                    <Review reviewee_id={item.reviewee_id} reviewer_id={item.reviewer_id} review_description={item.review_description} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 extraData={this.state}
@@ -317,7 +338,7 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 3,
-            marginTop: HEIGHT*0.03,
+            marginTop: HEIGHT * 0.03,
 
         },
         title: {

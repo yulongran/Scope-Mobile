@@ -11,15 +11,36 @@ import MenuButton from '../Components/MenuButton'
 import BackArrow from '../Components/BackArrow'
 import Team from '../Components/Team'
 import { Item } from 'native-base'
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 class TeamScreen extends Component {
+
     constructor(props) {
         super(props)
     }
+
+    /**
+     * Config Stack Navigator Header
+     */
+    static navigationOptions = {
+        headerBackTitle: null,
+        headerStyle: {
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerBackground: (
+            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+                style={{ flex: 1 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }} />
+        ),
+
+    };
 
     state = {
         project_id: '',
