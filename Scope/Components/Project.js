@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native'
 import {
     Menu,
@@ -60,7 +61,23 @@ export class Project extends Component {
                         </MenuTrigger>
                         <MenuOptions optionsContainerStyle={{width: WIDTH*0.2, borderRadius:8}}>
                             <MenuOption text='Edit'/>
-                            <MenuOption text='Remove'/>
+                            <MenuOption text='Remove' onSelect={()=>
+                            {
+                                Alert.alert (
+                                    'Permanent delete project',
+                                    '',
+                                    [
+                                        {text: 'Yes', onPress:()=>
+                                    {
+                                        // Delete project API call
+                                    }},
+                                        {text: 'No', style:'cancel'},
+                                    ],
+                                    {
+                                        cancelable: true
+                                    }
+                                )
+                            }}/>
                         </MenuOptions>
                     </Menu>
                     <View style={styles.ViewStyle} >

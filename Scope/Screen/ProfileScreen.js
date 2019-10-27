@@ -12,9 +12,6 @@ const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 class ProfileScreen extends Component {
 
-    static navigationOptions = {
-        header: null
-    }
 
     constructor(props) {
         super(props)
