@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {
     View, Text,
     StyleSheet,
-    SafeAreaView,
     Dimensions,
     FlatList,
     AsyncStorage,
+    SafeAreaView,
 } from 'react-native'
 import MenuButton from '../Components/MenuButton'
 import BackArrow from '../Components/BackArrow'
@@ -94,23 +94,26 @@ class TeamScreen extends Component {
                     marginLeft: WIDTH * 0.05,
                     marginRight: WIDTH * 0.05,
                     marginTop: WIDTH * 0.05,
-                    height: HEIGHT * 0.7,
                 }}>
                     <Text style={{ fontSize: WIDTH * 0.1 }}>
                         Teams
                 </Text>
-                    <FlatList
-                        data={this.state.team}
-                        renderItem={({ item }) => (
-                            <Team team_number={item.team_number}
-                                project_id={this.state.project_id}
-                                onPress={() => {
-                                    this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
-                                }} />
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        numColumns={2}
-                    />
+                    <SafeAreaView style={{height: HEIGHT*0.7}}>
+                        <FlatList
+                            data={this.state.team}
+                            renderItem={({ item }) => (
+
+                                <Team team_number={item.team_number}
+                                    project_id={this.state.project_id}
+                                    onPress={() => {
+                                        this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
+                                    }} />
+
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                            numColumns={2}
+                        />
+                    </SafeAreaView>
                 </View>
             </View>
         )

@@ -23,6 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
 import SJSULOGO from "../assets/SJSU.png";
 import { View, Icon } from "native-base";
+import ProjectCreationScreen from "../Screen/ProjectCreationScreen";
 
 
 
@@ -58,6 +59,10 @@ const Stack = createStackNavigator(
         {
             screen: ProjectReviewScreen,
         },
+        ProjectCreation:
+        {
+            screen: ProjectCreationScreen,
+        }
 
     },
     {

@@ -1,8 +1,9 @@
 // Command List
     - nodemon --exec npm start
 
+- FlatList can not scoll !!
 - Adding Project / Modify Project Setting (Project Screen)
     - Adding Plus icon in  the save level of menu button
     - Long Press project to edit or delete
-    
+
 - Work on re render screen after sign out

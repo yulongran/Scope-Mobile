@@ -75,13 +75,6 @@ export class Team extends Component {
     }
     render() {
         return (
-            // <TouchableOpacity onPress={() => {
-            //     this.props.navigation.navigate("Review", {
-            //         team_member: this.state.team_member,
-            //         team_number: this.state.team_number,
-            //         project_id: this.state.project_id,
-            //     })
-            // }}>
             <TouchableOpacity 
                 onPress={this.props.onPress}>
                 <View style={styles.ViewStyle} >
