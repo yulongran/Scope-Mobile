@@ -138,7 +138,7 @@ class ProjectReviewScreen extends Component {
         if (!token) {
             return false;
         }
-        let response = await fetch('http://localhost:8001/project/project',
+        let response = await fetch('http://localhost:8001/project/projectByID',
             {
                 method: 'POST',
                 headers: {

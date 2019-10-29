@@ -158,8 +158,9 @@ class ProjectScreen extends Component {
           <MenuButton navigation={this.props.navigation} />
           <Button
             onPress={() => {
-              this.props.navigation.navigate("ProjectCreation")
-            }}
+              //this.props.navigation.navigate("ProjectCreation")
+              this.props.navigation.navigate("ProjectJoinScreen");
+            }} 
             icon={
               <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
             }

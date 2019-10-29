@@ -126,18 +126,18 @@ router.post('/member', function (req, res) {
 /**
  * Fetch project data based on the project_id
  */
-router.post('/project', function (req, res) {
+router.post('/projectByID', function (req, res) {
   if (!auth) {
     res.status(401).send("Invalid User")
   }
 
   const project_id = req.headers.project_id
 
+  console.log(project_id)
   // Query team data based on the project_id
   var sql = 'SELECT * FROM  Project WHERE project_id = ?'
   connection.query(sql, project_id, function (err, result) {
     if (err) throw err
-
     res.send(result);
   })
 });
