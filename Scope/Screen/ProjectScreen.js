@@ -214,18 +214,17 @@ class ProjectScreen extends Component {
             data={this.getHistoryProject()}
             renderItem={({ item }) => (
               <Project
-                projectName={item.projectName}
-                courseName={item.courseName}
-                schoolName={item.schoolName}
+                projectName={item.project_title}
+                courseName={item.project_course}
+                schoolName={item.project_institution}
                 startDate={item.project_startDate}
                 endDate={item.project_endDate}
-                description={item.description}
                 onPress={() => {
                   if (this.state.user_identity == 'student') {
-                    this.props.navigation.navigate("Review", { project: item })
+                    this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
                   }
                   else {
-                    this.props.navigation.navigate("Team", { project: item })
+                    this.props.navigation.navigate("Team", { project: item, refreshScreen: this.refreshScreen })
                   }
                 }}
               />
@@ -245,7 +244,7 @@ class ProjectScreen extends Component {
  */
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     marginTop: HEIGHT * 0.06,

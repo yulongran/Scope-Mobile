@@ -98,22 +98,22 @@ class TeamScreen extends Component {
                     <Text style={{ fontSize: WIDTH * 0.1 }}>
                         Teams
                 </Text>
-                    <SafeAreaView style={{height: HEIGHT*0.7}}>
+                    <View style={{height:HEIGHT*0.72}}>
                         <FlatList
                             data={this.state.team}
                             renderItem={({ item }) => (
-
-                                <Team team_number={item.team_number}
-                                    project_id={this.state.project_id}
-                                    onPress={() => {
-                                        this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
-                                    }} />
-
+                                <View>
+                                    <Team team_number={item.team_number}
+                                        project_id={this.state.project_id}
+                                        onPress={() => {
+                                            this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
+                                        }} />
+                                </View>
                             )}
                             keyExtractor={(item, index) => index.toString()}
                             numColumns={2}
                         />
-                    </SafeAreaView>
+                    </View>
                 </View>
             </View>
         )
@@ -123,7 +123,6 @@ class TeamScreen extends Component {
 const styles = StyleSheet.create(
     {
         container: {
-            flex: 3,
             backgroundColor: '#fff',
             alignItems: 'center',
             justifyContent: 'center',

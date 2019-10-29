@@ -142,4 +142,53 @@ router.post('/project', function (req, res) {
   })
 });
 
+
+/**
+ * Create a new project
+ */
+
+router.post('/projectCreation', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User");
+  }
+  const project_title = req.headers.project_title;
+  const project_course = req.headers.project_course;
+  const project_institution = req.headers.project_institution;
+  const project_startDate = req.headers.project_startdate;
+  const project_endDate = req.headers.project_enddate;
+  const project_description = req.headers.project_description;
+
+  // Add project in project table
+  var sql = 'INSERT INTO Project (project_title, project_course, project_institution, project_startDate, project_endDate, project_description) VALUES (?,?,?,?,?,?)'
+  var variable = [project_title, project_course, project_institution, project_startDate, project_endDate, project_description]
+  connection.query(sql, variable, function (err, result) {
+    if (err) throw err
+    res.send(result)
+  })
+})
+
+
+/**
+ * Update User Has Project table with project and user id
+ */
+router.post('/UpdateUserHasProjectTable', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User");
+  }
+  const token = req.headers.auth_token;
+  const secret = "adadaasdasd"
+  const verifed = jwt.verify(token, secret);
+  const user_id = verifed._id;
+  const project_id = req.headers.project_id;
+
+  // Add project in project table
+  var sql = 'INSERT INTO UserHasProject (user_id, project_id) VALUES (?,?)'
+  var variable = [user_id, project_id]
+  connection.query(sql, variable, function (err, result) {
+    if (err) throw err
+    res.send("Success")
+  })
+})
+
+
 module.exports = router;
