@@ -5,7 +5,7 @@ import {
 import DatePicker from 'react-native-datepicker'
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from 'react-native-elements';
-
+import { LinearGradient } from 'expo-linear-gradient';
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
@@ -23,6 +23,7 @@ class ProjectCreationScreen extends Component {
         milestone: [],
         project_id: null,
     }
+
 
     /**
      * API call to create a project in the database
@@ -110,262 +111,256 @@ class ProjectCreationScreen extends Component {
                 }
             )
             this.UpdateUserHasProjectTable()
-            this.state.milestone.forEach(item=>
-                {
-                    this.UpdateMilestoneTable(item)
-                })
+            this.state.milestone.forEach(item => {
+                this.UpdateMilestoneTable(item)
+            })
         }
         return false
     }
 
     render() {
         return (
-            <View>
-                <ScrollView style={{ backgroundColor: 'white' }}>
-                    <View>
-                        <View style={{
-                            marginLeft: WIDTH * 0.05,
-                            marginRight: WIDTH * 0.05,
-                            marginTop: HEIGHT * 0.01,
-                        }}>
-                            <Text style={{ fontSize: WIDTH * 0.06, marginTop: HEIGHT * 0.008, }}>Project Title</Text>
-                            <TextInput
-                                style={{
-                                    height: HEIGHT * 0.045, borderColor: '#D3D3D3',
-                                    borderBottomWidth: 1,
-                                    width: WIDTH * 0.87,
-                                    borderRadius: WIDTH * 0.02,
-                                    fontSize: WIDTH * 0.04,
-                                    backgroundColor: 'white',
-                                }}
-                                onChangeText={(text) => {
-                                    this.setState(
-                                        {
-                                            project_title: text,
+            <View style={{ height: HEIGHT * 0.8 }}>
+                <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+                    style={{ flex: 1 }}
+                    start={{ x: 0, y: 0 }}>
+
+                    <ScrollView style={{ backgroundColor: 'white', margin: WIDTH * 0.02, borderWidth: 1, borderColor: '#bdbdbd' }}>
+                        <View style={{ margin: WIDTH * 0.04 }}>
+                            <View name="titleSection" style={{
+                            }}>
+                                <View style={{
+                                    height: HEIGHT * 0.04,
+                                    alignContent: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: HEIGHT * 0.025,
+                                }}>
+                                    <Text style={{ fontSize: WIDTH * 0.06, }}>Title</Text>
+                                </View>
+                                <View>
+                                    <TextInput
+                                        style={{
+                                            height: HEIGHT * 0.04, borderColor: '#bdbdbd',
+                                            fontSize: WIDTH * 0.04,
+                                            backgroundColor: 'white',
+                                            borderBottomWidth: 1,
+                                        }}
+                                        placeholder={"Add Title"}
+                                        onChangeText={(text) => {
+                                            this.setState(
+                                                {
+                                                    project_title: text,
+                                                }
+                                            )
                                         }
-                                    )
-                                }
-                                }
-                                value={this.state.project_title}
-                            ></TextInput>
-                        </View>
-
-                        <View style={{
-                            marginLeft: WIDTH * 0.05,
-                            marginRight: WIDTH * 0.05,
-                            marginTop: HEIGHT * 0.01,
-                            marginTop: HEIGHT * 0.01,
-                        }}>
-                            <Text style={styles.titleStyle}>Start Date</Text>
-                            <DatePicker
-                                style={{ width: WIDTH * 0.87, backgroundColor: 'white' }}
-                                date={this.state.project_startDate}
-                                mode="date"
-                                placeholder="Select Date"
-                                format="YYYY-MM-DD"
-                                minDate="2000-05-01"
-                                maxDate="2100-06-01"
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                onDateChange={(date) => { this.setState({ project_startDate: date }) }}
-                            />
-                        </View>
-
-                        <View style={{
-                            marginLeft: WIDTH * 0.05,
-                            marginRight: WIDTH * 0.05,
-                            marginTop: HEIGHT * 0.01,
-                            marginTop: HEIGHT * 0.01,
-                        }}>
-                            <Text style={styles.titleStyle}>End Date</Text>
-                            <DatePicker
-                                style={{ width: WIDTH * 0.87, backgroundColor: 'white' }}
-                                date={this.state.project_endDate}
-                                mode="date"
-                                placeholder="Select Date"
-                                format="YYYY-MM-DD"
-                                minDate="2000-05-01"
-                                maxDate="2100-06-01"
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                onDateChange={(date) => { this.setState({ project_endDate: date }) }}
-                            />
-                        </View>
-
-                        <View style={{
-                            marginLeft: WIDTH * 0.05,
-                            marginRight: WIDTH * 0.05,
-                            marginTop: HEIGHT * 0.01,
-                            marginTop: HEIGHT * 0.15,
-
-                        }}>
-                            <Text style={{ fontSize: WIDTH * 0.06, marginTop: HEIGHT * 0.008, }}>Project Description</Text>
-                            <TextInput
-                                style={{
-                                    height: HEIGHT * 0.25, borderColor: '#D3D3D3',
-                                    borderWidth: 1,
-                                    width: WIDTH * 0.87,
-                                    borderRadius: WIDTH * 0.02,
-                                    fontSize: WIDTH * 0.04,
-                                    backgroundColor: 'white',
-                                }}
-                                onChangeText={(text) => {
-                                    this.setState(
-                                        {
-                                            project_description: text,
                                         }
-                                    )
-                                }
-                                }
-                                value={this.state.project_description}
-                                multiline={true}
-                            ></TextInput>
-                        </View>
+                                        value={this.state.project_title}
+                                    ></TextInput>
+                                </View>
+                            </View>
 
-                        <View style={{
-                            marginLeft: WIDTH * 0.05,
-                            marginRight: WIDTH * 0.05,
-                            marginTop: HEIGHT * 0.01,
+                            <View style={{
+                                marginTop: HEIGHT * 0.025,
+                            }}>
+                                <Text style={styles.titleStyle}>Start Date</Text>
+                                <DatePicker
+                                    style={{ width: WIDTH * 0.89, backgroundColor: 'white' }}
+                                    date={this.state.project_startDate}
+                                    mode="date"
+                                    placeholder="Select Date"
+                                    format="YYYY-MM-DD"
+                                    minDate="2000-05-01"
+                                    maxDate="2100-06-01"
+                                    confirmBtnText="Confirm"
+                                    cancelBtnText="Cancel"
+                                    onDateChange={(date) => { this.setState({ project_startDate: date }) }}
+                                />
+                            </View>
 
-                        }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.titleStyle}>Milestone</Text>
-                                <Button
-                                    onPress={() => {
-                                        this.state.milestone.push({
-                                            milestone_number: this.state.milestone.length + 1,
-                                            milestone_description: '',
-                                            milestone_startDate: '',
-                                            milestone_endDate: '',
-                                        })
+                            <View style={{
+                                marginTop: HEIGHT * 0.025,
+                            }}>
+                                <Text style={styles.titleStyle}>End Date</Text>
+                                <DatePicker
+                                    style={{ width: WIDTH * 0.89, backgroundColor: 'white' }}
+                                    date={this.state.project_endDate}
+                                    mode="date"
+                                    placeholder="Select Date"
+                                    format="YYYY-MM-DD"
+                                    minDate="2000-05-01"
+                                    maxDate="2100-06-01"
+                                    confirmBtnText="Confirm"
+                                    cancelBtnText="Cancel"
+                                    onDateChange={(date) => { this.setState({ project_endDate: date }) }}
+                                />
+                            </View>
+
+                            <View style={{
+                                marginTop: HEIGHT * 0.025,
+                            }}>
+                                <Text style={{ fontSize: WIDTH * 0.06, marginTop: HEIGHT * 0.008, }}>Description:</Text>
+                                <TextInput
+                                    style={{
+                                        height: HEIGHT * 0.25, borderColor: '#D3D3D3',
+                                        borderWidth: 1,
+                                        borderRadius: WIDTH * 0.02,
+                                        fontSize: WIDTH * 0.04,
+                                        backgroundColor: 'white',
+                                    }}
+                                    onChangeText={(text) => {
                                         this.setState(
                                             {
-                                                milestone: this.state.milestone
-                                            })
-                                    }}
-                                    icon={
-                                        <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
+                                                project_description: text,
+                                            }
+                                        )
                                     }
-                                    buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.55, paddingTop: -HEIGHT * 0.009 }} />
+                                    }
+                                    value={this.state.project_description}
+                                    multiline={true}
+                                ></TextInput>
                             </View>
-                        </View>
-                        <View name="MilestoneList">
-                            {
-                                MilestoneList = this.state.milestone.map(item => {
-                                    return (
-                                        <View style={{ height: HEIGHT * 0.23, borderWidth: 1, }} key={item.milestone_number}>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{
-                                                    padding: Dimensions.get('window').width * 0.025,
-                                                    fontSize: WIDTH * 0.04,
-                                                    fontStyle: 'italic',
-                                                    fontWeight: 'bold',
-                                                }}>Milestone {item.milestone_number}</Text>
-                                                <Button
-                                                    onPress={() => {
-                                                        this.state.milestone.splice(item.milestone_number - 1, 1);
 
-                                                        {/* Re-compute the milestone_number after remove an element*/ }
+                            <View style={{
+                            }}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={styles.titleStyle}>Milestone</Text>
+                                    <Button
+                                        onPress={() => {
+                                            this.state.milestone.push({
+                                                milestone_number: this.state.milestone.length + 1,
+                                                milestone_description: '',
+                                                milestone_startDate: '',
+                                                milestone_endDate: '',
+                                            })
+                                            this.setState(
+                                                {
+                                                    milestone: this.state.milestone
+                                                })
+                                        }}
+                                        icon={
+                                            <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
+                                        }
+                                        buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.55, paddingTop: -HEIGHT * 0.009 }} />
+                                </View>
+                            </View>
+                            <View name="MilestoneList">
+                                {
+                                    MilestoneList = this.state.milestone.map(item => {
+                                        return (
+                                            <View style={{ height: HEIGHT * 0.23, borderWidth: 1, }} key={item.milestone_number}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{
+                                                        padding: Dimensions.get('window').width * 0.025,
+                                                        fontSize: WIDTH * 0.04,
+                                                        fontStyle: 'italic',
+                                                        fontWeight: 'bold',
+                                                    }}>Milestone {item.milestone_number}</Text>
+                                                    <Button
+                                                        onPress={() => {
+                                                            this.state.milestone.splice(item.milestone_number - 1, 1);
 
-                                                        for (var i = 0; i < this.state.milestone.length; i++) {
-                                                            this.state.milestone[i].milestone_number = i + 1;
+                                                            {/* Re-compute the milestone_number after remove an element*/ }
+
+                                                            for (var i = 0; i < this.state.milestone.length; i++) {
+                                                                this.state.milestone[i].milestone_number = i + 1;
+                                                            }
+                                                            this.setState(
+                                                                {
+                                                                    milestone: this.state.milestone
+                                                                })
+                                                        }}
+                                                        icon={
+                                                            <Ionicons name="md-remove" size={WIDTH * 0.07} color="black" />
                                                         }
+                                                        buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.5, paddingTop: -HEIGHT * 0.009 }} />
+                                                </View>
+                                                <Text style={{ marginLeft: WIDTH * 0.06 }}>Description</Text>
+                                                <TextInput
+                                                    style={{
+                                                        fontSize: WIDTH * 0.04,
+                                                        paddingLeft: WIDTH * 0.02,
+                                                        paddingRight: WIDTH * 0.02,
+                                                        height: HEIGHT * 0.1, borderColor: '#D3D3D3',
+                                                        borderWidth: 1,
+                                                        width: WIDTH * 0.8,
+                                                        borderRadius: WIDTH * 0.01,
+                                                        alignSelf: 'center',
+                                                        marginTop: HEIGHT * 0.01,
+                                                    }}
+                                                    onChangeText={(text) => {
+                                                        const copy = this.state.milestone
+                                                        copy[item.milestone_number - 1].milestone_description = text
                                                         this.setState(
                                                             {
-                                                                milestone: this.state.milestone
-                                                            })
-                                                    }}
-                                                    icon={
-                                                        <Ionicons name="md-remove" size={WIDTH * 0.08} color="black" />
+                                                                milestone: copy
+                                                            }
+                                                        )
                                                     }
-                                                    buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.55, paddingTop: -HEIGHT * 0.009 }} />
-                                            </View>
-                                            <Text style={{ marginLeft: WIDTH * 0.06 }}>Description</Text>
-                                            <TextInput
-                                                style={{
-                                                    fontSize: WIDTH * 0.04,
-                                                    paddingLeft: WIDTH * 0.02,
-                                                    paddingRight: WIDTH * 0.02,
-                                                    height: HEIGHT * 0.1, borderColor: '#D3D3D3',
-                                                    borderWidth: 1,
-                                                    width: WIDTH * 0.9,
-                                                    borderRadius: WIDTH * 0.01,
-                                                    alignSelf: 'center',
-                                                    marginTop: HEIGHT * 0.01,
-                                                }}
-                                                onChangeText={(text) => {
-                                                    const copy = this.state.milestone
-                                                    copy[item.milestone_number - 1].milestone_description = text
-                                                    this.setState(
-                                                        {
-                                                            milestone: copy
-                                                        }
-                                                    )
-                                                }
-                                                }
-                                                value={this.state.milestone[item.milestone_number - 1].milestone_description}
-                                                multiline={true}
-                                            ></TextInput>
-                                            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                                <View style={{ marginLeft: WIDTH * 0.06, flexDirection: 'row', alignItems: 'center' }}>
-                                                    <Text>Start Date</Text>
-                                                    <DatePicker
-                                                        style={{ width: 100, marginLeft: WIDTH * 0.015, borderColor: "white" }}
-                                                        date={this.state.milestone[item.milestone_number - 1].milestone_startDate}
-                                                        mode="date"
-                                                        placeholder="select date"
-                                                        format="YYYY-MM-DD"
-                                                        minDate="2000-05-01"
-                                                        maxDate="2100-06-01"
-                                                        confirmBtnText="Confirm"
-                                                        cancelBtnText="Cancel"
-                                                        showIcon={false}
-                                                        onDateChange={(date) => {
-                                                            const copy = this.state.milestone
-                                                            copy[item.milestone_number - 1].milestone_startDate = date,
-                                                                this.setState({
-                                                                    milestone: copy
-                                                                })
-                                                        }}
-                                                    />
-                                                </View>
-                                                <View style={{ marginLeft: WIDTH * 0.06, flexDirection: 'row', alignItems: 'center' }}>
-                                                    <Text>End Date</Text>
-                                                    <DatePicker
-                                                        style={{ width: 100, marginLeft: WIDTH * 0.03, borderColor: "white" }}
-                                                        date={this.state.milestone[item.milestone_number - 1].milestone_endDate}
-                                                        mode="date"
-                                                        placeholder="select date"
-                                                        format="YYYY-MM-DD"
-                                                        minDate="2000-05-01"
-                                                        maxDate="2100-06-01"
-                                                        confirmBtnText="Confirm"
-                                                        cancelBtnText="Cancel"
-                                                        showIcon={false}
-                                                        onDateChange={(date) => {
-                                                            const copy = this.state.milestone
-                                                            copy[item.milestone_number - 1].milestone_endDate = date,
-                                                                this.setState({
-                                                                    milestone: copy
-                                                                })
-                                                        }}
-                                                    />
-                                                </View>
+                                                    }
+                                                    value={this.state.milestone[item.milestone_number - 1].milestone_description}
+                                                    multiline={true}
+                                                ></TextInput>
+                                                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                                    <View style={{ marginLeft: WIDTH * 0.023, flexDirection: 'row', alignItems: 'center' }}>
+                                                        <Text>Start Date</Text>
+                                                        <DatePicker
+                                                            style={{ width: WIDTH * 0.2, height: HEIGHT * 0.03, marginTop: HEIGHT * 0.003, marginLeft: WIDTH * 0.015, borderColor: "white" }}
+                                                            date={this.state.milestone[item.milestone_number - 1].milestone_startDate}
+                                                            mode="date"
+                                                            placeholder="select date"
+                                                            format="YYYY-MM-DD"
+                                                            minDate="2000-05-01"
+                                                            maxDate="2100-06-01"
+                                                            confirmBtnText="Confirm"
+                                                            cancelBtnText="Cancel"
+                                                            showIcon={false}
+                                                            onDateChange={(date) => {
+                                                                const copy = this.state.milestone
+                                                                copy[item.milestone_number - 1].milestone_startDate = date,
+                                                                    this.setState({
+                                                                        milestone: copy
+                                                                    })
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View style={{ marginLeft: WIDTH * 0.03, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Text>End Date</Text>
+                                                        <DatePicker
+                                                            style={{ width: WIDTH * 0.23, height: HEIGHT * 0.03, marginTop: HEIGHT * 0.003, marginLeft: WIDTH * 0.03, borderColor: "white" }}
+                                                            date={this.state.milestone[item.milestone_number - 1].milestone_endDate}
+                                                            mode="date"
+                                                            placeholder="select date"
+                                                            format="YYYY-MM-DD"
+                                                            minDate="2000-05-01"
+                                                            maxDate="2100-06-01"
+                                                            confirmBtnText="Confirm"
+                                                            cancelBtnText="Cancel"
+                                                            showIcon={false}
+                                                            onDateChange={(date) => {
+                                                                const copy = this.state.milestone
+                                                                copy[item.milestone_number - 1].milestone_endDate = date,
+                                                                    this.setState({
+                                                                        milestone: copy
+                                                                    })
+                                                            }}
+                                                        />
+                                                    </View>
 
+                                                </View>
                                             </View>
-                                        </View>
-                                    )
-                                })}
+                                        )
+                                    })}
+                            </View>
                         </View>
-                    </View>
-                    <TouchableOpacity style={styles.submitButtonStyle}
-                        onPress={() => {
-                            this.createProject()
-                        }}>
-                        <Text style={{ fontSize: WIDTH * 0.05, textAlign: 'center' }}>Submit</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            </View>
+                    </ScrollView>
+                </LinearGradient>
+                <TouchableOpacity style={styles.submitButtonStyle}
+                    onPress={() => {
+                        this.createProject()
+                    }}>
+                    <Text style={{ fontSize: WIDTH * 0.05, textAlign: 'center' }}>Submit</Text>
+                </TouchableOpacity>
+            </View >
         )
     }
 }
@@ -378,7 +373,7 @@ const styles = StyleSheet.create(
         },
         submitButtonStyle:
         {
-            backgroundColor: 'gray',
+            backgroundColor: 'white',
             width: WIDTH,
             height: HEIGHT * 0.05,
             justifyContent: 'center',

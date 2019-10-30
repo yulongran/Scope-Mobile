@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native'
 import ProfilePic from '../assets/profile_default.jpg'
 import MenuButton from '../Components/MenuButton'
 import BackArrow from '../Components/BackArrow'
@@ -66,6 +66,29 @@ class ProjectJoinScreen extends Component {
         this.fetchProjectInfo()
     }
 
+    /**
+     * Join Project
+     * Update UserHasProject Table
+     */
+    async joinProject() {
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/project//UpdateUserHasProjectTable',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    project_id: this.state.project_id
+                },
+            })
+        responseText = await response.text()
+        return true
+    }
+
     render() {
         return (
             <View>
@@ -86,13 +109,30 @@ class ProjectJoinScreen extends Component {
                     />
                 </View>
                 <View name="ProjectSection" style={{ alignItems: 'center' }}>
-                    {this.state.project && <TouchableOpacity onPress={this.props.onPress}>
+                    {this.state.project && <TouchableOpacity onPress={() => {
+                        Alert.alert(
+                            'Join Project',
+                            '',
+                            [
+                                {
+                                    text: 'Join',
+                                    onPress: () => { this.joinProject() },
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => { },
+                                    style: 'cancel',
+                                },
+                            ],
+                            { cancelable: false },
+                        );
+                    }}>
                         <View style={styles.containerStyle}>
                             <View style={styles.ViewStyle} >
                                 <Text style={styles.ProjectNameStyle}>{this.state.project.project_title}</Text>
                                 <Text style={styles.CourseStyle}>{this.state.project.project_course} {this.state.project.project_institution}</Text>
-                                <Text style={styles.startDateStyle}>Start {this.state.project.project_startDate.slice(0,10)}</Text>
-                                <Text style={styles.endDateStyle}>End {this.state.project.project_endDate.slice(0,10)}</Text>
+                                <Text style={styles.startDateStyle}>Start {this.state.project.project_startDate.slice(0, 10)}</Text>
+                                <Text style={styles.endDateStyle}>End {this.state.project.project_endDate.slice(0, 10)}</Text>
                             </View>
 
                         </View>
@@ -121,14 +161,14 @@ const styles = StyleSheet.create(
         },
         containerStyle:
         {
-            width: WIDTH ,
+            width: WIDTH,
             height: HEIGHT * 0.15,
             borderColor: 'blue',
             borderWidth: 1,
             borderRadius: 10,
-            marginTop:1,
-            alignContent:'center',
-            justifyContent:'center',
+            marginTop: 1,
+            alignContent: 'center',
+            justifyContent: 'center',
         },
         ViewStyle: {
             alignContent: 'center',

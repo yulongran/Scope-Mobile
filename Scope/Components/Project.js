@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    Alert
+    Alert,
+    AsyncStorage
 } from 'react-native'
 import {
     Menu,
@@ -36,7 +37,36 @@ export class Project extends Component {
         this.state =
             {
                 description: '',
+                delete: false,
             }
+    }
+
+
+    async deleteProject() {
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/project/delete',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    project_id: this.props.project_id
+                },
+            })
+        let responseJson = await response.text();
+        if (responseJson == 'Success') {
+            this.setState(
+                {
+                    delete: true,
+                }
+            )
+        }
+        return true
+
     }
 
     componentDidMount() {
@@ -50,8 +80,8 @@ export class Project extends Component {
         return (
 
             <TouchableOpacity onPress={this.props.onPress}>
-                <View style= {styles.containerStyle}>
-                    <Menu style={{marginLeft:WIDTH * 0.33,}}>
+                <View style={styles.containerStyle}>
+                    <Menu style={{ marginLeft: WIDTH * 0.33, }}>
                         <MenuTrigger>
                             <Ionicons
                                 name="md-menu"
@@ -59,25 +89,26 @@ export class Project extends Component {
                                 size={WIDTH * 0.04}
                             />
                         </MenuTrigger>
-                        <MenuOptions optionsContainerStyle={{width: WIDTH*0.2, borderRadius:8}}>
-                            <MenuOption text='Edit'/>
-                            <MenuOption text='Remove' onSelect={()=>
-                            {
-                                Alert.alert (
+                        <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
+                            <MenuOption text='Edit' />
+                            <MenuOption text='Remove' onSelect={() => {
+                                Alert.alert(
                                     'Permanent delete project',
                                     '',
                                     [
-                                        {text: 'Yes', onPress:()=>
-                                    {
-                                        // Delete project API call
-                                    }},
-                                        {text: 'No', style:'cancel'},
+                                        {
+                                            text: 'Yes', onPress: () => {
+                                                this.deleteProject()
+                                                this.props.handler()
+                                            }
+                                        },
+                                        { text: 'No', style: 'cancel' },
                                     ],
                                     {
                                         cancelable: true
                                     }
                                 )
-                            }}/>
+                            }} />
                         </MenuOptions>
                     </Menu>
                     <View style={styles.ViewStyle} >

@@ -42,6 +42,8 @@ class ProjectScreen extends Component {
     super(props);
     this.filterProject = this.filterProject.bind(this);
     this.reload = this.reload.bind(this);
+
+    this.handler = this.handler.bind(this)
   }
   state = {
     search: "",
@@ -58,6 +60,13 @@ class ProjectScreen extends Component {
     ],
   };
 
+  /**
+   * Update the project after project componet call delete API
+   * @param {} someValue 
+   */
+  handler(){
+    this.fetchProject()
+  }
 
   closeModal() {
     this.setState(
@@ -143,14 +152,18 @@ class ProjectScreen extends Component {
     )
   }
 
-  showAddProjectModal() {
 
-  }
 
+  /**
+   * Re-render after project had been deleted or updated
+   */
   componentDidMount() {
     this.fetchProject()
   }
 
+  componentDidUpdate() {
+
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -158,9 +171,9 @@ class ProjectScreen extends Component {
           <MenuButton navigation={this.props.navigation} />
           <Button
             onPress={() => {
-              //this.props.navigation.navigate("ProjectCreation")
-              this.props.navigation.navigate("ProjectJoinScreen");
-            }} 
+              this.props.navigation.navigate("ProjectCreation")
+              //this.props.navigation.navigate("ProjectJoinScreen");
+            }}
             icon={
               <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
             }
@@ -190,6 +203,8 @@ class ProjectScreen extends Component {
                 schoolName={item.project_institution}
                 startDate={item.project_startDate}
                 endDate={item.project_endDate}
+                project_id={item.project_id}
+                handler={this.handler}
                 onPress={() => {
                   if (this.state.user_identity == 'student') {
                     this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
@@ -220,6 +235,8 @@ class ProjectScreen extends Component {
                 schoolName={item.project_institution}
                 startDate={item.project_startDate}
                 endDate={item.project_endDate}
+                projet_id={item.project_id}
+                handler={this.handler}
                 onPress={() => {
                   if (this.state.user_identity == 'student') {
                     this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })

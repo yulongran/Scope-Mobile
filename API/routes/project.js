@@ -186,7 +186,28 @@ router.post('/UpdateUserHasProjectTable', function (req, res) {
   var variable = [user_id, project_id]
   connection.query(sql, variable, function (err, result) {
     if (err) throw err
-    res.send("Success")
+    res.status(200).send("Success")
+  })
+})
+
+/**
+ * Update User Has Project table with project and user id
+ */
+router.post('/delete', function (req, res) {
+  if (!auth) {
+    res.status(401).send("Invalid User");
+  }
+  const token = req.headers.auth_token;
+  const secret = "adadaasdasd"
+  const verifed = jwt.verify(token, secret);
+  const user_id = verifed._id;
+  const project_id = req.headers.project_id;
+
+  // Add project in project table
+  var sql = 'DELETE FROM Project WHERE project_id = ?'
+  connection.query(sql, project_id, function (err, result) {
+    if (err) throw err
+    res.status(200).send("Success")
   })
 })
 
