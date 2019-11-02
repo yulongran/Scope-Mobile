@@ -55,10 +55,9 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <BackArrow navigation={this.props.navigation} />
                 <View style={{
                     alignSelf: 'center',
-                    marginTop: HEIGHT * 0.07,
+                    marginTop: HEIGHT * 0.13,
                     marginBottom: HEIGHT * 0.06,
                 }}>
                     {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
@@ -118,10 +117,6 @@ class ProfileScreen extends Component {
                         onChangeText={value => this.onChangeText('studentID', value)}
                     ></TextInput>
                 </View>
-                <View>
-
-                </View>
-
                 <View style={{
                     marginTop: HEIGHT * 0.1,
                 }}>

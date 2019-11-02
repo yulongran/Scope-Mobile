@@ -25,6 +25,8 @@ import SJSULOGO from "../assets/SJSU.png";
 import { View, Icon } from "native-base";
 import ProjectCreationScreen from "../Screen/ProjectCreationScreen";
 import ProjectJoinScreen from "../Screen/ProjectJoinScreen";
+import EvaluationScreen from "../Screen/EvaluationScreen";
+import RedirectScreen from '../Screen/RedirectScreen'
 
 
 
@@ -50,7 +52,7 @@ const Stack = createStackNavigator(
         Project:
         {
             screen: ProjectScreen,
-            
+
         },
         Team:
         {
@@ -68,14 +70,20 @@ const Stack = createStackNavigator(
         {
             screen: ProjectJoinScreen
         },
+        EvaluationScreen:
+        {
+            screen: EvaluationScreen
+        },
 
 
     },
     {
         initialRouteName: 'Project',
     },
-    
+
 )
+
+
 
 /**
 * TabNavigator of the Scope
@@ -104,6 +112,17 @@ const TabNavigator = createBottomTabNavigator(
                 )
             },
         },
+        Profile:
+        {
+            screen: ProfileScreen,
+            navigationOptions:
+            {
+                tabBarLabel: 'Profile',
+                tabBarIcon: ({ tintColor, activeTintColor }) => (
+                    <Ionicons name="md-people" size={23} color="#0260F7" />
+                )
+            },
+        }
     },
     {
         tabBarOptions:
@@ -129,73 +148,39 @@ const TabNavigator = createBottomTabNavigator(
 
 );
 
-
-/**
- * Drawer Navigation of the Scope
- * @param {} props 
- */
-const CustomDrawerComponet = props => (
-    <SafeAreaView>
-        <View style={styles.container}>
-            <View style={{
-                height: 220
-            }}></View>
-            <Image source={SJSULOGO} style={styles.logo}></Image>
-            <DrawerNavigatorItems
-                {...props}
-                activeBackgroundColor="white"
-                labelStyle={styles.itemStyle} />
-        </View>
-    </SafeAreaView>
-);
-
-const DrawerNavigator = createDrawerNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            drawerLabel: <Hidden />
-        }
-    },
-    Project:
+const Main_Stack = createStackNavigator(
     {
-        screen: TabNavigator,
-        navigationOptions:
+        Home:
         {
-            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
-        }
+            screen: HomeScreen,
+            navigationOptions: {
+                header: null,
+            }
+
+        },
+        SignUp:
+        {
+            screen: SignUpScreen,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        Main:
+        {
+            screen: TabNavigator,
+            navigationOptions: {
+                header: null,
+            }
+        },
+
     },
-    Profile: {
-        screen: ProfileScreen,
-        navigationOptions: {
-            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
-        }
-    },
-    Setting: {
-        screen: SettingScreen,
-        navigationOptions: {
-            drawerIcon: <Ionicons name="ios-settings" size={32} color="blue" />
-        }
-    },
-    SignUp:
     {
-        screen: SignUpScreen,
-        navigationOptions:
-        {
-            drawerLabel: <Hidden />
-        }
+        initialRouteName: 'Main',
     },
-    // Project:
-    // {
-    //     screen: TabNavigator,
-    //     navigationOptions:
-    //     {
-    //         drawerLabel: <Hidden />
-    //     }
-    // },
-}, {
-    contentComponent: CustomDrawerComponet,
-    drawerWidth: WIDTH * 0.83
-});
+
+)
+
+
 
 /**
  * Style Sheet of Navigation
@@ -220,4 +205,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default createAppContainer(DrawerNavigator);
+export default createAppContainer(Main_Stack);

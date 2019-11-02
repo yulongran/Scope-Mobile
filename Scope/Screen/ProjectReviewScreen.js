@@ -60,7 +60,6 @@ class ProjectReviewScreen extends Component {
     * Config Stack Navigator Header
     */
     static navigationOptions = {
-        headerBackTitle: null,
         headerStyle: {
         },
         headerTintColor: 'white',
@@ -229,31 +228,40 @@ class ProjectReviewScreen extends Component {
             <View style={styles.container} >
                 <Text style={styles.title}>{this.state.project.project_title}</Text>
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
-                <View style={{ height: Dimensions.get('window').height * 0.24, justifyContent: 'center', flexDirection: 'row', marginLeft: WIDTH * 0.1 }}>
-                    <View style={{ alignContent: 'center', alignItems: 'center', width: WIDTH * 0.4 }}>
-                        <Text style={{ fontSize: 16, marginTop: HEIGHT * 0.03, marginBottom: 10 }}>Group Members</Text>
+                <View style={{ height: Dimensions.get('window').height * 0.24, alignItems: 'center', }}>
+                    <View style={{ alignContent: 'center', marginTop: HEIGHT * 0.02, alignItems: 'center', width: WIDTH * 0.8 }}>
+                        <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start' }}>Group Members</Text>
                         <FlatList
                             data={this.state.group_members}
                             key={this.state.group_members}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={{
-                                    marginRight: WIDTH * 0.015,
-                                    width: WIDTH * 0.17,
-                                    height: WIDTH * 0.20,
-                                }}>
+                                <TouchableOpacity 
+                                    style={{
+                                    width: WIDTH * 0.25,
+                                    height: WIDTH * 0.3,
+                                }}
+                                    onPress={()=>
+                                    {
+                                        this.props.navigation.navigate("EvaluationScreen",
+                                        {
+                                            user_firstname: item.user_firstname,
+                                            user_lastname: item.user_lastname
+                                        })
+                                    }}
+                                >
                                     <Image source={ProfilePic} style={{
-                                        width: WIDTH * 0.1,
-                                        height: WIDTH * 0.1,
-                                        borderRadius: WIDTH * 0.1 / 2,
+                                        width: WIDTH * 0.15,
+                                        height: WIDTH * 0.15,
+                                        borderRadius: WIDTH * 0.15 / 2,
                                         alignSelf: 'center',
                                     }} />
                                     <Text style={{
                                         marginTop: HEIGHT * 0.008,
-                                        fontSize: WIDTH * 0.025,
+                                        fontSize: WIDTH * 0.035,
                                         alignSelf: 'center'
                                     }}>{item.user_firstname}</Text>
                                     <Text style={{
-                                        fontSize: WIDTH * 0.025,
+                                        fontSize: WIDTH * 0.035,
                                         alignSelf: 'center'
                                     }}>
                                         {item.user_lastname}
@@ -261,11 +269,11 @@ class ProjectReviewScreen extends Component {
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems: 'center', paddingRight: WIDTH * 0.1 }}
-                            numColumns={2}
+                            contentContainerStyle={{ width: WIDTH * 0.8, alignItems: 'center' }}
+                            horizontal={true}
                         />
                     </View>
-                    <View style={{ alignContent: 'center', alignItems: 'center' }}>
+                    {/* <View style={{ alignContent: 'center', alignItems: 'center' }}>
                         <Text style={{ fontSize: 16, marginTop: HEIGHT * 0.03, marginBottom: 10 }}>Teachers & TAs</Text>
                         <FlatList
                             data={this.state.teacher}
@@ -296,7 +304,7 @@ class ProjectReviewScreen extends Component {
                             keyExtractor={(item, index) => index.toString()}
                             contentContainerStyle={{ width: WIDTH * 0.5, alignItems: 'center' }}
                         />
-                    </View>
+                    </View> */}
                 </View>
                 <View style={{ flexDirection: 'row', height: HEIGHT * 0.03 }}>
                     <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}

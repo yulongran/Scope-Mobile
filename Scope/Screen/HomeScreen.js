@@ -21,7 +21,6 @@ class HomeScreen extends Component {
                 })
         })
     }
-
     state =
         {
             username: '',
@@ -29,6 +28,14 @@ class HomeScreen extends Component {
             userLogedIn: false,
 
         }
+
+    /**
+* Remove Stack Navigation header
+*/
+    static navigationOptions = {
+        header: null,
+        headerBackTitle: null,
+    }
 
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
@@ -104,49 +111,42 @@ class HomeScreen extends Component {
     }
 
     render() {
-        if (this.state.userLogedIn) {
-            return (
-                <WelcomeScreen navigation={this.props.navigation} />
-            )
-        }
-        else {
-            return (
-                <View style={styles.container}>
-                    <MenuButton navigation={this.props.navigation} />
-                    <Image source={ScopeLogo} style={styles.logo}></Image>
-                    <View style={styles.inputView}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="Username"
-                            onChangeText={val => this.onChangeText('username', val)}
-                             />
-                        <Ionicons name="md-person" size={20} color="#0260F7" />
-                    </View>
-                    <View style={styles.inputView}>
-                        <TextInput style={styles.textInput} placeholder="Password"
-                            onChangeText={val => this.onChangeText('password', val)} 
-                            value= {this.state.password}/>
-                        <Ionicons name="md-lock" size={20} color="#0260F7" />
-                    </View>
-                    <TouchableOpacity style={styles.touchableStyle}
-                        onPress={this.login}>
-                        <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
+        return (
+            <View style={styles.container}>
+                <Image source={ScopeLogo} style={styles.logo}></Image>
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Username"
+                        onChangeText={val => this.onChangeText('username', val)}
+                    />
+                    <Ionicons name="md-person" size={20} color="#0260F7" />
+                </View>
+                <View style={styles.inputView}>
+                    <TextInput style={styles.textInput} placeholder="Password"
+                        onChangeText={val => this.onChangeText('password', val)}
+                        value={this.state.password} />
+                    <Ionicons name="md-lock" size={20} color="#0260F7" />
+                </View>
+                <TouchableOpacity style={styles.touchableStyle}
+                    onPress={this.login}>
+                    <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', }}>
+                    <TouchableOpacity style={styles.forgetStyle}>
+                        <Text style={{ color: '#0260F7' }}>Forget Password</Text>
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', }}>
-                        <TouchableOpacity style={styles.forgetStyle}>
-                            <Text style={{ color: '#0260F7' }}>Forget Password</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
-                            onPress={() =>
-                                this.props.navigation.navigate("SignUp")
+                    <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
+                        onPress={() =>
+                            this.props.navigation.navigate("SignUp")
 
-                            }>
-                            <Text style={{ color: '#0260F7' }}>Sign Up</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View >
-            )
-        }
+                        }>
+                        <Text style={{ color: '#0260F7' }}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+            </View >
+        )
+
 
     }
 }

@@ -7,10 +7,7 @@ import {
     AsyncStorage,
     SafeAreaView,
 } from 'react-native'
-import MenuButton from '../Components/MenuButton'
-import BackArrow from '../Components/BackArrow'
 import Team from '../Components/Team'
-import { Item } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient';
 
 const WIDTH = Dimensions.get('screen').width;
@@ -20,13 +17,13 @@ class TeamScreen extends Component {
 
     constructor(props) {
         super(props)
+        this.handler = this.handler.bind(this)
     }
 
     /**
      * Config Stack Navigator Header
      */
     static navigationOptions = {
-        headerBackTitle: null,
         headerStyle: {
         },
         headerTintColor: 'white',
@@ -49,6 +46,13 @@ class TeamScreen extends Component {
     }
 
     /**
+ * Update the project after project componet call delete API
+ * @param {} someValue 
+ */
+    handler() {
+        this.fetchTeam()
+    }
+    /**
      * Fetch team info based on project id
      */
 
@@ -57,7 +61,7 @@ class TeamScreen extends Component {
         if (!token) {
             return false;
         }
-        let response = await fetch('http://localhost:8001/project/team',
+        let response = await fetch('http://localhost:8001/team',
             {
                 method: 'POST',
                 headers: {
@@ -76,6 +80,7 @@ class TeamScreen extends Component {
         return true
     }
 
+
     /**
      * Insert Deplay between Welcome and Project Screen
      */
@@ -85,6 +90,10 @@ class TeamScreen extends Component {
                 project_id: this.props.navigation.getParam('project').project_id
             })
         this.fetchTeam()
+    }
+
+    componentDidUpdate() {
+
     }
 
     render() {
@@ -98,13 +107,14 @@ class TeamScreen extends Component {
                     <Text style={{ fontSize: WIDTH * 0.1 }}>
                         Teams
                 </Text>
-                    <View style={{height:HEIGHT*0.72}}>
+                    <View style={{ height: HEIGHT * 0.72 }}>
                         <FlatList
                             data={this.state.team}
                             renderItem={({ item }) => (
                                 <View>
                                     <Team team_number={item.team_number}
                                         project_id={this.state.project_id}
+                                        handler={this.handler}
                                         onPress={() => {
                                             this.props.navigation.navigate("Review", { project: item, team_number: item.team_number, project_id: item.project_id })
                                         }} />

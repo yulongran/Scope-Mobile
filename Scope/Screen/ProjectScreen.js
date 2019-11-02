@@ -6,43 +6,39 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
-  Modal,
-  TextInput,
-  Alert,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { Button } from 'react-native-elements';
-import MenuButton from "../Components/MenuButton";
 import Project from "../Components/Project";
-import { reload } from "expo/build/Updates/Updates";
-import { createAppContainer } from "react-navigation";
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./HomeScreen";
 import ProjectReviewScreen from "./ProjectReviewScreen";
-import SearchScreen from "./SearchScreen";
-import RedirectScreen from '../Screen/RedirectScreen';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from "../Components/deviceStorage";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from 'expo-linear-gradient';
+import { FloatingAction } from "react-native-floating-action";
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
-class ProjectScreen extends Component {
 
-  /**
-   * Remove Stack Navigation header
-   */
-  static navigationOptions = {
-    header: null,
-    headerBackTitle: null,
-  }
+const actions = [
+  {
+    text: "Add Project",
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    name: "project",
+    position: 2
+  },
+
+];
+
+
+class ProjectScreen extends Component {
   constructor(props) {
     super(props);
     this.filterProject = this.filterProject.bind(this);
     this.reload = this.reload.bind(this);
-
     this.handler = this.handler.bind(this)
   }
   state = {
@@ -60,21 +56,27 @@ class ProjectScreen extends Component {
     ],
   };
 
+
+  /**
+  * Config Stack Navigator Header
+  */
+  static navigationOptions = {
+    headerBackground: (
+      <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+        style={{ flex: 1 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }} />
+    ),
+
+  };
   /**
    * Update the project after project componet call delete API
    * @param {} someValue 
    */
-  handler(){
+  handler() {
     this.fetchProject()
   }
 
-  closeModal() {
-    this.setState(
-      {
-        modalVisible: false,
-      }
-    )
-  }
   /**
    *  Get an array of project which due date is before today's date
    */
@@ -151,9 +153,6 @@ class ProjectScreen extends Component {
       }
     )
   }
-
-
-
   /**
    * Re-render after project had been deleted or updated
    */
@@ -167,8 +166,7 @@ class ProjectScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flexDirection: 'row', alignSelf: 'flex-start', justifyContent: 'center' }}>
-          <MenuButton navigation={this.props.navigation} />
+        {/* <View style={{ flexDirection: 'row', alignSelf: 'flex-start', justifyContent: 'center' }}>
           <Button
             onPress={() => {
               this.props.navigation.navigate("ProjectCreation")
@@ -178,7 +176,7 @@ class ProjectScreen extends Component {
               <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
             }
             buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.7, paddingTop: -HEIGHT * 0.009 }} />
-        </View>
+        </View> */}
         <SearchBar
           placeholder="Search"
           showCancel={true}
@@ -251,6 +249,14 @@ class ProjectScreen extends Component {
             numColumns={2}
           />
         </SafeAreaView>
+        <FloatingAction
+          actions={actions}
+          onPressItem={name => {
+            this.props.navigation.navigate("ProjectCreation");
+          }}
+          buttonSize={45}
+          color ={"#0066ff"}
+        />
       </View >
     );
   }
@@ -265,7 +271,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    marginTop: HEIGHT * 0.06,
   },
   listStyle: {
     backgroundColor: "#fff"
@@ -278,8 +283,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: "left",
-    fontStyle: "italic",
-    fontFamily: "Georgia"
+    fontFamily: "Baskerville-SemiBoldItalic"
   },
   sectionStyle: {
     width: Dimensions.get("window").width * 0.8,
@@ -297,7 +301,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.9,
     marginBottom: 7,
     backgroundColor: "white",
-    marginTop: Dimensions.get("window").height * 0.004,
+    marginTop: Dimensions.get("window").height * 0.002,
 
   },
 });

@@ -13,7 +13,6 @@ import {
     MenuOptions,
     MenuOption,
     MenuTrigger,
-    MenuProvider,
 } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons'
 
@@ -84,7 +83,7 @@ export class Project extends Component {
                     <Menu style={{ marginLeft: WIDTH * 0.33, }}>
                         <MenuTrigger>
                             <Ionicons
-                                name="md-menu"
+                                name="ios-more"
                                 color="#000000"
                                 size={WIDTH * 0.04}
                             />
@@ -113,9 +112,17 @@ export class Project extends Component {
                     </Menu>
                     <View style={styles.ViewStyle} >
                         <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
-                        <Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>
-                        <Text style={styles.startDateStyle}>Start {this.props.startDate}</Text>
-                        <Text style={styles.endDateStyle}>End {this.props.endDate}</Text>
+                        {/**<Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>**/}
+                        <View style={{marginTop: HEIGHT*0.03, marginLeft: WIDTH*0.03}}>
+                        <View style={{flexDirection:'row', alignItems:'center'}}>
+                            <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                            <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', alignItems:'center'}}>
+                            <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                            <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
+                        </View>
+                        </View>
                     </View>
 
                 </View>
@@ -132,7 +139,7 @@ const styles = StyleSheet.create({
         width: WIDTH * 0.38,
         height: HEIGHT * 0.15,
         borderColor: 'blue',
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderRadius: 10,
         margin: 10,
     },
@@ -141,24 +148,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     ProjectNameStyle: {
-        paddingTop: 7,
         color: 'blue',
         fontStyle: 'italic',
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: HEIGHT*0.02,
+        fontSize: WIDTH*0.04,
     },
     CourseStyle: {
         textAlign: 'center',
         paddingTop: HEIGHT * 0.01,
+        fontFamily:'DevanagariSangamMN-Bold'
     },
     startDateStyle: {
         paddingTop: HEIGHT * 0.001,
         textAlign: 'center',
-        fontSize: 12
+        fontSize: 12,
+        marginLeft: 5,
     },
     endDateStyle: {
         textAlign: 'center',
-        fontSize: 12
+        fontSize: 12,
+        marginLeft: 5,
     }
 })
 

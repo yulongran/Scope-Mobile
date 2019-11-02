@@ -31,6 +31,19 @@ class ReviewScreen extends Component {
 
     }
 
+
+    /**
+    * Config Stack Navigator Header
+    */
+    static navigationOptions = {
+        headerBackground: (
+            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+                style={{ flex: 1 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }} />
+        ),
+    };
+
     state =
         {
             project: '',

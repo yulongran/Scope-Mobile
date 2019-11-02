@@ -73,7 +73,6 @@ class SearchScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
                 <View style={{ flexDirection: 'row' }}>
                     <TextInput
                         style={{
