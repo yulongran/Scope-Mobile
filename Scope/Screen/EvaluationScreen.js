@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, Button, Dimensions, Image, TextInput
 } from 'react-native'
-import ProfilePic from '../assets/profile_default.jpg';
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,16 +9,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 class EvaluationScreen extends Component {
     constructor(props) {
         super(props)
+        state =
+            {
+                review: "",
+                reviewee: "",
+                reviewer: "",
+            }
 
     }
-
-    state =
-        {
-            review: "",
-            reviewee: "",
-            reviewer: "",
-        }
-
     /**
 * Config Stack Navigator Header
 */
@@ -45,7 +42,7 @@ class EvaluationScreen extends Component {
             <View style={{ flex: 1, alignContent: 'center', }}>
                 <Text style={styles.titleStyle}>Evalutaion</Text>
                 <View className="profile_image">
-                    <Image source={ProfilePic} style={{
+                    <Image source={{ url: this.props.navigation.getParam('user_profile') }} style={{
                         width: WIDTH * 0.3,
                         height: WIDTH * 0.3,
                         borderRadius: WIDTH * 0.3 / 2,

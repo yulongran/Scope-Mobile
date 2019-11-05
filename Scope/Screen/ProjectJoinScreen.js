@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native'
-import ProfilePic from '../assets/profile_default.jpg'
+import ProfilePic from '../assets/images/profile_default.jpg'
 import MenuButton from '../Components/MenuButton'
 import BackArrow from '../Components/BackArrow'
 

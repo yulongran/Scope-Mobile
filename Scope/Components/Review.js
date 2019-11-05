@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Dimensions,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    AsyncStorage,
 } from 'react-native'
 
 const HEIGHT = Dimensions.get('screen').height;
@@ -14,44 +15,95 @@ const WIDTH = Dimensions.get('screen').width;
 export class Review extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            reviewee_id: '',
+            reviewer_id: '',
+            review_description: '',
+            reviewee_firstname: '',
+            reviewer_firstname: '',
+        }
+
     }
 
-    state = {
-        reviewee: '',
-        reviewer: '',
-        review_description: '',
+    async fetchRevieweeNameById() {
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/users/firstname',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    user_id: this.state.reviewee_id,
+                },
+            })
+        let responseJson = await response.json()
+        this.setState(
+            {
+                reviewee_firstname: responseJson[0].user_firstname
+            }
+        )
+        return true
     }
 
+    async fetchReviewerNameById() {
+        const token = await AsyncStorage.getItem('id_token');
+        if (!token) {
+            return false;
+        }
+        let response = await fetch('http://localhost:8001/users/firstname',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    auth_token: token,
+                    user_id: this.state.reviewer_id,
+                },
+            })
+        let responseJson = await response.json()
+        this.setState(
+            {
+                reviewer_firstname: responseJson[0].user_firstname
+            }
+        )
+        return true
+    }
 
     componentDidMount() {
         this.setState(
             {
-                review_description: this.props.review_description
+                reviewee_id: this.props.reviewee_id,
+                reviewer_id: this.props.reviewer_id,
+                review_description: this.props.review_description,
             }
         )
-    }
-
-    fetchUserName() {
-
+        this.fetchRevieweeNameById()
+        this.fetchReviewerNameById()
     }
 
     render() {
         return (
             <View style={styles.viewStyle}>
                 <Text style={{
-                    marginTop: HEIGHT * 0.006,        
+                    marginTop: HEIGHT * 0.006,
                     fontSize: 15,
                     fontStyle: 'italic',
                     fontWeight: 'bold',
                 }}>From
-                    <Text>  Janna
+                    <Text>  {this.state.reviewer_firstname}
                         <Text>  To</Text>
-                        <Text>  Yulong</Text>
+                        <Text>  {this.state.reviewee_firstname}</Text>
                     </Text>
                 </Text>
-                <Text style={{marginLeft: WIDTH*0.1,
-                            marginRight: WIDTH*0.1,
-                            marginTop: HEIGHT * 0.006,}}>{this.state.review_description}</Text>
+                <Text style={{
+                    marginLeft: WIDTH * 0.1,
+                    marginRight: WIDTH * 0.1,
+                    marginTop: HEIGHT * 0.006,
+                }}>{this.state.review_description}</Text>
             </View>
         )
     }

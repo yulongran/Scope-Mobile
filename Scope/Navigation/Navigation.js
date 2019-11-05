@@ -21,7 +21,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Hidden from '../Components/Hidden';
-import SJSULOGO from "../assets/SJSU.png";
+import SJSULOGO from "../assets/images/SJSU.png";
 import { View, Icon } from "native-base";
 import ProjectCreationScreen from "../Screen/ProjectCreationScreen";
 import ProjectJoinScreen from "../Screen/ProjectJoinScreen";

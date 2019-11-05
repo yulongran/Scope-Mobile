@@ -10,13 +10,37 @@ import { Ionicons } from "@expo/vector-icons";
 import Review from '../Components/Review';
 import MileStone from '../Components/MileStone';
 import People from '../Components/People';
-import ProfilePic from '../assets/profile_default.jpg';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
+/**
+ * Image Source from https://randomuser.me/
+ * Credit to https://randomuser.me/
+ */
+const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
+    "https://randomuser.me/api/portraits/med/men/2.jpg",
+    "https://randomuser.me/api/portraits/med/men/3.jpg",
+    "https://randomuser.me/api/portraits/med/men/4.jpg",
+    "https://randomuser.me/api/portraits/med/men/5.jpg",
+    "https://randomuser.me/api/portraits/med/men/6.jpg",
+    "https://randomuser.me/api/portraits/med/men/7.jpg",
+    "https://randomuser.me/api/portraits/med/men/8.jpg",
+    "https://randomuser.me/api/portraits/med/men/9.jpg",
+    "https://randomuser.me/api/portraits/med/men/10.jpg",
+    "https://randomuser.me/api/portraits/med/women/1.jpg",
+    "https://randomuser.me/api/portraits/med/women/2.jpg",
+    "https://randomuser.me/api/portraits/med/women/3.jpg",
+    "https://randomuser.me/api/portraits/med/women/4.jpg",
+    "https://randomuser.me/api/portraits/med/women/5.jpg",
+    "https://randomuser.me/api/portraits/med/women/6.jpg",
+    "https://randomuser.me/api/portraits/med/women/7.jpg",
+    "https://randomuser.me/api/portraits/med/women/8.jpg",
+    "https://randomuser.me/api/portraits/med/women/9.jpg",
+
+]
 class ProjectReviewScreen extends Component {
 
     /**
@@ -74,12 +98,6 @@ class ProjectReviewScreen extends Component {
         ),
 
     };
-
-    /**
-     * name: 'David',
-            review: 'Nice work, sdadaskdakdajdjasdaksdsadklajsdklakdasdasdasdasdsa',
-            date: '09/07/2016'
-     */
 
     async fetchMilestone() {
 
@@ -194,7 +212,6 @@ class ProjectReviewScreen extends Component {
         this.fetchTeamMember()
         this.fetchProject()
         this.fetchReview()
-
     }
 
     render() {
@@ -230,26 +247,26 @@ class ProjectReviewScreen extends Component {
                 <Text style={styles.description}>{this.state.project.project_description}</Text>
                 <View style={{ height: Dimensions.get('window').height * 0.24, alignItems: 'center', }}>
                     <View style={{ alignContent: 'center', marginTop: HEIGHT * 0.02, alignItems: 'center', width: WIDTH * 0.8 }}>
-                        <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start' }}>Group Members</Text>
+                        <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start', fontStyle: 'italic' }}>Group Members</Text>
                         <FlatList
                             data={this.state.group_members}
                             key={this.state.group_members}
                             renderItem={({ item }) => (
-                                <TouchableOpacity 
+                                <TouchableOpacity
                                     style={{
-                                    width: WIDTH * 0.25,
-                                    height: WIDTH * 0.3,
-                                }}
-                                    onPress={()=>
-                                    {
+                                        width: WIDTH * 0.25,
+                                        height: WIDTH * 0.3,
+                                    }}
+                                    onPress={() => {
                                         this.props.navigation.navigate("EvaluationScreen",
-                                        {
-                                            user_firstname: item.user_firstname,
-                                            user_lastname: item.user_lastname
-                                        })
+                                            {
+                                                user_firstname: item.user_firstname,
+                                                user_lastname: item.user_lastname,
+                                                user_profile: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]
+                                            })
                                     }}
                                 >
-                                    <Image source={ProfilePic} style={{
+                                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
                                         width: WIDTH * 0.15,
                                         height: WIDTH * 0.15,
                                         borderRadius: WIDTH * 0.15 / 2,
@@ -273,38 +290,6 @@ class ProjectReviewScreen extends Component {
                             horizontal={true}
                         />
                     </View>
-                    {/* <View style={{ alignContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginTop: HEIGHT * 0.03, marginBottom: 10 }}>Teachers & TAs</Text>
-                        <FlatList
-                            data={this.state.teacher}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity style={{
-                                    marginTop: 11, width: WIDTH * 0.17,
-                                    height: WIDTH * 0.20
-                                }}>
-                                    <Image source={ProfilePic} style={{
-                                        width: WIDTH * 0.1,
-                                        height: WIDTH * 0.1,
-                                        borderRadius: WIDTH * 0.1 / 2,
-                                        alignSelf: 'center',
-                                    }} />
-                                    <Text style={{
-                                        marginTop: HEIGHT * 0.008,
-                                        fontSize: WIDTH * 0.025,
-                                        alignSelf: 'center'
-                                    }}>{item.user_firstname}</Text>
-                                    <Text style={{
-                                        fontSize: WIDTH * 0.025,
-                                        alignSelf: 'center'
-                                    }}>
-                                        {item.user_lastname}
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                            keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.5, alignItems: 'center' }}
-                        />
-                    </View> */}
                 </View>
                 <View style={{ flexDirection: 'row', height: HEIGHT * 0.03 }}>
                     <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}

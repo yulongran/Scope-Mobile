@@ -4,7 +4,7 @@ import {
     TouchableWithoutFeedback, Keyboard, AsyncStorage
 } from 'react-native'
 import MenuButton from '../Components/MenuButton';
-import ScopeLogo from '../assets/ScopeLogo.png';
+import ScopeLogo from '../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
 import deviceStorage from '../Components/deviceStorage';
 import checkLogin from '../Function/checkLogIn';

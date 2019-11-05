@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import MenuButton from '../Components/MenuButton'
 import { SearchBar } from "react-native-elements";
-import ProfilePic from '../assets/profile_default.jpg'
+import ProfilePic from '../assets/images/profile_default.jpg'
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;

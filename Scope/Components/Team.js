@@ -10,7 +10,6 @@ import {
     AsyncStorage,
     Alert,
 } from 'react-native';
-import ProfilePic from '../assets/profile_default.jpg';
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from 'react-native-elements';
 import { stringify } from 'qs'
@@ -146,7 +145,7 @@ export class Team extends Component {
 
                     </View>
                     <Text style={styles.TeamNameStyle}>Team # {this.state.team_number}</Text>
-                    <Text style={{ textAlign: 'center', marginTop: WIDTH * 0.01 }}>Number in party: {this.state.team_member.length}</Text>
+                    <Text style={{ textAlign: 'center', marginTop: WIDTH * 0.01 }}>Contributors: {this.state.team_member.length}</Text>
                 </View>
             </TouchableOpacity>
         )

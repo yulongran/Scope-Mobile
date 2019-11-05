@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
-import ProfilePic from '../assets/profile_default.jpg'
+import ProfilePic from '../assets/images/profile_default.jpg'
 
 
 const HEIGHT = Dimensions.get('screen').height;

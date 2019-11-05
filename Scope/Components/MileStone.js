@@ -26,20 +26,20 @@ export class MileStone extends Component {
                     <Text style={styles.titleStyle}>Milestone {this.props.milestone_number}</Text>
                     <Text style={styles.descriptionStyle}>{this.props.milestone_description}</Text>
                 </View>
-                <View style={{alignItems:'center', justifyContent:'center'}}>
+                {/* <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <Text>
                         Start Date
                     </Text>
                     <Text>
-                    {this.props.milestone_startDate.slice(0,10)}
+                        {this.props.milestone_startDate.slice(0, 10)}
                     </Text>
                     <Text>
-                        End Date 
+                        End Date
                     </Text>
                     <Text>
-                    {this.props.milestone_endDate.slice(0,10)}
+                        {this.props.milestone_endDate.slice(0, 10)}
                     </Text>
-                </View>
+                </View> */}
             </View>
         )
     }
@@ -71,7 +71,7 @@ const styles = StyleSheet.create(
         },
         textStyle:
         {
-            marginRight:Dimensions.get('window').width * 0.31,
+            marginRight: Dimensions.get('window').width * 0.31,
         }
     }
 )

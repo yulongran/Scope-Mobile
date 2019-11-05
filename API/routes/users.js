@@ -82,4 +82,43 @@ router.post('/people', function (req, res) {
   })
 })
 
+
+
+/**
+ * GET First name of the user by id
+ */
+
+router.post('/firstname', function (req, res) {
+  // Verify User token 
+  if (!auth(req)) {
+    res.status(401).send("Invalid User")
+  }
+
+  const user_id = req.headers.user_id
+  const sql = 'SELECT user_firstname FROM User WHERE user_id = ?'
+  connection.query(sql, user_id, function (err, result) {
+    if (err) throw err
+    res.send(result)
+  })
+})
+
+
+/**
+ * GET user info by id
+ */
+
+router.post('/info', function (req, res) {
+  // Verify User token 
+  if (!auth(req)) {
+    res.status(401).send("Invalid User")
+  }
+  const user_id = jwt.decode(req.headers.auth_token, "adadaasdasd")._id
+  const sql = 'SELECT user_firstname, user_lastname, user_institution FROM User WHERE user_id = ?'
+  connection.query(sql, user_id, function (err, result) {
+    if (err) throw err
+    res.send(result)
+  })
+})
+
+
 module.exports = router;
