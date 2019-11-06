@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert,
-     AsyncStorage
+    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity,
 } from 'react-native'
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
-import deviceStorage from '../../components/deviceStorage';
+import UserRequest from '../../services/User/index'
 
 class HomeScreen extends Component {
     constructor(props) {
-        super(props);
+        super(props)
+        this.state =
+            {
+                username: '',
+                password: '',
+                userLogedIn: false,
+
+            }
         this.props.navigation.addListener('willFocus', (refresh) => {
             this.setState(
                 {
@@ -18,95 +24,19 @@ class HomeScreen extends Component {
                 })
         })
     }
-    state =
-        {
-            username: '',
-            password: '',
-            userLogedIn: false,
-
-        }
-
-    /**
-* Remove Stack Navigation header
-*/
-    static navigationOptions = {
-        header: null,
-        headerBackTitle: null,
-    }
 
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
 
-
-    /**
-    * POST Login request to the sever
-    */
-    login = async () => {
-        const { username, password } = this.state
-        await fetch('http://localhost:8001/users/login',
+    componentDidMount() {
+        var userLogedIn = UserRequest.checkUserStatus()
+        this.setState(
             {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    {
-                        username: username,
-                        password: password,
-                    }
-                ),
-
-            }).then((response) => {
-                console.log(response.headers.map.auth_token)
-
-                // Log in Successful
-                if (response.status == 200) {
-                    deviceStorage.saveItem("id_token", response.headers.map.auth_token);
-                    this.props.navigation.navigate("Project")
-                    this.setState(
-                        {
-                            username: '',
-                            password: '',
-                        }
-                    )
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                userLogedIn: userLogedIn
+            }
+        )
     }
-
-    async componentDidMount() {
-        this.checkUserStatus()
-    }
-
-    async checkUserStatus() {
-        const token = await AsyncStorage.getItem('id_token')
-        await fetch('http://localhost:8001/users/status',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                },
-
-            }).then((response) => {
-                if (response.status == 200) {
-                    this.setState(
-                        {
-                            userLogedIn: true
-                        }
-                    )
-                }
-            }).catch((error) => {
-                console.log("User Status: " + error)
-            })
-
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -126,7 +56,16 @@ class HomeScreen extends Component {
                     <Ionicons name="md-lock" size={20} color="#0260F7" />
                 </View>
                 <TouchableOpacity style={styles.touchableStyle}
-                    onPress={this.login}>
+                    onPress={() => {
+                        var status = UserRequest.login(this.state.username, this.state.password)
+                        if (status) {
+                            this.setState({
+                                username: '',
+                                password: '',
+                            })
+                            this.props.navigation.navigate("Project")
+                        }
+                    }}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', }}>
@@ -147,13 +86,6 @@ class HomeScreen extends Component {
 
     }
 }
-
-
-// Alert.alert(
-//     'Password and Username do not match',
-// )
-
-
 const HEIGHT = Dimensions.get('screen').height;
 
 const WIDTH = Dimensions.get('screen').width;

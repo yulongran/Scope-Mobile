@@ -1,52 +1,27 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native'
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
+import UserRequest from '../../services/User/index';
 
 class SignUpScreen extends Component {
     constructor(props) {
         super(props);
-    }
-    state =
-        {
+        this.state = {
             firstname: '',
             lastname: '',
             username: '',
             password: '',
-
-        }
-    onChangeText = (key, val) => {
-        this.setState({ [key]: val })
+        };
     }
 
-    /**
-    * POST Sign Up request to the sever
-    */
-    signUp = async () => {
-        const { firstname, lastname, username, password } = this.state
-        fetch('http://localhost:8001/users/register',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    {
-                        firstname, firstname,
-                        lastname: lastname,
-                        username: username,
-                        password: password,
-                }
-                ),
-                
-            })
+    onChangeText = (key, val) => {
+        this.setState({ [key]: val })
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <MenuButton navigation={this.props.navigation} />
                 <Image source={ScopeLogo} style={styles.logo}></Image>
                 <View style={styles.inputView}>
                     <TextInput style={styles.textInput} placeholder="First Name"
@@ -68,7 +43,13 @@ class SignUpScreen extends Component {
                         onChangeText={val => this.onChangeText('password', val)} />
                     <Ionicons name="md-lock" size={20} color="#0260F7" />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={this.signUp}>
+                <TouchableOpacity style={styles.touchableStyle} onPress={() => {
+                    // Sign Up function
+                    var status = UserRequest.signUp(this.state.firstname, this.state.lastname, this.state.username, this.state.password)
+                    if (status) {
+                        // Navigation to Sign In screen
+                    }
+                }}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -93,7 +74,7 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.15,
+            marginTop: HEIGHT * 0.05,
             width: WIDTH * 0.75,
         },
         textInput:

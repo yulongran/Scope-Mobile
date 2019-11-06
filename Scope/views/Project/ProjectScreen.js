@@ -13,26 +13,7 @@ import { AsyncStorage } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient';
 import { FloatingAction } from "react-native-floating-action";
-
-const WIDTH = Dimensions.get('screen').width;
-const HEIGHT = Dimensions.get('screen').height;
-
-
-const actions = [
-  {
-    text: "Add Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
-    name: "add_project",
-    position: 2
-  },
-  {
-    text: "Join Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
-    name: "join_project",
-    position: 1
-  },
-
-];
+import ProjectRequest from '../../services/Project/index';
 
 
 class ProjectScreen extends Component {
@@ -40,43 +21,28 @@ class ProjectScreen extends Component {
     super(props);
     this.filterProject = this.filterProject.bind(this);
     this.reload = this.reload.bind(this);
-    this.handler = this.handler.bind(this)
+    this.handler = this.handler.bind(this);
+    this.state = {
+      search: "",
+      project: [],
+      user_identity: 'instructor',
+      refresh: true,
+    };
   }
-  state = {
-    search: "",
-    project: [],
-    user_identity: 'instructor',
-    refresh: true,
-    modalVisible: false,
-    modalContent_project_title: '',
-    modalContent_project_course: '',
-    modalContent_project_institution: '',
-    modalContent_project_startDate: '',
-    modalContent_project_endDate: '',
-    modalContent_milestone: [
-    ],
-  };
 
 
-  /**
-  * Config Stack Navigator Header
-  */
-  static navigationOptions = {
-    headerBackground: (
-      <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-        style={{ flex: 1 }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }} />
-    ),
-  };
   /**
    * Update the project after project componet call delete API
    * @param {} someValue 
    */
-  handler() {
-    this.fetchProject()
+  async handler() {
+    let response = await ProjectRequest.fetchProject()
+    this.setState(
+      {
+        project: response
+      }
+    )
   }
-
   /**
    *  Get an array of project which due date is before today's date
    */
@@ -107,43 +73,33 @@ class ProjectScreen extends Component {
       project: filter,
       search: text
     });
-
     if (text.length == 0) {
       this.reload();
     }
   }
 
+    /**
+  * Config Stack Navigator Header
+  */
+ static navigationOptions = {
+  headerBackground: (
+    <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+      style={{ flex: 1 }}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }} />
+  ),
+};
 
   /**
    * Reload project from database
    */
-  reload() {
-    this.fetchProject()
-  }
-
-  async fetchProject() {
-    const token = await AsyncStorage.getItem('id_token');
-    if (!token) {
-      return false;
-    }
-    let response = await fetch('http://localhost:8001/project/',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          auth_token: token,
-          project_id: this.state.project.project_id
-        },
-      })
-    let responseJson = await response.json();
+  async reload() {
+    let response = await ProjectRequest.fetchProject()
     this.setState(
       {
-        project: responseJson
+        project: response
       }
     )
-    return true
-
   }
 
   refreshScreen() {
@@ -156,8 +112,13 @@ class ProjectScreen extends Component {
   /**
    * Re-render after project had been deleted or updated
    */
-  componentDidMount() {
-    this.fetchProject()
+  async componentDidMount() {
+    let response = await ProjectRequest.fetchProject()
+    this.setState(
+      {
+        project: response
+      }
+    )
   }
 
   componentDidUpdate() {
@@ -255,8 +216,7 @@ class ProjectScreen extends Component {
             if (name == 'add_project') {
               this.props.navigation.navigate("ProjectCreation");
             }
-            if (name == 'join_project')
-            {
+            if (name == 'join_project') {
               this.props.navigation.navigate('ProjectJoinScreen')
             }
           }}
@@ -268,6 +228,25 @@ class ProjectScreen extends Component {
   }
 
 }
+
+const WIDTH = Dimensions.get('screen').width;
+const HEIGHT = Dimensions.get('screen').height;
+const actions = [
+  {
+    text: "Add Project",
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    name: "add_project",
+    position: 2
+  },
+  {
+    text: "Join Project",
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    name: "join_project",
+    position: 1
+  },
+
+];
+
 
 /**
  * Styles

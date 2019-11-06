@@ -5,6 +5,7 @@ import {
     Dimensions,
     StyleSheet,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import { createStackNavigator } from '../node_modules/react-navigation-stack'
 import { Ionicons } from "../node_modules/@expo/vector-icons";
 // Views 
@@ -91,7 +92,13 @@ const TabNavigator = createBottomTabNavigator(
                 tabBarLabel: 'Project',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
                     <Ionicons name="ios-archive" size={22} color="#0260F7" />
-                )
+                ),
+                headerBackground: (
+                    <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
+                      style={{ flex: 1 }}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }} />
+                  ),
             },
         },
         Search:
@@ -155,7 +162,7 @@ const Main_Stack = createStackNavigator(
         {
             screen: SignUpScreen,
             navigationOptions: {
-                header: null,
+                //header: null,
             }
         },
         Main:

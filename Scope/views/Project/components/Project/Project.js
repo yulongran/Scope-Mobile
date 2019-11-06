@@ -6,7 +6,6 @@ import {
     Dimensions,
     TouchableOpacity,
     Alert,
-    AsyncStorage
 } from 'react-native'
 import {
     Menu,
@@ -14,11 +13,11 @@ import {
     MenuOption,
     MenuTrigger,
 } from 'react-native-popup-menu';
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
+import ProjectRequest from '../../../../services/Project/index';
 
-const HEIGHT = Dimensions.get('screen').height;
-const WIDTH = Dimensions.get('screen').width;
-export class Project extends Component {
+
+class Project extends Component {
     /**
      * Construct a ProjectDisplay object
      * @param {*} props
@@ -38,34 +37,6 @@ export class Project extends Component {
                 description: '',
                 delete: false,
             }
-    }
-
-
-    async deleteProject() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/project/delete',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.props.project_id
-                },
-            })
-        let responseJson = await response.text();
-        if (responseJson == 'Success') {
-            this.setState(
-                {
-                    delete: true,
-                }
-            )
-        }
-        return true
-
     }
 
     componentDidMount() {
@@ -97,7 +68,12 @@ export class Project extends Component {
                                     [
                                         {
                                             text: 'Yes', onPress: () => {
-                                                this.deleteProject()
+                                                var response = ProjectRequest.deleteProject(this.props.project_id)
+                                                if (response) {
+                                                    this.setState({
+                                                        delete: true,
+                                                    })
+                                                }
                                                 this.props.handler()
                                             }
                                         },
@@ -113,15 +89,15 @@ export class Project extends Component {
                     <View style={styles.ViewStyle} >
                         <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
                         {/**<Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>**/}
-                        <View style={{marginTop: HEIGHT*0.03, marginLeft: WIDTH*0.03}}>
-                        <View style={{flexDirection:'row', alignItems:'center'}}>
-                            <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                            <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
-                        </View>
-                        <View style={{flexDirection:'row', alignItems:'center'}}>
-                            <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                            <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
-                        </View>
+                        <View style={{ marginTop: HEIGHT * 0.03, marginLeft: WIDTH * 0.03 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -133,6 +109,9 @@ export class Project extends Component {
         )
     }
 }
+
+const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('screen').width;
 const styles = StyleSheet.create({
     containerStyle:
     {
@@ -152,13 +131,13 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: HEIGHT*0.02,
-        fontSize: WIDTH*0.04,
+        marginTop: HEIGHT * 0.02,
+        fontSize: WIDTH * 0.04,
     },
     CourseStyle: {
         textAlign: 'center',
         paddingTop: HEIGHT * 0.01,
-        fontFamily:'DevanagariSangamMN-Bold'
+        fontFamily: 'DevanagariSangamMN-Bold'
     },
     startDateStyle: {
         paddingTop: HEIGHT * 0.001,

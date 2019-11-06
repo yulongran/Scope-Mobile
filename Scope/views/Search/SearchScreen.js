@@ -3,50 +3,29 @@ import {
     View, Text, StyleSheet,
     Dimensions, FlatList, TouchableOpacity,
     TextInput,
-    Image, AsyncStorage,
+    Image, 
 } from 'react-native'
-import ProfilePic from '../../assets/images/profile_default.jpg'
+import ProfilePic from '../../assets/images/profile_default.jpg';
+import UserRequest from '../../services/User/index';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
 class SearchScreen extends Component {
-
-    state = {
-        search: '',
-        user_firstname: '',
-        user_lastname: '',
-        people: [],
+    constructor(props) {
+        super(props)
+        this.state = {
+            search: '',
+            user_firstname: '',
+            user_lastname: '',
+            people: [],
+        }
     }
 
     updateSearch(text) {
         this.setState({
             search: text
         });
-    }
-
-    async fetchPeople() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/users/people',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    user_firstname: this.state.user_firstname,
-                    user_lastname: this.state.user_lastname,
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                people: responseJson
-            }
-        )
     }
 
     onChangeText(text) {
@@ -98,7 +77,7 @@ class SearchScreen extends Component {
                         borderTopColor: 'gray',
                         borderBottomColor: 'gray',
                     }}
-                        onPress={() => {
+                        onPress={async () => {
                             var text = this.state.search
                             if (text.length == 0) {
                                 return false;
@@ -119,7 +98,13 @@ class SearchScreen extends Component {
                                     }
                                 )
                             }
-                            this.fetchPeople()
+                            var result =await UserRequest.fetchPeople(this.state.user_firstname, this.state.user_lastname)
+                            if(result !=false)
+                            {
+                                this.setState({
+                                    people: result
+                                })
+                            }
                         }}>
                         <Text style={{ color: 'blue' }}>Search</Text>
                     </TouchableOpacity>
