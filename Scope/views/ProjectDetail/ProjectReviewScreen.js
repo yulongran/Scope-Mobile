@@ -4,8 +4,8 @@ import {
     Image, StyleSheet, AsyncStorage,
     Dimensions, SafeAreaView, FlatList, TouchableOpacity
 } from 'react-native'
-import Review from '../components/Review';
-import MileStone from '../components/MileStone';
+import Review from './components/Review/index';
+import MileStone from './components/Milestone/index';
 import { LinearGradient } from 'expo-linear-gradient';
 
 

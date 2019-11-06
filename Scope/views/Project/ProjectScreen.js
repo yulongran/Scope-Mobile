@@ -22,8 +22,14 @@ const actions = [
   {
     text: "Add Project",
     icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
-    name: "project",
+    name: "add_project",
     position: 2
+  },
+  {
+    text: "Join Project",
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    name: "join_project",
+    position: 1
   },
 
 ];
@@ -246,7 +252,13 @@ class ProjectScreen extends Component {
         <FloatingAction
           actions={actions}
           onPressItem={name => {
-            this.props.navigation.navigate("ProjectCreation");
+            if (name == 'add_project') {
+              this.props.navigation.navigate("ProjectCreation");
+            }
+            if (name == 'join_project')
+            {
+              this.props.navigation.navigate('ProjectJoinScreen')
+            }
           }}
           buttonSize={45}
           color={"#0066ff"}

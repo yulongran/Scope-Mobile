@@ -5,20 +5,21 @@ import {
     Dimensions,
     StyleSheet,
 } from "react-native";
+import { createStackNavigator } from '../node_modules/react-navigation-stack'
+import { Ionicons } from "../node_modules/@expo/vector-icons";
+// Views 
 import HomeScreen from "../views/SignIn/index";
 import SignUpScreen from '../views/SignUp/index';
 import ProfileScreen from '../views/Profile/index';
 import SearchScreen from '../views/Search/index';
 import ProjectScreen from '../views/Project/index';
 import TeamScreen from '../views/Team/index';
+import ProjectReviewScreen from '../views/ProjectDetail/index';
+import EvaluationScreen from "../views/Evaluation/index";
+import ProjectCreationScreen from "../views/ProjectCreation/index";
+import ProjectJoinScreen from "../views/ProjectJoin/index";
 
 
-import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
-import { createStackNavigator } from '../node_modules/react-navigation-stack'
-import { Ionicons } from "../node_modules/@expo/vector-icons";
-import ProjectCreationScreen from "../Screen/ProjectCreationScreen";
-import ProjectJoinScreen from "../Screen/ProjectJoinScreen";
-import EvaluationScreen from "../Screen/EvaluationScreen";
 
 
 
