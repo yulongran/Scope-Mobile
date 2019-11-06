@@ -8,13 +8,8 @@ import {
   Dimensions,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
-import { Button } from 'react-native-elements';
-import Project from "../Components/Project";
-import { createStackNavigator } from "react-navigation-stack";
-import HomeScreen from "./HomeScreen";
-import ProjectReviewScreen from "./ProjectReviewScreen";
+import Project from "./components/Project/index";
 import { AsyncStorage } from 'react-native';
-import deviceStorage from "../Components/deviceStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient';
 import { FloatingAction } from "react-native-floating-action";
@@ -67,7 +62,6 @@ class ProjectScreen extends Component {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }} />
     ),
-
   };
   /**
    * Update the project after project componet call delete API
@@ -255,7 +249,7 @@ class ProjectScreen extends Component {
             this.props.navigation.navigate("ProjectCreation");
           }}
           buttonSize={45}
-          color ={"#0066ff"}
+          color={"#0066ff"}
         />
       </View >
     );
@@ -304,19 +298,6 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get("window").height * 0.002,
 
   },
-});
-
-/**
- * Screen Navigation
- */
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen
-  },
-  Review: {
-    screen: ProjectReviewScreen
-  }
 });
 
 export default ProjectScreen;

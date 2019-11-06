@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ScrollView, Dimensions, TextInput, FlatList, TouchableOpacity, AsyncStorage
+    View, Text, StyleSheet, ScrollView, Dimensions, TextInput,TouchableOpacity, AsyncStorage
 } from 'react-native'
 import DatePicker from 'react-native-datepicker'
 import { Ionicons } from "@expo/vector-icons";
@@ -25,8 +25,8 @@ class ProjectCreationScreen extends Component {
     }
 
     /**
- * Config Stack Navigator Header
- */
+    * Config Stack Navigator Header
+    */
     static navigationOptions = {
         headerStyle: {
         },

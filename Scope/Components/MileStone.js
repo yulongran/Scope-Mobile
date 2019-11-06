@@ -4,9 +4,7 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    FlatList,
 } from 'react-native'
-import People from '../Components/People';
 
 
 export class MileStone extends Component {

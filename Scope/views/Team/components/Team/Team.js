@@ -5,15 +5,9 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    FlatList,
-    Image,
     AsyncStorage,
     Alert,
 } from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
-import { Button } from 'react-native-elements';
-import { stringify } from 'qs'
-import People from './People';
 
 export class Team extends Component {
     /**

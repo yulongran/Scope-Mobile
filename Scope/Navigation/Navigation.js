@@ -1,32 +1,24 @@
 import { createAppContainer } from "react-navigation";
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import React, { Component } from 'react';
+import { createBottomTabNavigator } from '../node_modules/react-navigation-tabs';
+import React from '../node_modules/react';
 import {
-    Platform,
     Dimensions,
     StyleSheet,
-    Image,
-    SafeAreaView,
-    ScrollView
 } from "react-native";
-import HomeScreen from "../Screen/HomeScreen"
-import SettingScreen from "../Screen/SettingScreen"
-import ProjectScreen from '../Screen/ProjectScreen'
-import SearchScreen from '../Screen/SearchScreen';
+import HomeScreen from "../views/SignIn/index";
+import SignUpScreen from '../views/SignUp/index';
+import ProfileScreen from '../views/Profile/index';
+import SearchScreen from '../views/Search/index';
+import ProjectScreen from '../views/Project/index';
+import TeamScreen from '../views/Team/index';
+
+
 import ProjectReviewScreen from '../Screen/ProjectReviewScreen';
-import SignUpScreen from '../Screen/SignUpScreen';
-import ProfileScreen from '../Screen/ProfileScreen';
-import TeamScreen from '../Screen/TeamScreen';
-import { createStackNavigator } from 'react-navigation-stack'
-import { createDrawerNavigator, DrawerNavigatorItems } from "react-navigation-drawer";
-import { Ionicons } from "@expo/vector-icons";
-import Hidden from '../Components/Hidden';
-import SJSULOGO from "../assets/images/SJSU.png";
-import { View, Icon } from "native-base";
+import { createStackNavigator } from '../node_modules/react-navigation-stack'
+import { Ionicons } from "../node_modules/@expo/vector-icons";
 import ProjectCreationScreen from "../Screen/ProjectCreationScreen";
 import ProjectJoinScreen from "../Screen/ProjectJoinScreen";
 import EvaluationScreen from "../Screen/EvaluationScreen";
-import RedirectScreen from '../Screen/RedirectScreen'
 
 
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native'
-import MenuButton from '../Components/MenuButton';
-import ScopeLogo from '../assets/images/ScopeLogo.png';
+import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
 
 class SignUpScreen extends Component {

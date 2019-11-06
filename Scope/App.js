@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { StyleSheet, Text, View, Button, Platform, Dimensions } from 'react-native'
-import Navigation from './Navigation/Navigation';
+import Navigation from './navigation/index';
 import { MenuProvider } from 'react-native-popup-menu';
 
 class App extends Component {

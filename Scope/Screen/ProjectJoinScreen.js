@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native'
-import ProfilePic from '../assets/images/profile_default.jpg'
-import MenuButton from '../Components/MenuButton'
-import BackArrow from '../Components/BackArrow'
-
-import { Button } from 'react-native-elements'
-import { Ionicons } from '@expo/vector-icons'
 import { SearchBar } from "react-native-elements";
-import Project from "../Components/Project";
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;

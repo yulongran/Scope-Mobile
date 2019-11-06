@@ -3,12 +3,8 @@ import {
     View, Text,
     Image, StyleSheet, Dimensions, SafeAreaView, FlatList, ImageBackground, TouchableOpacity
 } from 'react-native'
-import { Button } from 'react-native-elements';
-import MenuButton from '../Components/MenuButton'
 import { Ionicons } from "@expo/vector-icons";
-import Review from '../Components/Review';
-import MileStone from '../Components/MileStone';
-import People from '../Components/People';
+import MileStone from '../components/MileStone';
 import ProfilePic from '../assets/profile_default.jpg'
 
 
@@ -32,17 +28,6 @@ class ReviewScreen extends Component {
     }
 
 
-    /**
-    * Config Stack Navigator Header
-    */
-    static navigationOptions = {
-        headerBackground: (
-            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                style={{ flex: 1 }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }} />
-        ),
-    };
 
     state =
         {

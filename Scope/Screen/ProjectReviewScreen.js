@@ -2,14 +2,10 @@ import React, { Component } from 'react'
 import {
     View, Text,
     Image, StyleSheet, AsyncStorage,
-    Dimensions, SafeAreaView, FlatList, ImageBackground, TouchableOpacity
+    Dimensions, SafeAreaView, FlatList, TouchableOpacity
 } from 'react-native'
-import { Button } from 'react-native-elements';
-import MenuButton from '../Components/MenuButton'
-import { Ionicons } from "@expo/vector-icons";
-import Review from '../Components/Review';
-import MileStone from '../Components/MileStone';
-import People from '../Components/People';
+import Review from '../components/Review';
+import MileStone from '../components/MileStone';
 import { LinearGradient } from 'expo-linear-gradient';
 
 

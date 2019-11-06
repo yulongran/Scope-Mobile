@@ -5,9 +5,8 @@ import {
     Dimensions,
     FlatList,
     AsyncStorage,
-    SafeAreaView,
 } from 'react-native'
-import Team from '../Components/Team'
+import Team from './components/Team/index'
 import { LinearGradient } from 'expo-linear-gradient';
 
 const WIDTH = Dimensions.get('screen').width;

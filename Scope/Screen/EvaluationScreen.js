@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 class EvaluationScreen extends Component {
     constructor(props) {
         super(props)
-        state =
+        this.state =
             {
                 review: "",
                 reviewee: "",

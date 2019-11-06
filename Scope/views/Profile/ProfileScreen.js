@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
-import MenuButton from '../Components/MenuButton'
-import BackArrow from '../Components/BackArrow'
-// Testing purpose: delete after
-import { Review } from '../Components/Review'
-import { Button } from 'react-native-elements'
 
 
 const HEIGHT = Dimensions.get('screen').height;
@@ -112,7 +107,7 @@ class ProfileScreen extends Component {
                     marginBottom: HEIGHT * 0.06,
                 }}>
                     {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
-                    <Image source={{uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]}} style={{
+                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
                         width: WIDTH * 0.3,
                         height: WIDTH * 0.3,
                         borderRadius: WIDTH * 0.3 / 2,

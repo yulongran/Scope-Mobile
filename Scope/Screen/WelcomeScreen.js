@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import MenuButton from '../Components/MenuButton'
+import MenuButton from '../components/MenuButton'
 
 // Testing purpose: delete after
-import { Review } from '../Components/Review'
+import { Review } from '../components/Review'
 
 class WelcomeScreen extends Component {
     constructor(props) {
