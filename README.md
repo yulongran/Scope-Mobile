@@ -26,5 +26,5 @@ The Scope will provide a mobile application platform that can be used by schools
 
 ## II Adobe XD Design
 
-![Adobe XD Design](/Users/yulongran/react-native/Prototype_desgin/iPhone X-XS – Login.png)
+![Adobe XD Design](../Prototype_desgin/iPhone X-XS – Login.png)
 
