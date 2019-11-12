@@ -18,8 +18,8 @@ class EvaluationScreen extends Component {
 
     }
     /**
-* Config Stack Navigator Header
-*/
+    * Config Stack Navigator Header
+    */
     static navigationOptions = {
         headerBackground: (
             <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}

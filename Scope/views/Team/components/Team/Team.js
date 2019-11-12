@@ -8,6 +8,7 @@ import {
     AsyncStorage,
     Alert,
 } from 'react-native';
+import TeamRequest from '../../../../services/Team/index';
 
 export class Team extends Component {
     /**
@@ -24,82 +25,31 @@ export class Team extends Component {
 
     constructor(props) {
         super(props)
-    }
-
-    state =
-        {
-            project_id: '',
-            team_number: '',
-            team_member: [
-            ],
-        }
-
-    async fetchTeamMember() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/team/member_size',
+        this.state =
             {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project_id,
-                    team_number: this.state.team_number,
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                team_member: responseJson
+                project_id: '',
+                team_number: '',
+                team_member: [
+                ],
             }
-        )
-        return true
     }
 
 
-    /**
-        * Remove Team
-        */
-    async removeTeam() {
-
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/team/delete',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project_id,
-                    team_number: this.state.team_number,
-                },
-            })
-        let responseJson = await response.text();
-        if (responseJson == 'Success') {
-            this.setState(
-                {
-                    delete: true,
-                }
-            )
-        }
-        return true
-
-    }
-
-    componentDidMount() {
+    async componentDidMount() {
         this.setState(
             {
                 team_number: this.props.team_number,
                 project_id: this.props.project_id,
             }
         )
-        this.fetchTeamMember()
+        const result = await TeamRequest.fetchTeamMember(this.props.project_id, this.props.team_number)
+        if (result != false) {
+            this.setState(
+                {
+                    team_member: result
+                }
+            )
+        }
     }
     render() {
         return (

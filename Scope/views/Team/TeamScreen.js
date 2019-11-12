@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import Team from './components/Team/index'
 import { LinearGradient } from 'expo-linear-gradient';
+import TeamRequest from '../../services/Team/index';
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -17,8 +18,12 @@ class TeamScreen extends Component {
     constructor(props) {
         super(props)
         this.handler = this.handler.bind(this)
+        this.state = {
+            project_id: '',
+            team: [
+            ],
+        }
     }
-
     /**
      * Config Stack Navigator Header
      */
@@ -38,11 +43,6 @@ class TeamScreen extends Component {
 
     };
 
-    state = {
-        project_id: '',
-        team: [
-        ],
-    }
 
     /**
  * Update the project after project componet call delete API
@@ -51,48 +51,23 @@ class TeamScreen extends Component {
     handler() {
         this.fetchTeam()
     }
-    /**
-     * Fetch team info based on project id
-     */
-
-    async fetchTeam() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/team',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project_id
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                team: responseJson
-            }
-        )
-        return true
-    }
-
 
     /**
      * Insert Deplay between Welcome and Project Screen
      */
-    componentDidMount() {
+    async componentDidMount() {
         this.setState(
             {
                 project_id: this.props.navigation.getParam('project').project_id
-            })
-        this.fetchTeam()
-    }
-
-    componentDidUpdate() {
-
+            });
+        const result = await TeamRequest.fetchTeam(this.props.navigation.getParam('project').project_id)
+        if (result != false) {
+            this.setState(
+                {
+                    team: result
+                }
+            )
+        }
     }
 
     render() {

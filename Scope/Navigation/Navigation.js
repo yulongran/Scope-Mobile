@@ -67,6 +67,7 @@ const Stack = createStackNavigator(
         EvaluationScreen:
         {
             screen: EvaluationScreen
+            
         },
 
 

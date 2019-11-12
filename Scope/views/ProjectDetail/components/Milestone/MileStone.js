@@ -43,6 +43,9 @@ export class MileStone extends Component {
     }
 }
 
+const WIDTH = Dimensions.get('screen').width;
+const HEIGHT = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create(
     {
         viewStyle:
@@ -70,6 +73,7 @@ const styles = StyleSheet.create(
         textStyle:
         {
             marginRight: Dimensions.get('window').width * 0.31,
+            width: WIDTH * 0.8
         }
     }
 )

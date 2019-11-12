@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import Project from "./components/Project/index";
-import { AsyncStorage } from 'react-native';
+
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from 'expo-linear-gradient';
+
 import { FloatingAction } from "react-native-floating-action";
 import ProjectRequest from '../../services/Project/index';
 
@@ -77,18 +77,6 @@ class ProjectScreen extends Component {
       this.reload();
     }
   }
-
-    /**
-  * Config Stack Navigator Header
-  */
- static navigationOptions = {
-  headerBackground: (
-    <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-      style={{ flex: 1 }}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }} />
-  ),
-};
 
   /**
    * Reload project from database
