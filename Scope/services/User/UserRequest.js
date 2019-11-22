@@ -6,7 +6,6 @@ class UserRequest {
     * POST Login request to the sever
     */
     static async login(username, password) {
-        console.log("Calling login")
         await fetch('http://localhost:8001/users/login', {
             method: 'POST',
             headers: {

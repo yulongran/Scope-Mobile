@@ -51,41 +51,43 @@ class Project extends Component {
 
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={styles.containerStyle}>
-                    <Menu style={{ marginLeft: WIDTH * 0.33, }}>
-                        <MenuTrigger>
-                            <Ionicons
-                                name="ios-more"
-                                color="#000000"
-                                size={WIDTH * 0.04}
-                            />
-                        </MenuTrigger>
-                        <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
-                            <MenuOption text='Edit' />
-                            <MenuOption text='Remove' onSelect={() => {
-                                Alert.alert(
-                                    'Permanent delete project',
-                                    '',
-                                    [
-                                        {
-                                            text: 'Yes', onPress: () => {
-                                                var response = ProjectRequest.deleteProject(this.props.project_id)
-                                                if (response) {
-                                                    this.setState({
-                                                        delete: true,
-                                                    })
+                    <View className="project_menu_selection" style={{alignSelf:'flex-end', paddingRight: 20}}>
+                        <Menu style={{ marginLeft: WIDTH * 0.33 }}>
+                            <MenuTrigger>
+                                <Ionicons
+                                    name="ios-more"
+                                    color="#000000"
+                                    size={WIDTH * 0.04}
+                                />
+                            </MenuTrigger>
+                            <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
+                                <MenuOption text='Edit' />
+                                <MenuOption text='Remove' onSelect={() => {
+                                    Alert.alert(
+                                        'Permanent delete project',
+                                        '',
+                                        [
+                                            {
+                                                text: 'Yes', onPress: () => {
+                                                    var response = ProjectRequest.deleteProject(this.props.project_id)
+                                                    if (response) {
+                                                        this.setState({
+                                                            delete: true,
+                                                        })
+                                                    }
+                                                    this.props.handler()
                                                 }
-                                                this.props.handler()
-                                            }
-                                        },
-                                        { text: 'No', style: 'cancel' },
-                                    ],
-                                    {
-                                        cancelable: true
-                                    }
-                                )
-                            }} />
-                        </MenuOptions>
-                    </Menu>
+                                            },
+                                            { text: 'No', style: 'cancel' },
+                                        ],
+                                        {
+                                            cancelable: true
+                                        }
+                                    )
+                                }} />
+                            </MenuOptions>
+                        </Menu>
+                    </View>
                     <View style={styles.ViewStyle} >
                         <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
                         {/**<Text style={styles.CourseStyle}>{this.props.courseName} {this.props.schoolName}</Text>**/}
@@ -115,12 +117,14 @@ const WIDTH = Dimensions.get('screen').width;
 const styles = StyleSheet.create({
     containerStyle:
     {
-        width: WIDTH * 0.38,
+        width: WIDTH * 0.9,
         height: HEIGHT * 0.15,
         borderColor: 'black',
         borderWidth: 0.5,
         borderRadius: 10,
         margin: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     ViewStyle: {
         alignContent: 'center',
@@ -131,16 +135,14 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: HEIGHT * 0.02,
         fontSize: WIDTH * 0.04,
     },
     CourseStyle: {
         textAlign: 'center',
-        paddingTop: HEIGHT * 0.01,
+        // paddingTop: HEIGHT * 0.01,
         fontFamily: 'DevanagariSangamMN-Bold'
     },
     startDateStyle: {
-        paddingTop: HEIGHT * 0.001,
         textAlign: 'center',
         fontSize: 12,
         marginLeft: 5,

@@ -17,6 +17,7 @@ import ProjectRequest from '../../services/Project/index';
 
 
 class ProjectScreen extends Component {
+
   constructor(props) {
     super(props);
     this.filterProject = this.filterProject.bind(this);
@@ -29,6 +30,22 @@ class ProjectScreen extends Component {
       refresh: true,
     };
   }
+
+  static navigationOptions = {
+    title: 'Project',
+    headerStyle: {
+      backgroundColor: '#005AA7',
+
+    },
+    headerTintColor: 'white',
+    headerTitleStyle:
+    {
+      fontFamily: 'Cochin',
+      fontSize: 28,
+    }
+
+  };
+
 
 
   /**
@@ -115,30 +132,18 @@ class ProjectScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <View style={{ flexDirection: 'row', alignSelf: 'flex-start', justifyContent: 'center' }}>
-          <Button
-            onPress={() => {
-              this.props.navigation.navigate("ProjectCreation")
-              //this.props.navigation.navigate("ProjectJoinScreen");
-            }}
-            icon={
-              <Ionicons name="md-add" size={WIDTH * 0.08} color="black" />
-            }
-            buttonStyle={{ backgroundColor: 'white', marginLeft: WIDTH * 0.7, paddingTop: -HEIGHT * 0.009 }} />
-        </View> */}
-        <SearchBar
-          placeholder="Search"
-          showCancel={true}
-          inputStyle={{ backgroundColor: "white" }}
-          inputContainerStyle={{ backgroundColor: "white" }}
-          containerStyle={styles.searchStyle}
-          lightTheme={true}
-          onChangeText={text => this.filterProject(text)}
-          value={this.state.search}
-          onClear={this.reload}
-        />
-        <View style={styles.sectionStyle}>
-          <Text style={styles.textStyle}>Ongoing</Text>
+        <View className ="SearchBar" style={styles.searchSectionStyle}>
+          <SearchBar
+            placeholder="Search"
+            showCancel={true}
+            inputStyle={{ backgroundColor: "white" }}
+            inputContainerStyle={styles.searchStyle}
+            containerStyle ={styles.searchSectionStyle}
+            lightTheme={true}
+            onChangeText={text => this.filterProject(text)}
+            value={this.state.search}
+            onClear={this.reload}
+          />
         </View>
         <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
           <FlatList
@@ -163,12 +168,11 @@ class ProjectScreen extends Component {
               />
             )}
             keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
             extraData={this.state}
           />
         </SafeAreaView>
         <View style={styles.historySectionStyle}>
-          <Text style={styles.textStyle}>History</Text>
+          <Text>Archived</Text>
         </View>
         <SafeAreaView
           style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
@@ -195,7 +199,6 @@ class ProjectScreen extends Component {
               />
             )}
             keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
           />
         </SafeAreaView>
         <FloatingAction
@@ -254,15 +257,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16
   },
-  textStyle: {
-    textAlign: "left",
-    fontFamily: "Baskerville-SemiBoldItalic"
-  },
+  // textStyle: {
+  //   textAlign: "left",
+  //   fontFamily: "Baskerville-SemiBoldItalic"
+  // },
   sectionStyle: {
-    width: Dimensions.get("window").width * 0.8,
-    height: 20,
-    borderBottomColor: "gray",
-    borderBottomWidth: 1,
+    // width: Dimensions.get("window").width * 0.8,
   },
   historySectionStyle: {
     width: Dimensions.get("window").width * 0.8,
@@ -272,11 +272,16 @@ const styles = StyleSheet.create({
   },
   searchStyle: {
     width: Dimensions.get("window").width * 0.9,
-    marginBottom: 7,
-    backgroundColor: "white",
-    marginTop: Dimensions.get("window").height * 0.002,
-
+    height: HEIGHT * 0.05,
+    borderRadius: 15,
+    borderWidth: 0.6,
+    borderBottomWidth: 0.6,
+    backgroundColor: 'white',
   },
+  searchSectionStyle:
+  {
+    backgroundColor:'white',
+  }
 });
 
 export default ProjectScreen;

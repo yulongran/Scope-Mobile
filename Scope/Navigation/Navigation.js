@@ -46,6 +46,7 @@ const Stack = createStackNavigator(
         Project:
         {
             screen: ProjectScreen,
+            
 
         },
         Team:
@@ -163,7 +164,7 @@ const Main_Stack = createStackNavigator(
         {
             screen: SignUpScreen,
             navigationOptions: {
-                //header: null,
+                header: null,
             }
         },
         Main:
@@ -176,7 +177,7 @@ const Main_Stack = createStackNavigator(
 
     },
     {
-        initialRouteName: 'Main',
+        initialRouteName: 'Home',
     },
 
 )

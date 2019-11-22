@@ -26,5 +26,12 @@ The Scope will provide a mobile application platform that can be used by schools
 
 ## II Adobe XD Design
 
-![Adobe XD Design](../Prototype_desgin/Login.png)
+Adobe XD Design may vary from actual mobile application due to:
+- Implementation
+- Future Features
 
+## III System Requirement   
+
+![System_threeTierDiagram](3Tier_Layers.png)
+
+## IV Major Features

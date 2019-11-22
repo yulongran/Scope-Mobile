@@ -13,7 +13,7 @@ class BackArrow extends React.Component {
     render() {
 
         return (
-            <Ionicons onPress={() => this.props.navigation.navigate('Project')}
+            <Ionicons onPress={() => this.props.navigation.navigate('Home')}
                 name="md-arrow-round-back" size={32} color="blue" style={styles.backIconStyle}></Ionicons>
         )
     }
