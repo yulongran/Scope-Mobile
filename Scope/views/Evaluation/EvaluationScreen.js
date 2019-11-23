@@ -15,18 +15,21 @@ class EvaluationScreen extends Component {
                 reviewee: "",
                 reviewer: "",
             }
-
     }
-    /**
-    * Config Stack Navigator Header
-    */
+
     static navigationOptions = {
-        headerBackground: (
-            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                style={{ flex: 1 }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }} />
-        ),
+        title: null,
+        headerStyle: {
+            backgroundColor: '#005AA7',
+
+        },
+        headerTintColor: 'white',
+        headerTitleStyle:
+        {
+            fontFamily: 'Cochin',
+            fontSize: 28,
+        }
+
     };
 
     onChangeText(text) {

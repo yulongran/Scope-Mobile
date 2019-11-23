@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native';
+import backgroundImage from '../../assets/images/profile_background.jpeg' 
 
 
 const HEIGHT = Dimensions.get('screen').height;
@@ -101,86 +102,74 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{
-                    alignSelf: 'center',
-                    marginTop: HEIGHT * 0.13,
-                    marginBottom: HEIGHT * 0.06,
-                }}>
-                    {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
-                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
-                        width: WIDTH * 0.3,
-                        height: WIDTH * 0.3,
-                        borderRadius: WIDTH * 0.3 / 2,
+                <ImageBackground source ={backgroundImage} style={{width: '100%', height: '100%'}}>
+                    <View style={{
                         alignSelf: 'center',
-                    }} />
-                    <Text style={{
-                        alignSelf: 'center',
-                        marginTop: HEIGHT * 0.01,
-                        fontSize: 25,
-                    }}>{this.state.user_firstName} {this.state.user_lastName}</Text>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Text style={{
-                        color: '#0260F7',
-                        fontSize: 20,
-                    }}>Institution</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_institution}
-                        onChangeText={value => this.onChangeText('institution', value)}
-                    ></TextInput>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Text style={{
-                        color: '#0260F7',
-                        fontSize: 20,
-                    }}>First Name</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_firstName}
-                        onChangeText={value => this.onChangeText('firstName', value)}
-                    ></TextInput>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Text style={{
-                        color: '#0260F7',
-                        fontSize: 20,
-                    }}>Last Name</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_lastName}
-                        onChangeText={value => this.onChangeText('lastName', value)}
-                    ></TextInput>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Text style={{
-                        color: '#0260F7',
-                        fontSize: 20,
-                    }}>Student ID</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.studentID}
-                        onChangeText={value => this.onChangeText('studentID', value)}
-                    ></TextInput>
-                </View>
-                <View style={{
-                    marginTop: HEIGHT * 0.1,
-                }}>
-                    <TouchableOpacity style={{
-                        backgroundColor: 'red',
-                        height: HEIGHT * 0.04,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                        onPress={this.logOut}>
-
+                        marginTop: HEIGHT * 0.13,
+                        marginBottom: HEIGHT * 0.06,
+                    }}>
+                        {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
+                        <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
+                            width: WIDTH * 0.3,
+                            height: WIDTH * 0.3,
+                            borderRadius: WIDTH * 0.3 / 2,
+                            alignSelf: 'center',
+                        }} />
                         <Text style={{
-                            color: 'white',
-                            fontSize: 20,
+                            alignSelf: 'center',
+                            marginTop: HEIGHT * 0.01,
+                            fontSize: 25,
+                            fontWeight: 'bold',
+                            fontStyle: 'italic',
+                        }}>{this.state.user_firstName} {this.state.user_lastName}</Text>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.textStyle}>Institution</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_institution}
+                            onChangeText={value => this.onChangeText('institution', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.textStyle}>First Name</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_firstName}
+                            onChangeText={value => this.onChangeText('firstName', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.textStyle}>Last Name</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_lastName}
+                            onChangeText={value => this.onChangeText('lastName', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.textStyle}>User ID</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.studentID}
+                            onChangeText={value => this.onChangeText('studentID', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={{
+                        marginTop: HEIGHT*0.12,
+                    }}>
+                        <TouchableOpacity style={{
+                            backgroundColor: 'red',
+                            height: HEIGHT * 0.05,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                            onPress={this.logOut}>
 
-                        }}>Log Out</Text>
-                    </TouchableOpacity>
-                </View>
+                            <Text style={styles.textStyle}>Log Out</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
             </View>
         )
     }
@@ -190,10 +179,10 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 3,
-            backgroundColor: '#fff',
         },
-        text: {
-            fontSize: 30,
+        textStyle: {
+            color: 'black',
+            fontSize: 20,
         },
         viewStyle:
         {
@@ -203,7 +192,7 @@ const styles = StyleSheet.create(
         },
         inputStyle:
         {
-            borderBottomColor: 'gray',
+            borderBottomColor: 'black',
             borderBottomWidth: 0.5,
             height: 40,
         },

@@ -9,9 +9,7 @@ import {
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import Project from "./components/Project/index";
-
 import { Ionicons } from "@expo/vector-icons";
-
 import { FloatingAction } from "react-native-floating-action";
 import ProjectRequest from '../../services/Project/index';
 

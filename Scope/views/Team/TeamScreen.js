@@ -24,24 +24,24 @@ class TeamScreen extends Component {
             ],
         }
     }
-    /**
-     * Config Stack Navigator Header
-     */
+
     static navigationOptions = {
+        title: 'Team',
         headerStyle: {
+            backgroundColor: '#005AA7',
+
         },
         headerTintColor: 'white',
-        headerTitleStyle: {
-            fontWeight: 'bold',
+        headerTitleStyle:
+        {
+            fontFamily: 'Cochin',
+            fontSize: 28,
         },
-        headerBackground: (
-            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                style={{ flex: 1 }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }} />
-        ),
+        headerBackTitleVisible: false,
+        
 
     };
+
 
 
     /**
@@ -78,9 +78,6 @@ class TeamScreen extends Component {
                     marginRight: WIDTH * 0.05,
                     marginTop: WIDTH * 0.05,
                 }}>
-                    <Text style={{ fontSize: WIDTH * 0.1 }}>
-                        Teams
-                </Text>
                     <View style={{ height: HEIGHT * 0.72 }}>
                         <FlatList
                             data={this.state.team}

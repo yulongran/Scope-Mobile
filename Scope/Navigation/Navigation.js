@@ -46,16 +46,24 @@ const Stack = createStackNavigator(
         Project:
         {
             screen: ProjectScreen,
-            
-
+            navigationOptions: () => ({
+                headerBackTitle: null,
+            }),
         },
         Team:
         {
             screen: TeamScreen,
+            navigationOptions: () => ({
+                headerBackTitle: null,
+            }),
+
         },
         Review:
         {
             screen: ProjectReviewScreen,
+            navigationOptions: () => ({
+                headerBackTitle: null,
+            }),
         },
         ProjectCreation:
         {
@@ -67,8 +75,11 @@ const Stack = createStackNavigator(
         },
         EvaluationScreen:
         {
-            screen: EvaluationScreen
-            
+            screen: EvaluationScreen,
+            navigationOptions: () => ({
+                headerBackTitle: null,
+            }),
+
         },
 
 
@@ -97,10 +108,10 @@ const TabNavigator = createBottomTabNavigator(
                 ),
                 headerBackground: (
                     <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                      style={{ flex: 1 }}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }} />
-                  ),
+                        style={{ flex: 1 }}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }} />
+                ),
             },
         },
         Search:

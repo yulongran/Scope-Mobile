@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 const WIDTH = Dimensions.get('screen').width;
@@ -50,49 +49,44 @@ class ProjectReviewScreen extends Component {
      */
     constructor(props) {
         super(props)
-
+        this.state =
+            {
+                project: 'Hello',
+                group_members: [
+                ],
+                teacher: [
+                    {
+                        user_firstname: 'Yulong',
+                        user_lastname: 'Ran'
+                    }
+                ],
+                milestone: [],
+                reviews: [
+                ],
+                milestone_button: true,
+                review_button: false,
+                display: 'milestone', // milestone // review
+                team_number: '',
+                project_id: '',
+            }
     }
 
-    state =
-        {
 
-            project: '',
-            group_members: [
-            ],
-            teacher: [
-                {
-                    user_firstname: 'Yulong',
-                    user_lastname: 'Ran'
-                }
-            ],
-            milestone: [],
-            reviews: [
-            ],
-            milestone_button: true,
-            review_button: false,
-            display: 'milestone', // milestone // review
-            team_number: '',
-            project_id: '',
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation;
+        return {
+            title: `${state.params.title}`,
+            headerStyle: {
+                backgroundColor: '#005AA7',
 
-        }
-
-    /**
-    * Config Stack Navigator Header
-    */
-    static navigationOptions = {
-        headerStyle: {
-        },
-        headerTintColor: 'white',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerBackground: (
-            <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                style={{ flex: 1 }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }} />
-        ),
-
+            },
+            headerTintColor: 'white',
+            headerTitleStyle:
+            {
+                fontFamily: 'Cochin',
+                fontSize: 28,
+            }
+        };
     };
 
     async fetchMilestone() {
@@ -167,7 +161,6 @@ class ProjectReviewScreen extends Component {
                 project: responseJson[0]
             }
         )
-
     }
 
     async fetchReview() {
@@ -195,7 +188,7 @@ class ProjectReviewScreen extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState(
             {
                 project: this.props.navigation.getParam('project'),
@@ -204,10 +197,13 @@ class ProjectReviewScreen extends Component {
 
             }
         )
-        this.fetchMilestone()
-        this.fetchTeamMember()
-        this.fetchProject()
-        this.fetchReview()
+        await this.fetchMilestone()
+        await this.fetchTeamMember()
+        await this.fetchProject()
+        await this.fetchReview()
+
+        const { setParams } = this.props.navigation;
+        setParams({ title: this.state.project.project_title })
     }
 
     render() {
@@ -239,80 +235,78 @@ class ProjectReviewScreen extends Component {
 
         return (
             <View style={styles.container} >
-                <Text style={styles.title}>{this.state.project.project_title}</Text>
-                <Text style={styles.description}>{this.state.project.project_description}</Text>
-                <View style={{ height: Dimensions.get('window').height * 0.24, alignItems: 'center', }}>
-                    <View style={{ alignContent: 'center', marginTop: HEIGHT * 0.02, alignItems: 'center', width: WIDTH * 0.8 }}>
-                        <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start', fontStyle: 'italic' }}>Group Members</Text>
-                        <FlatList
-                            data={this.state.group_members}
-                            key={this.state.group_members}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={{
-                                        width: WIDTH * 0.25,
-                                        height: WIDTH * 0.3,
-                                    }}
-                                    onPress={() => {
-                                        this.props.navigation.navigate("EvaluationScreen",
-                                            {
-                                                user_firstname: item.user_firstname,
-                                                user_lastname: item.user_lastname,
-                                                user_profile: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]
-                                            })
-                                    }}
-                                >
-                                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
-                                        width: WIDTH * 0.15,
-                                        height: WIDTH * 0.15,
-                                        borderRadius: WIDTH * 0.15 / 2,
-                                        alignSelf: 'center',
-                                    }} />
-                                    <Text style={{
-                                        marginTop: HEIGHT * 0.008,
-                                        fontSize: WIDTH * 0.035,
-                                        alignSelf: 'center'
-                                    }}>{item.user_firstname}</Text>
-                                    <Text style={{
-                                        fontSize: WIDTH * 0.035,
-                                        alignSelf: 'center'
-                                    }}>
-                                        {item.user_lastname}
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                            keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.8, alignItems: 'center' }}
-                            horizontal={true}
-                        />
-                    </View>
+                <View className="project_description">
+                    <Text style={styles.description}>{this.state.project.project_description}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', height: HEIGHT * 0.03 }}>
-                    <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}
-                        onPress={() => {
-                            this.setState(
-                                {
-                                    milestone_button: true,
-                                    review_button: false,
-                                }
-                            )
-                        }}>
-                        <Text>Milestone</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[this.state.review_button ? styles.touchOnStyle : styles.touchStyle]}
-                        onPress={() => {
-                            this.setState(
-                                {
-                                    review_button: true,
-                                    milestone_button: false,
-                                }
-                            )
-                        }}>
-                        <Text>Review</Text>
-                    </TouchableOpacity>
+                <View className="group_list" style={styles.groupListStyle}>
+                    <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start', fontStyle: 'italic' }}>Group Members</Text>
+                    <FlatList
+                        data={this.state.group_members}
+                        key={this.state.group_members}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={{
+                                    width: WIDTH * 0.25,
+                                    height: WIDTH * 0.3,
+                                }}
+                                onPress={() => {
+                                    this.props.navigation.navigate("EvaluationScreen",
+                                        {
+                                            user_firstname: item.user_firstname,
+                                            user_lastname: item.user_lastname,
+                                            user_profile: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]
+                                        })
+                                }}
+                            >
+                                <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
+                                    width: WIDTH * 0.15,
+                                    height: WIDTH * 0.15,
+                                    borderRadius: WIDTH * 0.15 / 2,
+                                    alignSelf: 'center',
+                                }} />
+                                <Text style={{
+                                    marginTop: HEIGHT * 0.008,
+                                    fontSize: WIDTH * 0.035,
+                                    alignSelf: 'center'
+                                }}>{item.user_firstname}</Text>
+                                <Text style={{
+                                    fontSize: WIDTH * 0.035,
+                                    alignSelf: 'center'
+                                }}>
+                                    {item.user_lastname}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                        contentContainerStyle={{ width: WIDTH * 0.8, alignItems: 'center' }}
+                        horizontal={true}
+                    />
                 </View>
-
                 < SafeAreaView style={styles.contentContainer} >
+                    <View className="milestone_review_selection" style={{ flexDirection: 'row', marginTop: HEIGHT * 0.05, height: HEIGHT * 0.03 }}>
+                        <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}
+                            onPress={() => {
+                                this.setState(
+                                    {
+                                        milestone_button: true,
+                                        review_button: false,
+                                    }
+                                )
+                            }}>
+                            <Text>Milestone</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[this.state.review_button ? styles.touchOnStyle : styles.touchStyle]}
+                            onPress={() => {
+                                this.setState(
+                                    {
+                                        review_button: true,
+                                        milestone_button: false,
+                                    }
+                                )
+                            }}>
+                            <Text>Review</Text>
+                        </TouchableOpacity>
+                    </View>
                     {this.state.milestone_button ? milestoneList : reviewList}
                 </SafeAreaView>
 
@@ -328,6 +322,7 @@ const styles = StyleSheet.create(
         container: {
             flex: 3,
             marginTop: HEIGHT * 0.03,
+            flexDirection: 'column',
 
         },
         title: {
@@ -352,10 +347,8 @@ const styles = StyleSheet.create(
         {
             height: Dimensions.get('window').height * 0.7,
             width: Dimensions.get('window').width * 0.92,
-            alignSelf: 'center',
             borderRadius: 5,
             flex: 1,
-
         },
         touchStyle:
         {
@@ -375,6 +368,15 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             borderColor: '#d7ecfc',
             backgroundColor: '#d7ecfc',
+        },
+        groupListStyle: {
+            alignContent: 'center',
+            height: Dimensions.get('window').height * 0.24,
+            marginTop: HEIGHT * 0.02,
+            alignItems: 'center',
+            alignSelf: 'center',
+            width: WIDTH * 0.8,
+            flex: 0.5,
         }
     }
 )
