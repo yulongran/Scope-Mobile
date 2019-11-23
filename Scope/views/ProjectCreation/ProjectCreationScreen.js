@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpacity, AsyncStorage
+    View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpacity, AsyncStorage,
 } from 'react-native'
 import { Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker'
 import { Button } from 'react-native-elements';
+import Slider from "react-native-slider";
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -21,6 +22,7 @@ class ProjectCreationScreen extends Component {
             project_endDate: null,
             milestone: [],
             project_id: null,
+            team_size: 0,
         }
     }
 
@@ -158,7 +160,19 @@ class ProjectCreationScreen extends Component {
                             multiline={true}
                         ></TextInput>
                     </View>
-                    <View className="date_picker" style={{ marginTop: HEIGHT * 0.15 }}>
+                    <View style={styles.Slidercontainer}>
+                        <Slider
+                            value={this.state.team_size}
+                            minimumValue = {1}
+                            maximumValue = {50}
+                            step = {1}
+                            onValueChange={value => this.setState({ team_size: value })}
+                        />
+                        <Text>
+                            Number of Team: {this.state.team_size}
+                        </Text>
+                    </View>
+                    <View className="date_picker" style={{ marginTop: HEIGHT * 0.05 }}>
                         <View className="start_date_picker">
                             <Text style={styles.titleStyle}>Start Date</Text>
                             <DatePicker
@@ -203,7 +217,7 @@ class ProjectCreationScreen extends Component {
                 </View>
                 <View className="submit_button" style={{ flex: 1, alignSelf: 'flex-end' }}>
                     <Button
-                        title="Outline button"
+                        title="Submit"
                         type="solid"
                         buttonStyle={styles.submitButtonStyle}
                         onPress={() => {
@@ -251,7 +265,15 @@ const styles = StyleSheet.create(
             backgroundColor: 'white',
             width: WIDTH * 0.9,
             marginTop: HEIGHT * 0.010,
-        }
+        },
+        Slidercontainer: {
+            marginLeft: 10,
+            marginRight: 10,
+            marginTop: HEIGHT*0.03,
+            alignItems: "stretch",
+            justifyContent: "center",
+            width: WIDTH*0.9,
+        },
     }
 )
 

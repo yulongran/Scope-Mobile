@@ -170,7 +170,7 @@ class ProjectScreen extends Component {
           />
         </SafeAreaView>
         <View style={styles.historySectionStyle}>
-          <Text>Archived</Text>
+          <Text style={{fontFamily: 'Cochin',}}>Archived</Text>
         </View>
         <SafeAreaView
           style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}

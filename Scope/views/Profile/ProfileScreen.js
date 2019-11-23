@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native';
-import backgroundImage from '../../assets/images/profile_background.jpeg' 
-
+import { Button } from 'react-native-elements';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -102,74 +101,69 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground source ={backgroundImage} style={{width: '100%', height: '100%'}}>
-                    <View style={{
+                <View style={{
+                    alignSelf: 'center',
+                    marginTop: HEIGHT * 0.13,
+                    marginBottom: HEIGHT * 0.06,
+                }}>
+                    {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
+                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
+                        width: WIDTH * 0.3,
+                        height: WIDTH * 0.3,
+                        borderRadius: WIDTH * 0.3 / 2,
                         alignSelf: 'center',
-                        marginTop: HEIGHT * 0.13,
-                        marginBottom: HEIGHT * 0.06,
-                    }}>
-                        {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
-                        <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
-                            width: WIDTH * 0.3,
-                            height: WIDTH * 0.3,
-                            borderRadius: WIDTH * 0.3 / 2,
-                            alignSelf: 'center',
+                    }} />
+                    <Text style={{
+                        alignSelf: 'center',
+                        marginTop: HEIGHT * 0.01,
+                        fontSize: 25,
+                        fontWeight: 'bold',
+                        fontStyle: 'italic',
+                    }}>{this.state.user_firstName} {this.state.user_lastName}</Text>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Institution</Text>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.user_institution}
+                        onChangeText={value => this.onChangeText('institution', value)}
+                    ></TextInput>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>First Name</Text>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.user_firstName}
+                        onChangeText={value => this.onChangeText('firstName', value)}
+                    ></TextInput>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>Last Name</Text>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.user_lastName}
+                        onChangeText={value => this.onChangeText('lastName', value)}
+                    ></TextInput>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}>User ID</Text>
+                    <TextInput
+                        style={styles.inputStyle}
+                        value={this.state.studentID}
+                        onChangeText={value => this.onChangeText('studentID', value)}
+                    ></TextInput>
+                </View>
+                <View style={{
+                    marginTop: HEIGHT * 0.12,
+                }}>
+                    <Button
+                        title="Log Out"
+                        type="solid"
+                        buttonStyle={styles.submitButtonStyle}
+                        onPress={() => {
+                            this.createProject()
                         }} />
-                        <Text style={{
-                            alignSelf: 'center',
-                            marginTop: HEIGHT * 0.01,
-                            fontSize: 25,
-                            fontWeight: 'bold',
-                            fontStyle: 'italic',
-                        }}>{this.state.user_firstName} {this.state.user_lastName}</Text>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.textStyle}>Institution</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user_institution}
-                            onChangeText={value => this.onChangeText('institution', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.textStyle}>First Name</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user_firstName}
-                            onChangeText={value => this.onChangeText('firstName', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.textStyle}>Last Name</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user_lastName}
-                            onChangeText={value => this.onChangeText('lastName', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.textStyle}>User ID</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.studentID}
-                            onChangeText={value => this.onChangeText('studentID', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={{
-                        marginTop: HEIGHT*0.12,
-                    }}>
-                        <TouchableOpacity style={{
-                            backgroundColor: 'red',
-                            height: HEIGHT * 0.05,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                            onPress={this.logOut}>
-
-                            <Text style={styles.textStyle}>Log Out</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ImageBackground>
+                </View>
             </View>
         )
     }
@@ -183,6 +177,7 @@ const styles = StyleSheet.create(
         textStyle: {
             color: 'black',
             fontSize: 20,
+            fontFamily: 'Cochin',
         },
         viewStyle:
         {

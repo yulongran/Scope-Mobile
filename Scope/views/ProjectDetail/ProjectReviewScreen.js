@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
+import { Avatar } from 'react-native-elements';
 
 
 const WIDTH = Dimensions.get('screen').width;
@@ -256,25 +257,28 @@ class ProjectReviewScreen extends Component {
                                             user_lastname: item.user_lastname,
                                             user_profile: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]
                                         })
-                                }}
-                            >
-                                <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
-                                    width: WIDTH * 0.15,
-                                    height: WIDTH * 0.15,
-                                    borderRadius: WIDTH * 0.15 / 2,
-                                    alignSelf: 'center',
-                                }} />
-                                <Text style={{
-                                    marginTop: HEIGHT * 0.008,
-                                    fontSize: WIDTH * 0.035,
-                                    alignSelf: 'center'
-                                }}>{item.user_firstname}</Text>
-                                <Text style={{
-                                    fontSize: WIDTH * 0.035,
-                                    alignSelf: 'center'
                                 }}>
-                                    {item.user_lastname}
-                                </Text>
+                                <View style={{alignItems:'center'}}>
+                                    <Avatar
+                                        rounded
+                                        size={"large"}
+                                        source={{
+                                            uri:
+                                                ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
+                                        }}
+                                    />
+                                    <Text style={{
+                                        marginTop: HEIGHT * 0.008,
+                                        fontSize: WIDTH * 0.035,
+                                        alignSelf: 'center'
+                                    }}>{item.user_firstname}</Text>
+                                    <Text style={{
+                                        fontSize: WIDTH * 0.035,
+                                        alignSelf: 'center'
+                                    }}>
+                                        {item.user_lastname}
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                         )}
                         keyExtractor={(item, index) => index.toString()}
