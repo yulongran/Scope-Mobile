@@ -102,16 +102,14 @@ const TabNavigator = createBottomTabNavigator(
             screen: Stack,
             navigationOptions:
             {
-                tabBarLabel: 'Project',
+                tabBarLabel: 'PROJECT',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="ios-archive" size={22} color="#0260F7" />
+                    <Ionicons name="ios-archive" size={22} color={tintColor} />
                 ),
-                headerBackground: (
-                    <LinearGradient colors={['#3366cc', '#0066ff', '#ffffff']}
-                        style={{ flex: 1 }}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }} />
-                ),
+                labelStyle: {
+                    fontSize: 12,
+                    fontFamily: 'Avenir',
+                  },
             },
         },
         Search:
@@ -119,10 +117,11 @@ const TabNavigator = createBottomTabNavigator(
             screen: SearchScreen,
             navigationOptions:
             {
-                tabBarLabel: 'Search',
+                tabBarLabel: 'SEARCH',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="ios-search" size={23} color="#0260F7" />
-                )
+                    <Ionicons name="ios-search" size={23} color={tintColor} />
+                ),
+                
             },
         },
         Profile:
@@ -130,32 +129,33 @@ const TabNavigator = createBottomTabNavigator(
             screen: ProfileScreen,
             navigationOptions:
             {
-                tabBarLabel: 'Profile',
+                tabBarLabel: 'PROFILE',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="md-people" size={23} color="#0260F7" />
+                    <Ionicons name="md-people" size={25} color={tintColor} />
                 )
             },
-        }
+        },
     },
     {
         tabBarOptions:
         {
             style:
             {
+                backgroundColor: '#3F5AA6',
             },
             labelStyle:
             {
                 fontSize: 13,
-                paddingTop: 4,
+                marginTop: 5,
             },
             tabStyle:
             {
                 justifyContent: 'center',
                 alignContent: 'center',
-                marginTop: 7,
+                marginTop: 9,
             },
-            inactiveTintColor: 'black',
-            activeTintColor: '#0260F7',
+            inactiveTintColor: 'white',
+            activeTintColor: '#BACAFF',
         }
     },
 

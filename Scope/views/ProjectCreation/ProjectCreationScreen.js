@@ -163,9 +163,9 @@ class ProjectCreationScreen extends Component {
                     <View style={styles.Slidercontainer}>
                         <Slider
                             value={this.state.team_size}
-                            minimumValue = {1}
-                            maximumValue = {50}
-                            step = {1}
+                            minimumValue={1}
+                            maximumValue={50}
+                            step={1}
                             onValueChange={value => this.setState({ team_size: value })}
                         />
                         <Text>
@@ -269,10 +269,10 @@ const styles = StyleSheet.create(
         Slidercontainer: {
             marginLeft: 10,
             marginRight: 10,
-            marginTop: HEIGHT*0.03,
+            marginTop: HEIGHT * 0.03,
             alignItems: "stretch",
             justifyContent: "center",
-            width: WIDTH*0.9,
+            width: WIDTH * 0.9,
         },
     }
 )

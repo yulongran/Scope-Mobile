@@ -29,20 +29,26 @@ class ProjectScreen extends Component {
     };
   }
 
-  static navigationOptions = {
-    title: 'Project',
-    headerStyle: {
-      backgroundColor: '#005AA7',
-
-    },
-    headerTintColor: 'white',
-    headerTitleStyle:
-    {
-      fontFamily: 'Cochin',
-      fontSize: 28,
-    }
-
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Project',
+      headerStyle:
+      {
+        // borderBottomColor: '#EBEEF7',
+        // borderWidth: 1,
+      },
+      headerTintColor: '#192A59',
+      headerTitleStyle:
+      {
+        fontFamily: 'Avenir',
+        fontSize: 28,
+        textAlign: 'left',
+        flex: 1,
+        marginLeft: 30,
+        fontWeight: '900',
+      },
+    };
+  }
 
 
 
@@ -130,13 +136,13 @@ class ProjectScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View className ="SearchBar" style={styles.searchSectionStyle}>
+        <View className="SearchBar" style={styles.searchSectionStyle}>
           <SearchBar
             placeholder="Search"
             showCancel={true}
             inputStyle={{ backgroundColor: "white" }}
             inputContainerStyle={styles.searchStyle}
-            containerStyle ={styles.searchSectionStyle}
+            containerStyle={styles.searchSectionStyle}
             lightTheme={true}
             onChangeText={text => this.filterProject(text)}
             value={this.state.search}
@@ -156,13 +162,8 @@ class ProjectScreen extends Component {
                 project_id={item.project_id}
                 handler={this.handler}
                 onPress={() => {
-                  if (this.state.user_identity == 'student') {
                     this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
-                  }
-                  else {
-                    this.props.navigation.navigate("Team", { project: item, refreshScreen: this.refreshScreen })
-                  }
-                }}
+             }}
               />
             )}
             keyExtractor={(item, index) => index.toString()}
@@ -170,35 +171,30 @@ class ProjectScreen extends Component {
           />
         </SafeAreaView>
         <View style={styles.historySectionStyle}>
-          <Text style={{fontFamily: 'Cochin',}}>Archived</Text>
-        </View>
-        <SafeAreaView
-          style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1 }}
-        >
-          <FlatList
-            data={this.getHistoryProject()}
-            renderItem={({ item }) => (
-              <Project
-                projectName={item.project_title}
-                courseName={item.project_course}
-                schoolName={item.project_institution}
-                startDate={item.project_startDate}
-                endDate={item.project_endDate}
-                projet_id={item.project_id}
-                handler={this.handler}
-                onPress={() => {
-                  if (this.state.user_identity == 'student') {
+          <Text style={styles.ArchivedStye}>Archived</Text>
+          <SafeAreaView
+            style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1, marginTop: HEIGHT * 0.015 }}
+          >
+            <FlatList
+              data={this.getHistoryProject()}
+              renderItem={({ item }) => (
+                <Project
+                  projectName={item.project_title}
+                  courseName={item.project_course}
+                  schoolName={item.project_institution}
+                  startDate={item.project_startDate}
+                  endDate={item.project_endDate}
+                  projet_id={item.project_id}
+                  handler={this.handler}
+                  onPress={() => {
                     this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
-                  }
-                  else {
-                    this.props.navigation.navigate("Team", { project: item, refreshScreen: this.refreshScreen })
-                  }
-                }}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </SafeAreaView>
+                  }}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </SafeAreaView>
+        </View>
         <FloatingAction
           actions={actions}
           onPressItem={name => {
@@ -210,7 +206,7 @@ class ProjectScreen extends Component {
             }
           }}
           buttonSize={45}
-          color={"#0066ff"}
+          color={"#3F5AA6"}
         />
       </View >
     );
@@ -255,18 +251,16 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16
   },
-  // textStyle: {
-  //   textAlign: "left",
-  //   fontFamily: "Baskerville-SemiBoldItalic"
-  // },
-  sectionStyle: {
-    // width: Dimensions.get("window").width * 0.8,
+  ArchivedStye:
+  {
+    fontFamily: 'Avenir',
+    fontWeight: '800',
+    fontSize: WIDTH * 0.05,
+    color: '#3F5AA6',
+    marginLeft: WIDTH * 0.02
   },
   historySectionStyle: {
-    width: Dimensions.get("window").width * 0.8,
     height: 20,
-    borderBottomColor: "gray",
-    borderBottomWidth: 1
   },
   searchStyle: {
     width: Dimensions.get("window").width * 0.9,
@@ -278,7 +272,7 @@ const styles = StyleSheet.create({
   },
   searchSectionStyle:
   {
-    backgroundColor:'white',
+    backgroundColor: 'white',
   }
 });
 

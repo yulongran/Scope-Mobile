@@ -161,7 +161,7 @@ class ProfileScreen extends Component {
                         type="solid"
                         buttonStyle={styles.submitButtonStyle}
                         onPress={() => {
-                            this.createProject()
+                            this.logOut()
                         }} />
                 </View>
             </View>
