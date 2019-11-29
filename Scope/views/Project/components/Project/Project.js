@@ -6,6 +6,7 @@ import {
     Dimensions,
     TouchableOpacity,
     Alert,
+    Image,
 } from 'react-native'
 import {
     Menu,
@@ -16,6 +17,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Avatar } from 'react-native-elements';
 import ProjectRequest from '../../../../services/Project/index';
+import ProjectCard from '../../../../assets/images/projectCard.png';
 
 
 /**
@@ -76,88 +78,92 @@ class Project extends Component {
         return (
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={styles.containerStyle}>
-                    <View className="project_menu_selection" style={{ alignSelf: 'flex-end', paddingRight: 20 }}>
-                        <Menu style={{ marginLeft: WIDTH * 0.33 }}>
-                            <MenuTrigger>
-                                <Ionicons
-                                    name="ios-more"
-                                    color="#000000"
-                                    size={WIDTH * 0.04}
-                                />
-                            </MenuTrigger>
-                            <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
-                                <MenuOption text='Edit' />
-                                <MenuOption text='Remove' onSelect={() => {
-                                    Alert.alert(
-                                        'Permanent delete project',
-                                        '',
-                                        [
-                                            {
-                                                text: 'Yes', onPress: () => {
-                                                    var response = ProjectRequest.deleteProject(this.props.project_id)
-                                                    if (response) {
-                                                        this.setState({
-                                                            delete: true,
-                                                        })
-                                                    }
-                                                    this.props.handler()
-                                                }
-                                            },
-                                            { text: 'No', style: 'cancel' },
-                                        ],
-                                        {
-                                            cancelable: true
-                                        }
-                                    )
-                                }} />
-                            </MenuOptions>
-                        </Menu>
+                    <View>
+                        <Image source={ProjectCard} style={styles.projectCardStyle}></Image>
                     </View>
-                    <View style={styles.ViewStyle} >
-                        <View className="left_container">
-                            <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
-                            <View style={{ marginTop: HEIGHT * 0.01, marginLeft: WIDTH * 0.03 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                                    <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                                    <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
+                    <View className="main_content" style={{marginTop: -20}}>
+                        <View className="project_menu_selection" style={{ alignSelf: 'flex-end', paddingRight: 40 }}>
+                            <Menu style={{ marginLeft: WIDTH * 0.33 }}>
+                                <MenuTrigger>
+                                    <Ionicons
+                                        name="ios-more"
+                                        color="#000000"
+                                        size={WIDTH * 0.04}
+                                    />
+                                </MenuTrigger>
+                                <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
+                                    <MenuOption text='Edit' />
+                                    <MenuOption text='Remove' onSelect={() => {
+                                        Alert.alert(
+                                            'Permanent delete project',
+                                            '',
+                                            [
+                                                {
+                                                    text: 'Yes', onPress: () => {
+                                                        var response = ProjectRequest.deleteProject(this.props.project_id)
+                                                        if (response) {
+                                                            this.setState({
+                                                                delete: true,
+                                                            })
+                                                        }
+                                                        this.props.handler()
+                                                    }
+                                                },
+                                                { text: 'No', style: 'cancel' },
+                                            ],
+                                            {
+                                                cancelable: true
+                                            }
+                                        )
+                                    }} />
+                                </MenuOptions>
+                            </Menu>
+                        </View>
+                        <View style={styles.ViewStyle} >
+                            <View className="left_container">
+                                <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
+                                <View style={{ marginTop: HEIGHT * 0.01, marginLeft: WIDTH * 0.03 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                        <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                        <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                        <View className="right_container" style={styles.rightSideStyle}>
-                            <Avatar
-                                rounded
-                                source={{
-                                    uri:
-                                        ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                }}
-                                size={42}
-                                containerStyle={{margin:10}}
-                            />
-                            <Avatar
-                                rounded
-                                source={{
-                                    uri:
-                                        ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                }}
-                                size={42}
-                                containerStyle={{margin:10}}
-                            />
-                            <Avatar
-                                rounded
-                                source={{
-                                    uri:
-                                        ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                }}
-                                size={42}
-                                containerStyle={{margin:10}}
-                            />
+                            <View className="right_container" style={styles.rightSideStyle}>
+                                <Avatar
+                                    rounded
+                                    source={{
+                                        uri:
+                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
+                                    }}
+                                    size={42}
+                                    containerStyle={{ margin: 10 }}
+                                />
+                                <Avatar
+                                    rounded
+                                    source={{
+                                        uri:
+                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
+                                    }}
+                                    size={42}
+                                    containerStyle={{ margin: 10 }}
+                                />
+                                <Avatar
+                                    rounded
+                                    source={{
+                                        uri:
+                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
+                                    }}
+                                    size={42}
+                                    containerStyle={{ margin: 10 }}
+                                />
+                            </View>
                         </View>
                     </View>
-
                 </View>
             </TouchableOpacity>
 
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
     {
         marginLeft: WIDTH * 0.12,
         flexDirection: 'row',
-        alignItems:'flex-end',
+        alignItems: 'flex-end',
     },
     ProjectNameStyle: {
         color: '#3F5AA6',
@@ -217,7 +223,14 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontFamily: 'Avenir',
         fontWeight: '200',
-    }
+    },
+    projectCardStyle:
+    {
+        alignSelf: 'flex-end',
+        height: WIDTH * 0.07,
+        width: WIDTH * 0.07,
+    },
+
 })
 
 export default Project

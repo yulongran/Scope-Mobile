@@ -64,13 +64,9 @@ router.post('/member', function (req, res) {
   }
 
   const project_id = req.headers.project_id
-  const team_number = req.headers.team_number
   // Query team data based on the project_id
-  var sql = 'SELECT * FROM  User WHERE user_id IN (SELECT user_id from TeamHasUser WHERE project_id = ? AND team_number = ?)'
-
-  //'SELECT user_firstname, user_lastname FROM User WHERE user_id IN (SELECT user_id from UserHasProject WHERE project_id =?)'
-  var varibale = [project_id, team_number]
-  connection.query(sql, varibale, function (err, result) {
+  var sql = 'SELECT * FROM  UserHasProject JOIN User USING (user_id) WHERE project_id = ?'
+  connection.query(sql, project_id, function (err, result) {
     if (err) throw err
 
     res.send(result);

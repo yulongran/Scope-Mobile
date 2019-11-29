@@ -44,10 +44,10 @@ router.post('/', function (req, res) {
     var sql = 'SELECT * FROM Milestone WHERE project_id = ?'
     connection.query(sql, project_id, function (err, result) {
         if (err) throw err
-
         res.send(result)
     })
 })
+
 
 var express = require('express');
 var router = express.Router();

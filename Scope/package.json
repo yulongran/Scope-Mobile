@@ -9,6 +9,8 @@
     "client": "npm start"
   },
   "dependencies": {
+    "@dooboo-ui/native": "^0.4.3",
+    "@dooboo-ui/native-accordion": "^0.4.0",
     "@expo/vector-icons": "^10.0.5",
     "bcryptjs": "^2.4.3",
     "expo": "^35.0.0",
