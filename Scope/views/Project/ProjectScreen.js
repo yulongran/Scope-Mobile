@@ -162,8 +162,8 @@ class ProjectScreen extends Component {
                 project_id={item.project_id}
                 handler={this.handler}
                 onPress={() => {
-                    this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
-             }}
+                  this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
+                }}
               />
             )}
             keyExtractor={(item, index) => index.toString()}

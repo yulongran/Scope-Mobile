@@ -10,8 +10,8 @@ import { Avatar, ButtonGroup, Divider } from 'react-native-elements';
 import Accordion from '@dooboo-ui/native-accordion';
 import { Ionicons } from "@expo/vector-icons";
 
-const WIDTH = Dimensions.get('screen').width;
-const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 /**https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript */
 function romanize(num) {
@@ -24,30 +24,6 @@ function romanize(num) {
     }
     return roman;
 }
-/**
- * Image Source from https://randomuser.me/
- * Credit to https://randomuser.me/
- */
-const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
-    "https://randomuser.me/api/portraits/med/men/2.jpg",
-    "https://randomuser.me/api/portraits/med/men/3.jpg",
-    "https://randomuser.me/api/portraits/med/men/4.jpg",
-    "https://randomuser.me/api/portraits/med/men/5.jpg",
-    "https://randomuser.me/api/portraits/med/men/6.jpg",
-    "https://randomuser.me/api/portraits/med/men/7.jpg",
-    "https://randomuser.me/api/portraits/med/men/8.jpg",
-    "https://randomuser.me/api/portraits/med/men/9.jpg",
-    "https://randomuser.me/api/portraits/med/men/10.jpg",
-    "https://randomuser.me/api/portraits/med/women/1.jpg",
-    "https://randomuser.me/api/portraits/med/women/2.jpg",
-    "https://randomuser.me/api/portraits/med/women/3.jpg",
-    "https://randomuser.me/api/portraits/med/women/4.jpg",
-    "https://randomuser.me/api/portraits/med/women/5.jpg",
-    "https://randomuser.me/api/portraits/med/women/6.jpg",
-    "https://randomuser.me/api/portraits/med/women/7.jpg",
-    "https://randomuser.me/api/portraits/med/women/8.jpg",
-    "https://randomuser.me/api/portraits/med/women/9.jpg",
-]
 class ProjectReviewScreen extends Component {
 
     /**
@@ -236,214 +212,26 @@ class ProjectReviewScreen extends Component {
     render() {
         const buttons = ['Milestone', 'Review']
         const { selectedIndex } = this.state
-        const milestoneList =
-            <FlatList
-                data={this.state.milestone}
-                renderItem={({ item }) => (
-                    <MileStone project_id={this.state.project_id}
-                        milestone_number={item.milestone_number}
-                        milestone_description={item.milestone_description}
-                        milestone_startDate={item.milestone_startDate}
-                        milestone_endDate={item.milestone_endDate}></MileStone>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                extraData={this.state}
-                contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
-            />
-
-        const reviewList =
-            <FlatList
-                data={this.state.reviews}
-                renderItem={({ item }) => (
-                    <Review reviewee_id={item.reviewee_id} reviewer_id={item.reviewer_id} review_description={item.review_description} />
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                extraData={this.state}
-                contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }}
-            />
-
         return (
-            <View className="wrapper">
-                <View className="selection_view">
-                    <ButtonGroup
-                        onPress={this.updateIndex}
-                        selectedIndex={selectedIndex}
-                        buttons={buttons}
-                        containerStyle={styles.selectionStyle}
-                        textStyle={{ fontFamily: 'Avenir' }}
-                        selectedButtonStyle={{ backgroundColor: "#3F5AA6" }}
-                    />
-                </View>
-                <View style={styles.container} >
-                    <View className="project_title">
-                        <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.07, color: '#192A59', fontWeight: '800' }}>{this.state.project.project_title}</Text>
-                    </View>
-                    <Divider style={{ backgroundColor: '#EBEEF7', marginTop: HEIGHT * 0.01 }} />
-                    <View className="project_description" style={{ marginTop: HEIGHT * 0.02 }}>
-                        <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.045, color: '#192A59', fontWeight: '600', marginBottom: HEIGHT * 0.015 }}>DESCRIPTION</Text>
-                        <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.04, color: '#828899', fontWeight: '400' }}>{this.state.project.project_description}</Text>
-                    </View>
-                    <View className="team_member" style={{ marginTop: HEIGHT * 0.02 }}>
-                        <FlatList
-                            data={this.state.group_members}
-                            key={this.state.group_members}
-                            renderItem={({ item }) => (
-                                <View style={{ marginRight: WIDTH * 0.075, alignItems: 'center' }}>
-                                    <Avatar
-                                        rounded
-                                        size={WIDTH * 0.15}
-                                        source={{
-                                            uri:
-                                                ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                        }} />
-                                    <Text style={{
-                                        fontSize: WIDTH * 0.030,
-                                        fontFamily: 'Avenir',
-                                        textAlign: 'center',
-                                        fontWeight: '300',
-                                    }}>{item.user_firstname}</Text>
-                                    <Text style={{
-                                        fontSize: WIDTH * 0.030,
-                                        fontFamily: 'Avenir',
-                                        textAlign: 'center',
-                                        fontWeight: '300',
-                                    }}>
-                                        {item.user_lastname}
-                                    </Text>
-                                </View>
-                            )}
-                            keyExtractor={(item, index) => index.toString()}
-                            horizontal={true}
-                        />
-                    </View>
-                    <View className="project_milestone" style={{ marginTop: HEIGHT * 0.025 }}>
-                        <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.045, color: '#192A59', fontWeight: '600', marginBottom: HEIGHT * 0.015 }}>MILESTONE</Text>
-                        <View className='drop_down'>
-                            <ScrollView style={{ alignSelf: 'stretch' }}>
-                                {
-                                    this.state.milestone
-                                        ? this.state.milestone.map((m, i) => {
-                                            return (
-                                                <Accordion
-                                                    key={i}
-                                                    contentVisible={false}
-                                                    style={styles.AccordionStyle}
-                                                    visibleElement={
-                                                        <Ionicons name="md-arrow-dropup" size={WIDTH * 0.05} color="black" style={{ marginLeft: WIDTH * 0.8, padding: 10 }} />
-                                                    }
-                                                    invisibleElement={
-                                                        <Ionicons name="md-arrow-dropdown" size={WIDTH * 0.05} color="black" style={{ marginLeft: WIDTH * 0.8, padding: 10 }} />
-                                                    }
-                                                    header={
-                                                        <View>
-                                                            <Text style={{
-                                                                fontSize: 16,
-                                                                color: 'blue',
-                                                                fontFamily: 'Avenir',
-                                                                fontWeight: '400',
-                                                                color: '#4D4F5C',
-                                                            }}>Milestone {romanize(m.milestone_number)}</Text>
-                                                        </View>
-                                                    }
-                                                >
-                                                    <View className="content" style={{ marginBottom: 20 , marginTop: -28}}>
-                                                        <Text style={[
-                                                            styles.txt,
-                                                            {
-                                                                fontSize: 15,
-                                                                fontFamily: 'Avenir',
-                                            
-                                                            }
-                                                        ]}>
-                                                            {m.milestone_description}
-                                                        </Text>
-                                                    </View>
-                                                </Accordion>
-                                            );
-                                        })
-                                        : null
-                                }
-                                <View style={{ height: 96 }} />
-                            </ScrollView>
+            <SafeAreaView>
+                <ScrollView>
+                    <View className="wrapper">
+                        <View className="selection_view">
+                            <ButtonGroup
+                                onPress={this.updateIndex}
+                                selectedIndex={selectedIndex}
+                                buttons={buttons}
+                                containerStyle={styles.selectionStyle}
+                                textStyle={{ fontFamily: 'Avenir' }}
+                                selectedButtonStyle={{ backgroundColor: "#3F5AA6" }}
+                            />
                         </View>
+                        {this.state.selectedIndex == 0 ? <View className='milestone_view'>
+                            <MileStone />
+                        </View> : null}
                     </View>
-                    {/* <View className="group_list" style={styles.groupListStyle}>
-                        <Text style={{ fontSize: 16, marginBottom: 10, alignSelf: 'flex-start', fontStyle: 'italic' }}>Group Members</Text>
-                        <FlatList
-                            data={this.state.group_members}
-                            key={this.state.group_members}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={{
-                                        width: WIDTH * 0.25,
-                                        height: WIDTH * 0.3,
-                                    }}
-                                    onPress={() => {
-                                        this.props.navigation.navigate("EvaluationScreen",
-                                            {
-                                                user_firstname: item.user_firstname,
-                                                user_lastname: item.user_lastname,
-                                                user_profile: ProfilePic[Math.floor(Math.random() * ProfilePic.length)]
-                                            })
-                                    }}>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <Avatar
-                                            rounded
-                                            size={"large"}
-                                            source={{
-                                                uri:
-                                                    ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                            }}
-                                        />
-                                        <Text style={{
-                                            marginTop: HEIGHT * 0.008,
-                                            fontSize: WIDTH * 0.035,
-                                            alignSelf: 'center'
-                                        }}>{item.user_firstname}</Text>
-                                        <Text style={{
-                                            fontSize: WIDTH * 0.035,
-                                            alignSelf: 'center'
-                                        }}>
-                                            {item.user_lastname}
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            )}
-                            keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={{ width: WIDTH * 0.8, alignItems: 'center' }}
-                            horizontal={true}
-                        />
-                    </View>
-                    < SafeAreaView style={styles.contentContainer} >
-                        <View className="milestone_review_selection" style={{ flexDirection: 'row', marginTop: HEIGHT * 0.05, height: HEIGHT * 0.03 }}>
-                            <TouchableOpacity style={[this.state.milestone_button ? styles.touchOnStyle : styles.touchStyle]}
-                                onPress={() => {
-                                    this.setState(
-                                        {
-                                            milestone_button: true,
-                                            review_button: false,
-                                        }
-                                    )
-                                }}>
-                                <Text>Milestone</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[this.state.review_button ? styles.touchOnStyle : styles.touchStyle]}
-                                onPress={() => {
-                                    this.setState(
-                                        {
-                                            review_button: true,
-                                            milestone_button: false,
-                                        }
-                                    )
-                                }}>
-                                <Text>Review</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {this.state.milestone_button ? milestoneList : reviewList}
-                    </SafeAreaView> */}
-                </View>
-            </View>
-
+                </ScrollView>
+            </SafeAreaView >
         )
     }
 }
@@ -451,9 +239,6 @@ class ProjectReviewScreen extends Component {
 
 const styles = StyleSheet.create(
     {
-        container: {
-            margin: WIDTH * 0.05,
-        },
         title: {
             fontSize: 20,
             textAlign: 'center',
@@ -510,7 +295,10 @@ const styles = StyleSheet.create(
         selectionStyle:
         {
             height: HEIGHT * 0.04,
+            width: WIDTH * 0.85,
             marginTop: HEIGHT * 0.01,
+            alignSelf: 'center',
+            borderRadius: 7,
         },
         AccordionStyle:
         {
