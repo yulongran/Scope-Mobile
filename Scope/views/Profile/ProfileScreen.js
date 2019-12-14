@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Icon, Avatar } from 'react-native-elements';
+import firebase from 'react-native-firebase';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -42,18 +43,8 @@ class ProfileScreen extends Component {
             }
     }
 
-    /**
-     * Log out by deleting User's JWT toekn
-     */
-    logOut = async () => {
-        try {
-            await AsyncStorage.removeItem('id_token');
-            this.props.navigation.navigate('Home')
-            return true;
-        }
-        catch (error) {
-            return false;
-        }
+    onPressSignOut = () => {
+        firebase.auth().signOut();
     }
 
     onChangeText = (key, val) => {
@@ -101,43 +92,105 @@ class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{
-                    alignSelf: 'center',
-                    marginTop: HEIGHT * 0.13,
-                    marginBottom: HEIGHT * 0.06,
-                }}>
+                <View style={styles.profileStyle}>
                     {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
-                    <Image source={{ uri: ProfilePic[Math.floor(Math.random() * ProfilePic.length)] }} style={{
-                        width: WIDTH * 0.3,
-                        height: WIDTH * 0.3,
-                        borderRadius: WIDTH * 0.3 / 2,
-                        alignSelf: 'center',
-                    }} />
-                    <Text style={{
-                        alignSelf: 'center',
-                        marginTop: HEIGHT * 0.01,
-                        fontSize: 25,
-                        fontWeight: 'bold',
-                        fontStyle: 'italic',
-                    }}>{this.state.user_firstName} {this.state.user_lastName}</Text>
+                    <Avatar
+                        source={{
+                            uri:
+                                ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
+                        }}
+                        rounded
+                        size='xlarge'
+                        containerStyle={{ alignSelf: 'center' }}
+                        showEditButton
+                    />
+
+                    <Text style={styles.nameStyle}>{this.state.user_firstName} {this.state.user_lastName}</Text>
                 </View>
                 <View style={styles.viewStyle}>
-                    <Text style={styles.textStyle}>Institution</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_institution}
-                        onChangeText={value => this.onChangeText('institution', value)}
-                    ></TextInput>
+                    <Icon
+                        reverse
+                        name='ios-contact'
+                        type='ionicon'
+                        color='#BACAFF'
+                        iconStyle={styles.iconStyle}
+                    />
+                    <View style={styles.infoStyle}>
+                        <Text style={styles.textStyle}>Full Name</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_institution}
+                            onChangeText={value => this.onChangeText('institution', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Icon
+                            name='right'
+                            type='antdesign'
+                            color='#3F5AA6'
+                            size={WIDTH * 0.055}
+                        />
+                    </View>
                 </View>
                 <View style={styles.viewStyle}>
+                    <Icon
+                        reverse
+                        name='contacts'
+                        type='antdesign'
+                        color='#BACAFF'
+                        iconStyle={styles.iconStyle}
+                    />
+                    <View style={styles.infoStyle}>
+                        <Text style={styles.textStyle}>Contact Info</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_institution}
+                            onChangeText={value => this.onChangeText('institution', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Icon
+                            name='right'
+                            type='antdesign'
+                            color='#3F5AA6'
+                            size={WIDTH * 0.055}
+                        />
+                    </View>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Icon
+                        reverse
+                        name='ios-school'
+                        type='ionicon'
+                        color='#BACAFF'
+                        iconStyle={styles.iconStyle}
+                    />
+                    <View style={styles.infoStyle}>
+                        <Text style={styles.textStyle}>Institution</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user_institution}
+                            onChangeText={value => this.onChangeText('institution', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Icon
+                            name='right'
+                            type='antdesign'
+                            color='#3F5AA6'
+                            size={WIDTH * 0.055}
+                        />
+                    </View>
+                </View>
+                {/* <View style={styles.viewStyle}>
                     <Text style={styles.textStyle}>First Name</Text>
                     <TextInput
                         style={styles.inputStyle}
                         value={this.state.user_firstName}
                         onChangeText={value => this.onChangeText('firstName', value)}
                     ></TextInput>
-                </View>
-                <View style={styles.viewStyle}>
+                </View> */}
+                {/* <View style={styles.viewStyle}>
                     <Text style={styles.textStyle}>Last Name</Text>
                     <TextInput
                         style={styles.inputStyle}
@@ -163,6 +216,15 @@ class ProfileScreen extends Component {
                         onPress={() => {
                             this.logOut()
                         }} />
+                </View> */}
+                <View className='sign_out_button' style={styles.signOutStyle}>
+                    <Button
+                        title="Sign Out"
+                        raised
+                        buttonStyle={{ backgroundColor: '#FF0000' }}
+                        titleStyle={styles.signOutTextStyle}
+                        onPress={this.onPressSignOut}
+                    />
                 </View>
             </View>
         )
@@ -173,23 +235,67 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 3,
+            backgroundColor: '#FAFBFF',
         },
         textStyle: {
-            color: 'black',
-            fontSize: 20,
-            fontFamily: 'Cochin',
+            color: '#3F5AA6',
+            fontSize: WIDTH * 0.045,
+            fontFamily: 'Avenir',
+            fontWeight: '800',
+
         },
         viewStyle:
         {
-            marginLeft: WIDTH * 0.15,
-            marginRight: WIDTH * 0.15,
+            width: WIDTH * 0.85,
+            alignSelf: 'center',
             marginBottom: HEIGHT * 0.02,
+            backgroundColor: 'white',
+            borderRadius: WIDTH * 0.01,
+            flexDirection: 'row',
+            alignItems: 'center',
         },
         inputStyle:
         {
-            borderBottomColor: 'black',
-            borderBottomWidth: 0.5,
-            height: 40,
+            color: '#828899',
+            fontFamily: 'Avenir',
+            fontSize: WIDTH * 0.035,
+        },
+        nameStyle:
+        {
+            alignSelf: 'center',
+            marginTop: HEIGHT * 0.02,
+            fontSize: WIDTH * 0.07,
+            fontWeight: '800',
+            fontStyle: 'italic',
+            fontFamily: 'Avenir',
+            color: '#3F5AA6',
+        },
+        profileStyle:
+        {
+            alignSelf: 'center',
+            marginTop: HEIGHT * 0.08,
+            marginBottom: HEIGHT * 0.06,
+        },
+        iconStyle:
+        {
+            color: '#3F5AA6',
+
+        },
+        infoStyle:
+        {
+            marginLeft: WIDTH * 0.02,
+            flex: 3,
+        },
+        signOutTextStyle:
+            { fontFamily: 'Avenir', fontWeight: '800', fontSize: WIDTH * 0.05, alignSelf: 'center' },
+        signOutStyle:
+        {
+            flex: 1,
+            justifyContent: 'flex-end',
+            width: WIDTH * 0.8,
+            alignSelf: 'center',
+            paddingBottom: HEIGHT * 0.03,
+            borderRadius: (WIDTH + HEIGHT) / 2,
         },
     }
 )

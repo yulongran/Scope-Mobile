@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Alert,
     Image,
+    FlatList,
 } from 'react-native'
 import {
     Menu,
@@ -16,64 +17,41 @@ import {
 } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
 import { Avatar } from 'react-native-elements';
-import ProjectRequest from '../../../../services/Project/index';
 import ProjectCard from '../../../../assets/images/projectCard.png';
-
+import firebase from 'react-native-firebase'
 
 /**
- * Image Source from https://randomuser.me/
- * Credit to https://randomuser.me/
+ * A Project Component in the Dashbaord Screen
  */
-const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
-    "https://randomuser.me/api/portraits/med/men/2.jpg",
-    "https://randomuser.me/api/portraits/med/men/3.jpg",
-    "https://randomuser.me/api/portraits/med/men/4.jpg",
-    "https://randomuser.me/api/portraits/med/men/5.jpg",
-    "https://randomuser.me/api/portraits/med/men/6.jpg",
-    "https://randomuser.me/api/portraits/med/men/7.jpg",
-    "https://randomuser.me/api/portraits/med/men/8.jpg",
-    "https://randomuser.me/api/portraits/med/men/9.jpg",
-    "https://randomuser.me/api/portraits/med/men/10.jpg",
-    "https://randomuser.me/api/portraits/med/women/1.jpg",
-    "https://randomuser.me/api/portraits/med/women/2.jpg",
-    "https://randomuser.me/api/portraits/med/women/3.jpg",
-    "https://randomuser.me/api/portraits/med/women/4.jpg",
-    "https://randomuser.me/api/portraits/med/women/5.jpg",
-    "https://randomuser.me/api/portraits/med/women/6.jpg",
-    "https://randomuser.me/api/portraits/med/women/7.jpg",
-    "https://randomuser.me/api/portraits/med/women/8.jpg",
-    "https://randomuser.me/api/portraits/med/women/9.jpg",
-]
-
 class Project extends Component {
     /**
      * Construct a ProjectDisplay object
      * @param {*} props
-     * @property projectName the name of the project
-     * @property courseName the name of the course
+     * @property project_title The title of the project
+     * @property project_course The course name of the project
      * @property schoolName the name of the institution
      * @property startDate the start date of the project
      * @property endDate the end date of the project
      * @property description brief description of the project
      * 
      */
-
     constructor(props) {
         super(props)
         this.state =
             {
-                description: '',
                 delete: false,
+                team_member: [1, 2, 3, 4],
             }
     }
 
-    componentDidMount() {
-        this.setState(
-            {
-                description: this.props.description,
-            }
-        )
+    onPressDelete = () => {
+        const uid = firebase.auth().currentUser.uid;
+        firebase.database().ref('Project').child(uid).child(this.props.uid).remove();
     }
+
+    componentDidMount() {
+    }
+
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress}>
@@ -81,8 +59,8 @@ class Project extends Component {
                     <View>
                         <Image source={ProjectCard} style={styles.projectCardStyle}></Image>
                     </View>
-                    <View className="main_content" style={{marginTop: -20}}>
-                        <View className="project_menu_selection" style={{ alignSelf: 'flex-end', paddingRight: 40 }}>
+                    <View className="main_content" style={{ marginTop: -20 }}>
+                        <View className="project_menu_selection" style={styles.menuContainerStyle}>
                             <Menu style={{ marginLeft: WIDTH * 0.33 }}>
                                 <MenuTrigger>
                                     <Ionicons
@@ -91,7 +69,7 @@ class Project extends Component {
                                         size={WIDTH * 0.04}
                                     />
                                 </MenuTrigger>
-                                <MenuOptions optionsContainerStyle={{ width: WIDTH * 0.2, borderRadius: 8 }}>
+                                <MenuOptions optionsContainerStyle={styles.optionsContainerStyle}>
                                     <MenuOption text='Edit' />
                                     <MenuOption text='Remove' onSelect={() => {
                                         Alert.alert(
@@ -100,13 +78,7 @@ class Project extends Component {
                                             [
                                                 {
                                                     text: 'Yes', onPress: () => {
-                                                        var response = ProjectRequest.deleteProject(this.props.project_id)
-                                                        if (response) {
-                                                            this.setState({
-                                                                delete: true,
-                                                            })
-                                                        }
-                                                        this.props.handler()
+                                                        this.onPressDelete()
                                                     }
                                                 },
                                                 { text: 'No', style: 'cancel' },
@@ -121,45 +93,35 @@ class Project extends Component {
                         </View>
                         <View style={styles.ViewStyle} >
                             <View className="left_container">
-                                <Text style={styles.ProjectNameStyle}>{this.props.projectName}</Text>
+                                <Text style={styles.ProjectNameStyle}>{this.props.project_title}</Text>
                                 <View style={{ marginTop: HEIGHT * 0.01, marginLeft: WIDTH * 0.03 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                                        <Text style={styles.startDateStyle}>From {this.props.startDate}</Text>
+                                        <Text style={styles.startDateStyle}>From {this.props.project_startDate}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
-                                        <Text style={styles.endDateStyle}>To     {this.props.endDate}</Text>
+                                        <Text style={styles.endDateStyle}>To      {this.props.project_endDate}</Text>
                                     </View>
                                 </View>
                             </View>
-                            <View className="right_container" style={styles.rightSideStyle}>
-                                <Avatar
-                                    rounded
-                                    source={{
-                                        uri:
-                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                    }}
-                                    size={42}
-                                    containerStyle={{ margin: 10 }}
-                                />
-                                <Avatar
-                                    rounded
-                                    source={{
-                                        uri:
-                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                    }}
-                                    size={42}
-                                    containerStyle={{ margin: 10 }}
-                                />
-                                <Avatar
-                                    rounded
-                                    source={{
-                                        uri:
-                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                    }}
-                                    size={42}
-                                    containerStyle={{ margin: 10 }}
+                            <View className="right_avatar_container" style={styles.rightSideStyle}>
+                                <FlatList
+                                    data={this.state.team_member}
+                                    renderItem={({ item, index }) => (
+                                        <Avatar
+                                        rounded
+                                        source={{
+                                            uri:
+                                                'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+                                        }}
+                                        size={42}
+                                        containerStyle={{ margin: 10 }}
+                                    />
+                                    )}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    extraData={this.state.team_member}
+                                    horizontal= {true}
                                 />
                             </View>
                         </View>
@@ -230,10 +192,18 @@ const styles = StyleSheet.create({
         height: WIDTH * 0.07,
         width: WIDTH * 0.07,
     },
+    menuContainerStyle:
+    {
+        alignSelf: 'flex-end',
+        paddingRight: 40
+    },
+    optionsContainerStyle:
+        { width: WIDTH * 0.2, borderRadius: 8 },
+
 
 })
 
-export default Project
+export default Project;
 
 
 

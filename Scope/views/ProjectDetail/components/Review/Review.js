@@ -82,52 +82,7 @@ export class Review extends Component {
 
     render() {
         return (
-            <View style={styles.container} >
-                <View className="project_title">
-                    <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.07, color: '#192A59', fontWeight: '800' }}>Project Title</Text>
-                    <View style={styles.projectIDContainer}>
-                        <Text style={styles.projectIDStyle}> ID: 10123123132 </Text>
-                    </View>
-                </View>
-                <Divider style={{ backgroundColor: '#EBEEF7', marginTop: HEIGHT * 0.01 }} />
-                <View className="project_description" style={{ marginTop: HEIGHT * 0.02 }}>
-                    <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.045, color: '#192A59', fontWeight: '600', marginBottom: HEIGHT * 0.015 }}>DESCRIPTION</Text>
-                    <Text style={{ fontFamily: 'Avenir', fontSize: WIDTH * 0.04, color: '#828899', fontWeight: '400' }}>Project Description</Text>
-                </View>
-                <View className="team_member" style={{ marginTop: HEIGHT * 0.02 }}>
-                    <FlatList
-                        data={this.state.group_members}
-                        key={this.state.group_members}
-                        renderItem={({ item }) => (
-                            <View style={{ marginRight: WIDTH * 0.075, alignItems: 'center' }}>
-                                <Avatar
-                                    rounded
-                                    size={WIDTH * 0.15}
-                                    source={{
-                                        uri:
-                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                    }} />
-                                <Text style={{
-                                    fontSize: WIDTH * 0.030,
-                                    fontFamily: 'Avenir',
-                                    textAlign: 'center',
-                                    fontWeight: '300',
-                                }}>{item.user_firstname}</Text>
-                                <Text style={{
-                                    fontSize: WIDTH * 0.030,
-                                    fontFamily: 'Avenir',
-                                    textAlign: 'center',
-                                    fontWeight: '300',
-                                }}>
-                                    {item.user_lastname}
-                                </Text>
-                            </View>
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        horizontal={true}
-                    />
-                </View>
-            </View>
+          <View></View>
         )
     }
 }

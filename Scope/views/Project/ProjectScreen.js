@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   SafeAreaView,
@@ -11,21 +10,17 @@ import { SearchBar } from "react-native-elements";
 import Project from "./components/Project/index";
 import { Ionicons } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
-import ProjectRequest from '../../services/Project/index';
+import firebase from 'react-native-firebase';
 
 
 class ProjectScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.filterProject = this.filterProject.bind(this);
-    this.reload = this.reload.bind(this);
-    this.handler = this.handler.bind(this);
     this.state = {
-      search: "",
-      project: [],
-      user_identity: 'instructor',
-      refresh: true,
+      project: null,
+      projectKeys: null,
+      search: '',
     };
   }
 
@@ -50,165 +45,71 @@ class ProjectScreen extends Component {
     };
   }
 
-
-
-  /**
-   * Update the project after project componet call delete API
-   * @param {} someValue 
-   */
-  async handler() {
-    let response = await ProjectRequest.fetchProject()
-    this.setState(
-      {
-        project: response
-      }
-    )
-  }
-  /**
-   *  Get an array of project which due date is before today's date
-   */
-  getHistoryProject() {
-    return (history = this.state.project.filter(function (project) {
-      return Date.parse(project.project_endDate) < Date.now();
-    }));
+  componentDidMount() {
+    this.fetchProject()
   }
 
-  /**
-   *  Get an array of project which due date is after today's date
-   */
-  getOngoingProject() {
-    return (ongoing = this.state.project.filter(function (project) {
-      return Date.parse(project.project_endDate) >= Date.now();
-    }));
-  }
-
-  /**
-   *  Filter out project's projectName don't contains search input
-   * @param {string} text the search input
-   */
-  filterProject(text) {
-    const filter = this.state.project.filter(item =>
-      item.project_title.includes(text)
-    );
-    this.setState({
-      project: filter,
-      search: text
-    });
-    if (text.length == 0) {
-      this.reload();
+  fetchProject = () => {
+    const uid = firebase.auth().currentUser.uid;
+    if (uid !== null && !this.state.project && !this.state.projectKeys) {
+      firebase.database().ref('Project/' + uid).on('value', (snapshot) => {
+        this.setState({ project: Object.values(snapshot.val()) })
+        this.setState({ projectKeys: Object.keys(snapshot.val()) })
+      });
     }
   }
 
-  /**
-   * Reload project from database
-   */
-  async reload() {
-    let response = await ProjectRequest.fetchProject()
-    this.setState(
-      {
-        project: response
-      }
-    )
-  }
-
-  refreshScreen() {
-    this.setState(
-      {
-        refresh: !refresh
-      }
-    )
-  }
-  /**
-   * Re-render after project had been deleted or updated
-   */
-  async componentDidMount() {
-    let response = await ProjectRequest.fetchProject()
-    this.setState(
-      {
-        project: response
-      }
-    )
-  }
-
-  componentDidUpdate() {
-
-  }
   render() {
     return (
-      <View style={styles.container}>
-        <View className="SearchBar" style={styles.searchSectionStyle}>
-          <SearchBar
-            placeholder="Search"
-            showCancel={true}
-            inputStyle={{ backgroundColor: "white" }}
-            inputContainerStyle={styles.searchStyle}
-            containerStyle={styles.searchSectionStyle}
-            lightTheme={true}
-            onChangeText={text => this.filterProject(text)}
-            value={this.state.search}
-            onClear={this.reload}
-          />
-        </View>
-        <SafeAreaView style={{ height: Dimensions.get("window").height * 0.35 }}>
-          <FlatList
-            data={this.getOngoingProject()}
-            renderItem={({ item }) => (
-              <Project
-                projectName={item.project_title}
-                courseName={item.project_course}
-                schoolName={item.project_institution}
-                startDate={item.project_startDate}
-                endDate={item.project_endDate}
-                project_id={item.project_id}
-                handler={this.handler}
-                onPress={() => {
-                  this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
-                }}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            extraData={this.state}
-          />
-        </SafeAreaView>
-        <View style={styles.historySectionStyle}>
-          <Text style={styles.ArchivedStye}>Archived</Text>
-          <SafeAreaView
-            style={{ height: Dimensions.get("window").height * 0.35, flexGrow: 1, marginTop: HEIGHT * 0.015 }}
-          >
+      <SafeAreaView>
+        <View style={styles.container}>
+          <View className="SearchBar" style={styles.searchSectionStyle}>
+            <SearchBar
+              placeholder="Search"
+              showCancel={true}
+              inputStyle={{ backgroundColor: "white" }}
+              inputContainerStyle={styles.searchStyle}
+              containerStyle={styles.searchSectionStyle}
+              lightTheme={true}
+              // onChangeText={text => this.filterProject(text)}
+              value={this.state.search}
+              onClear={() => { }}
+            />
+          </View>
+          <View style={styles.projectListStyle}>
             <FlatList
-              data={this.getHistoryProject()}
-              renderItem={({ item }) => (
+              data={this.state.project}
+              renderItem={({ item, index }) => (
                 <Project
-                  projectName={item.project_title}
-                  courseName={item.project_course}
-                  schoolName={item.project_institution}
-                  startDate={item.project_startDate}
-                  endDate={item.project_endDate}
-                  projet_id={item.project_id}
-                  handler={this.handler}
+                  project_title={item.project_title}
+                  project_course={item.project_course}
+                  project_startDate={item.project_startDate}
+                  project_endDate={item.project_endDate}
+                  uid={this.state.projectKeys !== null ? this.state.projectKeys[index] : null}
                   onPress={() => {
-                    this.props.navigation.navigate("Review", { project: item, refreshScreen: this.refreshScreen })
+                    this.props.navigation.navigate("Review")
                   }}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
+              extraData={this.state.project}
             />
-          </SafeAreaView>
-        </View>
-        <FloatingAction
-          actions={actions}
-          onPressItem={name => {
-            if (name == 'add_project') {
-              this.props.navigation.navigate("ProjectCreation");
-            }
-            if (name == 'join_project') {
-              this.props.navigation.navigate('ProjectJoinScreen')
-            }
-          }}
-          buttonSize={45}
-          color={"#3F5AA6"}
-        />
-      </View >
+          </View>
+          <FloatingAction
+            actions={actions}
+            onPressItem={name => {
+              if (name == 'add_project') {
+                this.props.navigation.navigate("ProjectCreation");
+              }
+              if (name == 'join_project') {
+                this.props.navigation.navigate('ProjectJoinScreen')
+              }
+            }}
+            buttonSize={45}
+            color={"#3F5AA6"}
+          />
+        </View >
+      </SafeAreaView>
     );
   }
 
@@ -238,8 +139,6 @@ const actions = [
  */
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
   },
   listStyle: {
@@ -259,9 +158,6 @@ const styles = StyleSheet.create({
     color: '#3F5AA6',
     marginLeft: WIDTH * 0.02
   },
-  historySectionStyle: {
-    height: 20,
-  },
   searchStyle: {
     width: Dimensions.get("window").width * 0.9,
     height: HEIGHT * 0.05,
@@ -273,6 +169,10 @@ const styles = StyleSheet.create({
   searchSectionStyle:
   {
     backgroundColor: 'white',
+  },
+  projectListStyle:
+  {
+    // height: Dimensions.get("window").height * 0.7,
   }
 });
 

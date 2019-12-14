@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpacity, AsyncStorage,
+    View, Text, StyleSheet, Dimensions, SafeAreaView, TextInput
 } from 'react-native'
 import { Input } from 'react-native-elements';
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
 import { Button } from 'react-native-elements';
-import Slider from "react-native-slider";
+import firebase from 'react-native-firebase';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -17,137 +17,72 @@ class ProjectCreationScreen extends Component {
         this.state = {
             project_title: null,
             project_course: null,
-            project_institution: null,
+            project_description: null,
             project_startDate: null,
             project_endDate: null,
-            milestone: [],
-            project_id: null,
-            team_size: 0,
         }
     }
 
-    static navigationOptions = {
-        title: "Project Creation",
-        headerStyle: {
-            backgroundColor: '#005AA7',
-
-        },
-        headerTintColor: 'white',
-        headerTitleStyle:
-        {
-            fontFamily: 'Cochin',
-            fontSize: 28,
-        }
-
-    };
-
-
-    /**
-     * API call to create a project in the database
-     */
-    async UpdateUserHasProjectTable() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/project/UpdateUserHasProjectTable',
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Project Creation',
+            headerTintColor: '#192A59',
+            headerTitleStyle:
             {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project_id,
-                },
-            })
-        if (response.state == 200) {
-            return true;
-        }
-        return false
+                fontFamily: 'Avenir',
+                fontSize: WIDTH * 0.06,
+                textAlign: 'center',
+                flex: 1,
+                fontWeight: '900',
+            },
+        };
     }
 
-    /**
-     * API call to create a project in the database
-     */
-    async UpdateMilestoneTable(milestone) {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/milestone/addMilestone',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project_id,
-                    milestone_description: milestone.milestone_description,
-                    milestone_number: milestone.milestone_number,
-                    milestone_startDate: milestone.milestone_startDate,
-                    milestone_endDate: milestone.milestone_endDate,
-
-                },
-            })
-        if (response.state == 200) {
-            return true;
-        }
-        return false
-    }
-
-
-    /**
-     * API call to create a project in the database
-     */
-    async createProject() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/project/projectCreation',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
+    onSubmitPress = () => {
+        const uid = firebase.auth().currentUser.uid;
+        if (uid != null) {
+            const project = firebase.database().ref('Project').child(uid)
+            project.push(
+                {
                     project_title: this.state.project_title,
                     project_course: this.state.project_course,
-                    project_institution: this.state.project_institution,
+                    project_description: this.state.project_description,
                     project_startDate: this.state.project_startDate,
                     project_endDate: this.state.project_endDate,
-                    project_description: this.state.project_description,
-                },
-            })
-        if (response.status == 200) {
-            let responseJson = await response.json();
-            console.log(responseJson)
-            this.setState(
-                {
-                    project_id: responseJson.insertId
-                }
-            )
-            this.UpdateUserHasProjectTable()
-            this.state.milestone.forEach(item => {
-                this.UpdateMilestoneTable(item)
-            })
+                }).then(() => {
+                    this.props.navigation.navigate("Project")
+                })
         }
-        return false
     }
 
     render() {
         return (
-            <View className="container" style={styles.containerStyle}>
-                <View className="form" style={{ alignItems: 'center', flex: 3 }}>
+            <SafeAreaView>
+                <View className="form" style={styles.inputWraperStyle}>
                     <View className="project_input">
                         <Input
                             label="Project Title"
-                            labelStyle={{ alignSelf: 'flex-start', fontFamily: 'Helvetica Neue' }}
-                            inputContainerStyle={{ backgroundColor: 'white', borderBottomWidth: 0.6, marginTop: 10 }}
-                            containerStyle={{ width: WIDTH, alignItems: 'center', width: WIDTH * 0.9, marginTop: HEIGHT * 0.02 }} />
+                            labelStyle={styles.labelStyle}
+                            inputContainerStyle={styles.inputContainerStyle}
+                            containerStyle={styles.inputOutterContainerStyle}
+                            inputStyle={{ fontFamily: 'Avenir', color: '#3F5AA6' }}
+                            onChangeText={(value) => {
+                                this.setState({ project_title: value })
+                            }} />
                     </View>
-                    <View className="project_description" style={{ marginTop: HEIGHT * 0.01, }}>
-                        <Text style={styles.titleStyle}>Description</Text>
+                    <View className="course_input">
+                        <Input
+                            label="Course"
+                            labelStyle={styles.labelStyle}
+                            inputContainerStyle={styles.inputContainerStyle}
+                            containerStyle={styles.inputOutterContainerStyle}
+                            inputStyle={{ fontFamily: 'Avenir', color: '#3F5AA6' }}
+                            onChangeText={(value) => {
+                                this.setState({ project_course: value })
+                            }} />
+                    </View>
+                    <View className="project_description" style={styles.inputOutterContainerStyle}>
+                        <Text style={styles.labelStyle}>Description</Text>
                         <TextInput
                             style={styles.descriptionStyle}
                             onChangeText={(text) => {
@@ -160,21 +95,9 @@ class ProjectCreationScreen extends Component {
                             multiline={true}
                         ></TextInput>
                     </View>
-                    <View style={styles.Slidercontainer}>
-                        <Slider
-                            value={this.state.team_size}
-                            minimumValue={1}
-                            maximumValue={50}
-                            step={1}
-                            onValueChange={value => this.setState({ team_size: value })}
-                        />
-                        <Text>
-                            Number of Team: {this.state.team_size}
-                        </Text>
-                    </View>
-                    <View className="date_picker" style={{ marginTop: HEIGHT * 0.05 }}>
+                    <View className="date_picker" style={styles.inputOutterContainerStyle}>
                         <View className="start_date_picker">
-                            <Text style={styles.titleStyle}>Start Date</Text>
+                            <Text style={styles.labelStyle}>Start Date</Text>
                             <DatePicker
                                 style={styles.datePickerStyle}
                                 date={this.state.project_startDate}
@@ -193,8 +116,8 @@ class ProjectCreationScreen extends Component {
                                 onDateChange={(date) => { this.setState({ project_startDate: date }) }}
                             />
                         </View>
-                        <View className="end_date_picker">
-                            <Text style={styles.titleStyle}>End Date</Text>
+                        <View className="end_date_picker" style={{ marginTop: HEIGHT * 0.01 }}>
+                            <Text style={styles.labelStyle}>End Date</Text>
                             <DatePicker
                                 style={styles.datePickerStyle}
                                 date={this.state.project_endDate}
@@ -208,6 +131,7 @@ class ProjectCreationScreen extends Component {
                                 customStyles={{
                                     dateInput: {
                                         borderRadius: 5,
+                                        borderColor: '#BDCDD1',
                                     },
                                 }}
                                 onDateChange={(date) => { this.setState({ project_endDate: date }) }}
@@ -215,38 +139,29 @@ class ProjectCreationScreen extends Component {
                         </View>
                     </View>
                 </View>
-                <View className="submit_button" style={{ flex: 1, alignSelf: 'flex-end' }}>
+                <View className="submit_button" style={{ alignSelf: 'stretch' }}>
                     <Button
-                        title="Submit"
+                        title="SUBMIT"
                         type="solid"
                         buttonStyle={styles.submitButtonStyle}
-                        onPress={() => {
-                            this.createProject()
-                        }} />
+                        onPress={this.onSubmitPress}
+                        disabled={this.state.project_course == null || this.state.project_description === null
+                            || this.state.project_title == null || this.state.project_startDate == null || this.state.project_endDate == null}
+                    />
                 </View>
-            </View >
+            </SafeAreaView>
         )
     }
 }
 const styles = StyleSheet.create(
     {
-        titleStyle:
-        {
-            fontSize: WIDTH * 0.037,
-            marginTop: HEIGHT * 0.01,
-            fontFamily: 'Helvetica Neue',
-            color: 'gray',
-            fontWeight: 'bold',
-            alignSelf: 'flex-start',
-        },
         submitButtonStyle:
         {
-            width: WIDTH,
-        },
-        containerStyle:
-        {
-            height: HEIGHT,
-            flexDirection: 'column',
+            width: WIDTH * 0.8,
+            backgroundColor: '#3F5AA6',
+            alignSelf: 'center',
+            borderRadius: (WIDTH + HEIGHT) / 2,
+            marginTop: HEIGHT * 0.03,
         },
         datePickerStyle:
         {
@@ -258,21 +173,37 @@ const styles = StyleSheet.create(
         descriptionStyle:
         {
             height: HEIGHT * 0.25,
-            borderColor: '#D3D3D3',
+            borderColor: '#BDCDD1',
             borderWidth: 1,
             borderRadius: WIDTH * 0.02,
             fontSize: WIDTH * 0.04,
-            backgroundColor: 'white',
             width: WIDTH * 0.9,
             marginTop: HEIGHT * 0.010,
+            padding: WIDTH * 0.05,
+            fontFamily: 'Avenir',
+            color: '#3F5AA6',
         },
-        Slidercontainer: {
-            marginLeft: 10,
-            marginRight: 10,
-            marginTop: HEIGHT * 0.03,
-            alignItems: "stretch",
-            justifyContent: "center",
-            width: WIDTH * 0.9,
+        labelStyle:
+        {
+            alignSelf: 'flex-start',
+            fontFamily: 'Avenir',
+            color: '#3F5AA6',
+            fontWeight: '700',
+            fontSize: WIDTH * 0.045,
+        },
+        inputWraperStyle:
+        {
+            alignSelf: 'center',
+        },
+        inputContainerStyle:
+        {
+            alignItems: 'flex-start',
+            width: WIDTH * 0.85,
+            borderBottomColor: '#BDCDD1',
+        },
+        inputOutterContainerStyle:
+        {
+            marginTop: HEIGHT * 0.01,
         },
     }
 )

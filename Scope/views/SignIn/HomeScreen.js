@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage
+    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, SafeAreaView, Alert
 } from 'react-native';
 import { Input } from 'react-native-elements'
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
-import UserRequest from '../../services/User/index';
+import firebase from 'react-native-firebase';
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -14,16 +14,14 @@ class HomeScreen extends Component {
             {
                 username: '',
                 password: '',
-                userLogedIn: false,
-
             }
-        this.props.navigation.addListener('willFocus', (refresh) => {
-            this.setState(
-                {
-                    username: '',
-                    password: '',
-                })
-        })
+        // this.props.navigation.addListener('willFocus', (refresh) => {
+        //     this.setState(
+        //         {
+        //             username: '',
+        //             password: '',
+        //         })
+        // })
     }
 
     // https://stackoverflow.com/questions/32913338/react-native-get-textinput-value
@@ -35,14 +33,22 @@ class HomeScreen extends Component {
 
     }
 
-    async componentDidMount() {
-        // var userLogedIn = await UserRequest.checkUserStatus()
+    /**
+     * Firebase User Sign In
+     */
+    onLoginPress() {
+        const { username, password } = this.state
+        firebase.auth().signInWithEmailAndPassword(username, password)
+            .then((value) => {
+                console.log(value)
+            }).catch((err) => {
+                Alert.alert(
+                    'Unable to log in with provided credentials',
+                );
+            })
+    }
 
-        // this.setState(
-        //     {
-        //         userLogedIn: userLogedIn
-        //     }
-        // )
+    async componentDidMount() {
         const token = await AsyncStorage.getItem('id_token')
         if (token) {
             this.props.navigation.navigate("Project")
@@ -50,48 +56,41 @@ class HomeScreen extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
-                <Image source={ScopeLogo} style={styles.logo}></Image>
+            <SafeAreaView>
+                <View style={styles.logo}>
+                    <Image source={ScopeLogo}></Image>
+                </View >
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
                             <Ionicons name="md-person" size={21} color="#3F5AA6" />}
                         label='Username'
                         onChangeText={val => this.onChangeText('username', val)}
-                        inputContainerStyle={styles.inputStyle}
                         rightIconContainerStyle={styles.rightIconStyle}
                         containerStyle={styles.inputContainerStyle}
                         labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
                     />
-                </View>
-                <View style={styles.inputView}>
                     <Input
                         rightIcon={
                             <Ionicons name="md-lock" size={21} color="#3F5AA6" />}
                         label='Password'
                         onChangeText={val => this.onChangeText('password', val)}
-                        inputContainerStyle={styles.inputStyle}
                         rightIconContainerStyle={styles.rightIconStyle}
                         containerStyle={styles.inputContainerStyle}
-                        labelStyle ={styles.inputLabelStyle}
+                        labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
+                        secureTextEntry={true}
                     />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle}
+                <TouchableOpacity
+                    style={styles.touchableStyle}
                     onPress={() => {
-                        var status = UserRequest.login(this.state.username, this.state.password)
-                        if (status) {
-                            this.setState({
-                                username: '',
-                                password: '',
-                            })
-                            this.props.navigation.navigate("Project")
-                        }
+                        this.onLoginPress()
                     }}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                 </TouchableOpacity>
-                <View style={{ flexDirection: 'row', }}>
+                <View style={styles.signInUpStyle}>
                     <TouchableOpacity style={styles.forgetStyle}>
                         <Text style={{ color: '#3F5AA6' }}>Forget Password</Text>
                     </TouchableOpacity>
@@ -102,7 +101,7 @@ class HomeScreen extends Component {
                         <Text style={{ color: '#3F5AA6' }}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
-            </View >
+            </SafeAreaView>
         )
 
 
@@ -121,23 +120,21 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.23,
+            marginTop: HEIGHT * 0.15,
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.06,
-            marginLeft: WIDTH*0.02,
+            marginLeft: WIDTH * 0.15,
+            alignSelf: 'center',
         },
         textInput:
         {
-            height: HEIGHT * 0.05,
             width: WIDTH * 0.70,
             marginLeft: WIDTH * 0.03,
         },
         inputView:
         {
             borderRadius: 10,
-            flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: HEIGHT * 0.03,
             backgroundColor: 'white',
         },
         rightIconStyle:
@@ -147,6 +144,7 @@ const styles = StyleSheet.create(
         inputContainerStyle:
         {
             width: WIDTH * 0.8,
+            marginBottom: HEIGHT * 0.03,
         },
         touchableStyle:
         {
@@ -156,12 +154,13 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#3F5AA6',
-            alignSelf:'center',
+            alignSelf: 'center',
         },
         inputTextStyle:
         {
             fontFamily: 'Avenir',
             fontSize: 16,
+            color: '#3F5AA6',
         },
         inputLabelStyle:
         {
@@ -172,6 +171,11 @@ const styles = StyleSheet.create(
         {
             marginRight: 150,
             marginTop: HEIGHT * 0.02,
+        },
+        signInUpStyle:
+        {
+            flexDirection: 'row',
+            justifyContent: 'center',
         },
     }
 )

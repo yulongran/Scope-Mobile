@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert } from 'react-native';
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
 import UserRequest from '../../services/User/index';
-import { Input } from 'react-native-elements'
+import { Input } from 'react-native-elements';
+import firebase from 'react-native-firebase';
 
 class SignUpScreen extends Component {
     constructor(props) {
@@ -11,13 +12,29 @@ class SignUpScreen extends Component {
         this.state = {
             firstname: '',
             lastname: '',
-            username: '',
+            email: '',
             password: '',
         };
     }
 
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
+    }
+
+    onSignUpPress = () => {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then((value) => {
+                firebase.database().ref('Users/' + value.user.uid).set({
+                    username: this.state.email,
+                    firstname: this.state.firstname,
+                    lastname: this.state.lastname,
+                });
+            }).catch((err) => {
+                console.log(err)
+                Alert.alert(
+                    'Unable to Sign Up',
+                );
+            })
     }
 
     render() {
@@ -57,7 +74,7 @@ class SignUpScreen extends Component {
                         rightIcon={
                             <Ionicons name="md-mail" size={21} color="#3F5AA6" />}
                         label='Email'
-                        onChangeText={val => this.onChangeText('username', val)}
+                        onChangeText={val => this.onChangeText('email', val)}
                         inputContainerStyle={styles.inputStyle}
                         rightIconContainerStyle={styles.rightIconStyle}
                         containerStyle={styles.inputContainerStyle}
@@ -76,15 +93,11 @@ class SignUpScreen extends Component {
                         containerStyle={styles.inputContainerStyle}
                         labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
+                        secureTextEntry={true}
+                        
                     />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={() => {
-                    // Sign Up function
-                    var status = UserRequest.signUp(this.state.firstname, this.state.lastname, this.state.username, this.state.password)
-                    if (status) {
-                        // Navigation to Sign In screen
-                    }
-                }}>
+                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -109,7 +122,7 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.045,
+            marginTop: HEIGHT * 0.035,
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.06,
         },
@@ -136,6 +149,7 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#3F5AA6',
+            marginTop: HEIGHT * 0.015,
         },
         forgetStyle:
         {
@@ -153,6 +167,7 @@ const styles = StyleSheet.create(
         {
             fontFamily: 'Avenir',
             fontSize: 16,
+            color: '#3F5AA6',
         },
         inputLabelStyle:
         {
@@ -164,7 +179,7 @@ const styles = StyleSheet.create(
             borderRadius: 10,
             flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: HEIGHT * 0.03,
+            marginBottom: HEIGHT * 0.015,
             backgroundColor: 'white',
         },
         rightIconStyle:

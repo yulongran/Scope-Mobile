@@ -1,19 +1,37 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, Button, Platform, Dimensions } from 'react-native'
-import Navigation from './navigation/index';
+import { StyleSheet, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
-import { Container} from 'native-base';
+import ProjectNavigation from './navigation/ProjectNavigation';
+import AuthNavigation from './navigation/AuthNavigation'
+import firebase from 'react-native-firebase';
+import { firebaseConfig } from './firebaseConfig';
+
+firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: null,
+    }
+  }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user })
+      }
+      else {
+        this.setState({ user: null })
+      }
+    })
+  }
   render() {
     return (
-      <Container>
       <MenuProvider>
-        <View style={styles.container}>
-          <Navigation />
-        </View>
+      <View style={styles.container}>
+        {this.state.user ? <ProjectNavigation /> : <AuthNavigation />}
+      </View>
       </MenuProvider>
-      </Container>
     );
   }
 }
