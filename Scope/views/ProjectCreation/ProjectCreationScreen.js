@@ -41,7 +41,7 @@ class ProjectCreationScreen extends Component {
     onSubmitPress = () => {
         const uid = firebase.auth().currentUser.uid;
         if (uid != null) {
-            const project = firebase.database().ref('Project').child(uid)
+            const project = firebase.database().ref('Project')
             project.push(
                 {
                     project_title: this.state.project_title,
@@ -49,7 +49,18 @@ class ProjectCreationScreen extends Component {
                     project_description: this.state.project_description,
                     project_startDate: this.state.project_startDate,
                     project_endDate: this.state.project_endDate,
-                }).then(() => {
+                }).then((data) => {
+                    firebase.database().ref('Project/' + data.path.split('/')[1]).child('Users').push(
+                        {
+                            uid: uid
+                        },
+                        firebase.database().ref('Users/' + uid).child('Project').push(
+                            {
+                                uid: data.path.split('/')[1]
+                            }
+                        )
+                    )
+
                     this.props.navigation.navigate("Project")
                 })
         }

@@ -39,39 +39,7 @@ class ProjectReviewScreen extends Component {
         super(props)
         this.state =
             {
-                project: 'Hello',
-                group_members: [
-                ],
-                teacher: [
-                    {
-                        user_firstname: 'Yulong',
-                        user_lastname: 'Ran'
-                    }
-                ],
-                milestone: [],
-                reviews: [
-                ],
-                milestone_button: true,
-                review_button: false,
-                display: 'milestone', // milestone // review
-                team_number: '',
-                project_id: '',
                 selectedIndex: 0,
-                contents: [
-                    {
-                        title: 'Title 1',
-                        body: 'Hi. I love this component. What do you think?',
-                    },
-                    {
-                        title: 'See this one too',
-                        body: 'Yes. You can have more items.',
-                    },
-                    {
-                        title: 'Thrid thing',
-                        body:
-                            'What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text? What about very long text?',
-                    },
-                ],
             }
         this.updateIndex = this.updateIndex.bind(this)
     }
@@ -96,117 +64,7 @@ class ProjectReviewScreen extends Component {
         };
     }
 
-    async fetchMilestone() {
-
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/review/',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project.project_id,
-                },
-            })
-        let responseJson = await response.json();
-        console.log(this.state.project.project_id)
-        console.log(responseJson)
-        this.setState(
-            {
-                milestone: responseJson
-            }
-        )
-
-    }
-    async fetchTeamMember() {
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/team/member',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project.project_id,
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                group_members: responseJson
-            }
-        )
-
-    }
-
-    async fetchProject() {
-
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/project/projectByID',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project.project_id,
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                project: responseJson[0]
-            }
-        )
-    }
-
-    async fetchReview() {
-
-        const token = await AsyncStorage.getItem('id_token');
-        if (!token) {
-            return false;
-        }
-        let response = await fetch('http://localhost:8001/review/review',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                    project_id: this.state.project.project_id,
-                },
-            })
-        let responseJson = await response.json();
-        this.setState(
-            {
-                reviews: responseJson
-            }
-        )
-
-    }
-
-    async componentDidMount() {
-        this.setState(
-            {
-                project: this.props.navigation.getParam('project'),
-                project_id: this.props.navigation.getParam('project_id'),
-
-            }
-        )
-        await this.fetchMilestone()
-        await this.fetchTeamMember()
-        await this.fetchProject()
-        await this.fetchReview()
+    componentDidMount() {
     }
 
     render() {
@@ -227,7 +85,7 @@ class ProjectReviewScreen extends Component {
                             />
                         </View>
                         {this.state.selectedIndex == 0 ? <View className='milestone_view'>
-                            <MileStone />
+                            <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation}/>
                         </View> : null}
                     </View>
                 </ScrollView>

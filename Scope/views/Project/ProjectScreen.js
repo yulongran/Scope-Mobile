@@ -45,17 +45,47 @@ class ProjectScreen extends Component {
     };
   }
 
+  /**
+   *  Filter out project's title don't contains search input
+   * @param {string} text The search input
+   */
+  filterProject = (text) => {
+    const filter = this.state.project.filter(item =>
+      item.project_title.includes(text)
+    );
+    this.setState({
+      project: filter,
+      search: text
+    });
+    if (text.length == 0) {
+      this.fetchProject();
+    }
+  }
+
   componentDidMount() {
-    this.fetchProject()
+    if (!this.state.project && !this.state.projectKeys) {
+      this.fetchProject()
+    }
   }
 
   fetchProject = () => {
     const uid = firebase.auth().currentUser.uid;
-    if (uid !== null && !this.state.project && !this.state.projectKeys) {
-      firebase.database().ref('Project/' + uid).on('value', (snapshot) => {
-        this.setState({ project: Object.values(snapshot.val()) })
-        this.setState({ projectKeys: Object.keys(snapshot.val()) })
-      });
+    if (uid !== null) {
+      firebase.database().ref('Users/' + uid).child('Project').on('value', (snapshot) => {
+        // this.setState({ project: Object.values(snapshot.val()) })
+        let project_uid = []
+        Object.values(snapshot.val()).forEach((element) => {
+          project_uid.push(element.uid)
+        })
+        this.setState({ projectKeys: Object.values(snapshot.val()) })
+        let project_tmp =[]
+        project_uid.forEach((element) => {
+          firebase.database().ref('Project/' + element).on('value', (snapshot) => {
+            project_tmp.push(snapshot.val())
+          })
+        })
+        this.setState({project: project_tmp})
+      })
     }
   }
 
@@ -71,7 +101,7 @@ class ProjectScreen extends Component {
               inputContainerStyle={styles.searchStyle}
               containerStyle={styles.searchSectionStyle}
               lightTheme={true}
-              // onChangeText={text => this.filterProject(text)}
+              onChangeText={text => this.filterProject(text)}
               value={this.state.search}
               onClear={() => { }}
             />
@@ -85,9 +115,9 @@ class ProjectScreen extends Component {
                   project_course={item.project_course}
                   project_startDate={item.project_startDate}
                   project_endDate={item.project_endDate}
-                  uid={this.state.projectKeys !== null ? this.state.projectKeys[index] : null}
+                  uid={this.state.projectKeys !== null ? this.state.projectKeys[index].uid : null}
                   onPress={() => {
-                    this.props.navigation.navigate("Review")
+                    this.props.navigation.navigate("Review", { uid: this.state.projectKeys[index].uid})
                   }}
                 />
               )}
@@ -172,7 +202,7 @@ const styles = StyleSheet.create({
   },
   projectListStyle:
   {
-    // height: Dimensions.get("window").height * 0.7,
+    height: Dimensions.get("window").height * 0.7,
   }
 });
 

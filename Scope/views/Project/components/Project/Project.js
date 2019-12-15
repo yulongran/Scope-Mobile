@@ -110,18 +110,18 @@ class Project extends Component {
                                     data={this.state.team_member}
                                     renderItem={({ item, index }) => (
                                         <Avatar
-                                        rounded
-                                        source={{
-                                            uri:
-                                                'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-                                        }}
-                                        size={42}
-                                        containerStyle={{ margin: 10 }}
-                                    />
+                                            rounded
+                                            source={{
+                                                uri:
+                                                    'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+                                            }}
+                                            size={42}
+                                            containerStyle={{ margin: 10 }}
+                                        />
                                     )}
                                     keyExtractor={(item, index) => index.toString()}
                                     extraData={this.state.team_member}
-                                    horizontal= {true}
+                                    horizontal={true}
                                 />
                             </View>
                         </View>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     rightSideStyle:
     {
-        marginLeft: WIDTH * 0.12,
+        marginLeft: WIDTH * 0.09,
         flexDirection: 'row',
         alignItems: 'flex-end',
     },

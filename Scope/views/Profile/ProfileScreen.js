@@ -2,44 +2,17 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native';
 import { Button, Icon, Avatar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
+import { string } from 'prop-types';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
-/**
- * Image Source from https://randomuser.me/
- * Credit to https://randomuser.me/
- */
-const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
-    "https://randomuser.me/api/portraits/med/men/2.jpg",
-    "https://randomuser.me/api/portraits/med/men/3.jpg",
-    "https://randomuser.me/api/portraits/med/men/4.jpg",
-    "https://randomuser.me/api/portraits/med/men/5.jpg",
-    "https://randomuser.me/api/portraits/med/men/6.jpg",
-    "https://randomuser.me/api/portraits/med/men/7.jpg",
-    "https://randomuser.me/api/portraits/med/men/8.jpg",
-    "https://randomuser.me/api/portraits/med/men/9.jpg",
-    "https://randomuser.me/api/portraits/med/men/10.jpg",
-    "https://randomuser.me/api/portraits/med/women/1.jpg",
-    "https://randomuser.me/api/portraits/med/women/2.jpg",
-    "https://randomuser.me/api/portraits/med/women/3.jpg",
-    "https://randomuser.me/api/portraits/med/women/4.jpg",
-    "https://randomuser.me/api/portraits/med/women/5.jpg",
-    "https://randomuser.me/api/portraits/med/women/6.jpg",
-    "https://randomuser.me/api/portraits/med/women/7.jpg",
-    "https://randomuser.me/api/portraits/med/women/8.jpg",
-    "https://randomuser.me/api/portraits/med/women/9.jpg",
-
-]
 class ProfileScreen extends Component {
     constructor(props) {
         super(props)
         this.state =
             {
-                user_institution: '',
-                user_firstName: '',
-                user_lastName: '',
-                studentID: '010010101',
+                user: null,
             }
     }
 
@@ -52,32 +25,6 @@ class ProfileScreen extends Component {
     }
 
     /**
-     * Fetch user info based on id
-     */
-    async fetchInformation() {
-        const token = await AsyncStorage.getItem('id_token')
-        let response = await fetch('http://localhost:8001/users/info',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    auth_token: token,
-                },
-            })
-        let responseJson = await response.json()
-        this.setState(
-            {
-                user_institution: responseJson[0].user_institution,
-                user_firstName: responseJson[0].user_firstname,
-                user_lastName: responseJson[0].user_lastname,
-            }
-        )
-    }
-
-
-
-    /**
      * Update Information to the data base
      * when user clicked back button or logout
      */
@@ -85,27 +32,34 @@ class ProfileScreen extends Component {
 
     }
 
+    onUploadPress = () => {
+        alert("Upload Pictures")
+    }
+
     componentDidMount() {
-        this.fetchInformation()
+        const uid = firebase.auth().currentUser.uid;
+        if (uid !== null && !this.state.user) {
+            firebase.database().ref('Users/' + uid).on('value', (snapshot) => {
+                this.setState({ user: snapshot.val() })
+            });
+        }
+
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.profileStyle}>
-                    {/* Profile Pic ( Replace ProfilePic with a function getting pic from local storage) -->*/}
                     <Avatar
-                        source={{
-                            uri:
-                                ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                        }}
+                        title={this.state.user != null ? this.state.user.firstname[0] + this.state.user.lastname[0] : null}
                         rounded
                         size='xlarge'
                         containerStyle={{ alignSelf: 'center' }}
                         showEditButton
+                        onEditPress={this.onUploadPress}
                     />
 
-                    <Text style={styles.nameStyle}>{this.state.user_firstName} {this.state.user_lastName}</Text>
+                    <Text style={styles.nameStyle}>{this.state.user != null ? this.state.user.firstname : null} {this.state.user != null ? this.state.user.lastname : null}</Text>
                 </View>
                 <View style={styles.viewStyle}>
                     <Icon
@@ -116,10 +70,35 @@ class ProfileScreen extends Component {
                         iconStyle={styles.iconStyle}
                     />
                     <View style={styles.infoStyle}>
-                        <Text style={styles.textStyle}>Full Name</Text>
+                        <Text style={styles.textStyle}>First Name</Text>
                         <TextInput
                             style={styles.inputStyle}
-                            value={this.state.user_institution}
+                            value={this.state.user != null ? this.state.user.firstname : null}
+                            onChangeText={value => this.onChangeText('institution', value)}
+                        ></TextInput>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Icon
+                            name='right'
+                            type='antdesign'
+                            color='#3F5AA6'
+                            size={WIDTH * 0.055}
+                        />
+                    </View>
+                </View>
+                <View style={styles.viewStyle}>
+                    <Icon
+                        reverse
+                        name='ios-contact'
+                        type='ionicon'
+                        color='#BACAFF'
+                        iconStyle={styles.iconStyle}
+                    />
+                    <View style={styles.infoStyle}>
+                        <Text style={styles.textStyle}>Last Name</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={this.state.user != null ? this.state.user.lastname : null}
                             onChangeText={value => this.onChangeText('institution', value)}
                         ></TextInput>
                     </View>
@@ -144,7 +123,7 @@ class ProfileScreen extends Component {
                         <Text style={styles.textStyle}>Contact Info</Text>
                         <TextInput
                             style={styles.inputStyle}
-                            value={this.state.user_institution}
+                            value={this.state.user != null ? this.state.user.username : null}
                             onChangeText={value => this.onChangeText('institution', value)}
                         ></TextInput>
                     </View>

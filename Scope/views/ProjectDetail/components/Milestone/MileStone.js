@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Avatar, Divider, Icon } from 'react-native-elements';
 import AccordionView from './components/MilestoneAccordin';
+import firebase from 'react-native-firebase';
 
 
 /**
@@ -39,41 +40,65 @@ const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
 export class MileStone extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            project: null,
+            team_member:null,
+        }
+    }
+
+    readProjectData = () => {
+        firebase.database().ref('Project/' + this.props.navigation.getParam('uid')).on('value', (snapshot) => {
+            this.setState({ project: snapshot.val() })
+        });
+    }
+
+    readTeamMember = () => {
+        // var ref = firebase.database().ref('Project');
+        // ref.orderByChild(uid).equalTo(this.props.navigation.getParam('uid')).on("value", (snapshot)=>
+        // {
+        //     console.log(snapshot.val())
+        // });
+    }
+
+
+    componentDidMount() {
+        console.log(this.props.navigation.getParam('uid'))
+        if (this.state.project == null) {
+            this.readProjectData()
+        }
+        if(this.state.team_member==null)
+        {
+            this.readTeamMember()
+        }
     }
 
     render() {
         return (
             <View style={styles.container} >
                 <View className="project_title">
-                    <Text style={styles.projectTitleStyle}>Project Title</Text>
+                    <Text style={styles.projectTitleStyle}>{this.state.project != null ? this.state.project.project_title : null}</Text>
                     <View style={styles.projectIDContainer}>
-                        <Text style={styles.projectIDStyle}> ID: 10123123132 </Text>
+                        <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
                     </View>
                 </View>
                 <Divider style={styles.dividerStyle} />
                 <View className="project_description" style={styles.sectionContainerStyle}>
                     <Text style={styles.sectionLabelStyle}>DESCRIPTION</Text>
-                    <Text style={styles.descriptionStyle}>Donec porttitor, turpis vitae pretium dignissim, magna
-tellus porttitor felis, eu ornare mi tortor at justo. Cras
-laoreet vel nibh ut sodales. Duis velit nisl, eleifend vitae
-massa nec, molesti  in purus fringilla, commodo libero ac,
- viverra arcu. Curabitur non blandit enim, sed blandit
-quam. Cras facilisis dictum nisi, ac rhoncus metus. </Text>
+                    <Text style={styles.descriptionStyle}>{this.state.project != null ? this.state.project.project_description : null} </Text>
                 </View>
                 <View className="team_member" style={styles.flastListContainerStyle}>
                     <FlatList
-                        data={[1, 2, 3]}
+                        data={[1, 2, 3,4,5]}
                         key={[1, 2, 3]}
                         contentContainerStyle={styles.profileListStyle}
                         renderItem={({ item }) => (
                             <View style={styles.avatarWrapper}>
                                 <Avatar
+                                    title={"RA"}
                                     rounded
                                     size={WIDTH * 0.15}
-                                    source={{
-                                        uri:
-                                            ProfilePic[Math.floor(Math.random() * ProfilePic.length)],
-                                    }} />
+                                    
+                                     />
                                 <Text style={styles.avatarNameStyle}>First name</Text>
                                 <Text style={styles.avatarNameStyle}>Lastname</Text>
                             </View>
@@ -104,11 +129,11 @@ const HEIGHT = Dimensions.get('screen').height;
 const styles = StyleSheet.create(
     {
         container: {
-            marginBottom:WIDTH * 0.05,
-            marginLeft: WIDTH*0.05,
-            marginRight: WIDTH*0.05,
-            marginTop: WIDTH*0.02,
-            
+            marginBottom: WIDTH * 0.05,
+            marginLeft: WIDTH * 0.05,
+            marginRight: WIDTH * 0.05,
+            marginTop: WIDTH * 0.02,
+
         },
         projectIDStyle:
         {
@@ -118,7 +143,7 @@ const styles = StyleSheet.create(
         },
         projectIDContainer:
         {
-            marginLeft: WIDTH * 0.6,
+            marginLeft: WIDTH * 0.5,
         },
         dividerStyle:
         {
@@ -146,7 +171,7 @@ const styles = StyleSheet.create(
             fontSize: WIDTH * 0.035,
             color: '#828899',
             fontWeight: '400',
-            marginTop: HEIGHT*0.015,
+            marginTop: HEIGHT * 0.015,
         },
         sectionContainerStyle:
         {
