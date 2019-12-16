@@ -42,7 +42,7 @@ export class MileStone extends Component {
         super(props)
         this.state = {
             project: null,
-            team_member:null,
+            team_member: null,
         }
     }
 
@@ -60,14 +60,17 @@ export class MileStone extends Component {
         // });
     }
 
+    onPressAddMilestone = () => {
+        this.props.navigation.navigate("MilestoneCreationScreen")
+    }
+
 
     componentDidMount() {
         console.log(this.props.navigation.getParam('uid'))
         if (this.state.project == null) {
             this.readProjectData()
         }
-        if(this.state.team_member==null)
-        {
+        if (this.state.team_member == null) {
             this.readTeamMember()
         }
     }
@@ -88,7 +91,7 @@ export class MileStone extends Component {
                 </View>
                 <View className="team_member" style={styles.flastListContainerStyle}>
                     <FlatList
-                        data={[1, 2, 3,4,5]}
+                        data={[1, 2, 3, 4, 5]}
                         key={[1, 2, 3]}
                         contentContainerStyle={styles.profileListStyle}
                         renderItem={({ item }) => (
@@ -97,8 +100,8 @@ export class MileStone extends Component {
                                     title={"RA"}
                                     rounded
                                     size={WIDTH * 0.15}
-                                    
-                                     />
+
+                                />
                                 <Text style={styles.avatarNameStyle}>First name</Text>
                                 <Text style={styles.avatarNameStyle}>Lastname</Text>
                             </View>
@@ -113,7 +116,7 @@ export class MileStone extends Component {
                         name='md-add'
                         type='ionicon'
                         color='#192A59'
-                        onPress={() => alert("Handle Add Milestone")}
+                        onPress={this.onPressAddMilestone}
                         size={WIDTH * 0.045}
                         style={styles.iconStyle} />
                 </View>

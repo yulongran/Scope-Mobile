@@ -5,12 +5,9 @@ import {
     Dimensions,
     StyleSheet,
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
 import { createStackNavigator } from 'react-navigation-stack'
 import { Ionicons } from "@expo/vector-icons";
 // Views 
-import HomeScreen from "../views/SignIn/index";
-import SignUpScreen from '../views/SignUp/index';
 import ProfileScreen from '../views/Profile/index';
 import SearchScreen from '../views/Search/index';
 import ProjectScreen from '../views/Project/index';
@@ -19,6 +16,7 @@ import ProjectReviewScreen from '../views/ProjectDetail/index';
 import EvaluationScreen from "../views/Evaluation/index";
 import ProjectCreationScreen from "../views/ProjectCreation/index";
 import ProjectJoinScreen from "../views/ProjectJoin/index";
+import MilestoneCreationScreen from '../views/MilestoneCreation/index';
 
 
 
@@ -64,6 +62,10 @@ const Stack = createStackNavigator(
             navigationOptions: () => ({
                 headerBackTitle: null,
             }),
+        },
+        MilestoneCreationScreen:
+        {
+            screen: MilestoneCreationScreen,
         },
         ProjectCreation:
         {
