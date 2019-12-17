@@ -6,9 +6,10 @@ import {
 } from 'react-native'
 import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
-import { Avatar, ButtonGroup, Divider } from 'react-native-elements';
+import { Avatar, ButtonGroup, Divider, colors } from 'react-native-elements';
 import Accordion from '@dooboo-ui/native-accordion';
 import { Ionicons } from "@expo/vector-icons";
+import { Container, Header, Content, Tab, Tabs } from 'native-base';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -37,17 +38,7 @@ class ProjectReviewScreen extends Component {
      */
     constructor(props) {
         super(props)
-        this.state =
-            {
-                selectedIndex: 0,
-            }
-        this.updateIndex = this.updateIndex.bind(this)
     }
-
-    updateIndex(selectedIndex) {
-        this.setState({ selectedIndex })
-    }
-
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -68,26 +59,24 @@ class ProjectReviewScreen extends Component {
     }
 
     render() {
-        const buttons = ['Milestone', 'Review']
-        const { selectedIndex } = this.state
         return (
             <SafeAreaView>
                 <ScrollView>
-                    <View className="wrapper">
-                        <View className="selection_view">
-                            <ButtonGroup
-                                onPress={this.updateIndex}
-                                selectedIndex={selectedIndex}
-                                buttons={buttons}
-                                containerStyle={styles.selectionStyle}
-                                textStyle={{ fontFamily: 'Avenir' }}
-                                selectedButtonStyle={{ backgroundColor: "#3F5AA6" }}
-                            />
-                        </View>
-                        {this.state.selectedIndex == 0 ? <View className='milestone_view'>
-                            <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation}/>
-                        </View> : null}
-                    </View>
+                    <Container>
+                        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#3F5AA6' }}>
+                            <Tab heading="Milestone" activeTabStyle={styles.selectionTabStyle}
+                                tabStyle={{ backgroundColor: 'white' }}
+                                textStyle={styles.tabTextStyle}
+                                activeTextStyle={styles.tabTextStyle}>
+                                <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation} />
+                            </Tab>
+                            <Tab heading="Review" activeTabStyle={styles.selectionTabStyle} tabStyle={{ backgroundColor: 'white' }}
+                                textStyle={styles.tabTextStyle}
+                                activeTextStyle={styles.tabTextStyle}>
+                                <Review/>
+                            </Tab>
+                        </Tabs>
+                    </Container>
                 </ScrollView>
             </SafeAreaView >
         )
@@ -150,17 +139,20 @@ const styles = StyleSheet.create(
             width: WIDTH * 0.8,
             flex: 0.5,
         },
-        selectionStyle:
+        selectionTabStyle:
         {
-            height: HEIGHT * 0.04,
-            width: WIDTH * 0.85,
-            marginTop: HEIGHT * 0.01,
-            alignSelf: 'center',
-            borderRadius: 7,
+            backgroundColor: 'white',
         },
         AccordionStyle:
         {
             borderWidth: 1, borderColor: '#E9E9F0', padding: 10, borderRadius: 10
+        },
+        tabTextStyle:
+        {
+            fontFamily: 'Avenir',
+            color: '#3F5AA6',
+            fontWeight: '900',
+            fontStyle: 'italic',
         },
     }
 )

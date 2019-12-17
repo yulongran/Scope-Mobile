@@ -115,6 +115,7 @@ class ProjectScreen extends Component {
                   project_course={item.project_course}
                   project_startDate={item.project_startDate}
                   project_endDate={item.project_endDate}
+                  index = {index}
                   uid={this.state.projectKeys !== null ? this.state.projectKeys[index].uid : null}
                   onPress={() => {
                     this.props.navigation.navigate("Review", { uid: this.state.projectKeys[index].uid})
@@ -127,7 +128,6 @@ class ProjectScreen extends Component {
           </View>
           <FloatingAction
             actions={actions}
-            overlayColor={"#3F5AA6"}
             onPressItem={name => {
               if (name == 'add_project') {
                 this.props.navigation.navigate("ProjectCreation");

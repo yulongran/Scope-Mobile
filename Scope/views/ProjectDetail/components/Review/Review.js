@@ -4,9 +4,11 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Button,
     TouchableOpacity,
-} from 'react-native'
+    SafeAreaView,
+} from 'react-native';
+import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import Carousel from 'react-native-snap-carousel';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -19,84 +21,77 @@ export class Review extends Component {
 
     }
 
-    // async fetchRevieweeNameById() {
-    //     const token = await AsyncStorage.getItem('id_token');
-    //     if (!token) {
-    //         return false;
-    //     }
-    //     let response = await fetch('http://localhost:8001/users/firstname',
-    //         {
-    //             method: 'POST',
-    //             headers: {
-    //                 Accept: 'application/json',
-    //                 'Content-Type': 'application/json',
-    //                 auth_token: token,
-    //                 user_id: this.state.reviewee_id,
-    //             },
-    //         })
-    //     let responseJson = await response.json()
-    //     this.setState(
-    //         {
-    //             reviewee_firstname: responseJson[0].user_firstname
-    //         }
-    //     )
-    //     return true
-    // }
 
-    // async fetchReviewerNameById() {
-    //     const token = await AsyncStorage.getItem('id_token');
-    //     if (!token) {
-    //         return false;
-    //     }
-    //     let response = await fetch('http://localhost:8001/users/firstname',
-    //         {
-    //             method: 'POST',
-    //             headers: {
-    //                 Accept: 'application/json',
-    //                 'Content-Type': 'application/json',
-    //                 auth_token: token,
-    //                 user_id: this.state.reviewer_id,
-    //             },
-    //         })
-    //     let responseJson = await response.json()
-    //     this.setState(
-    //         {
-    //             reviewer_firstname: responseJson[0].user_firstname
-    //         }
-    //     )
-    //     return true
-    // }
-
-    // componentDidMount() {
-    //     this.setState(
-    //         {
-    //             reviewee_id: this.props.reviewee_id,
-    //             reviewer_id: this.props.reviewer_id,
-    //             review_description: this.props.review_description,
-    //         }
-    //     )
-    //     this.fetchRevieweeNameById()
-    //     this.fetchReviewerNameById()
-    // }
+    _renderItem({ item, index }) {
+        return (
+            <View>
+                <Card
+                    title='HELLO WORLD'
+                    image={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg' }}>
+                    <Text style={{ marginBottom: 10 }}>
+                        The idea with React Native Elements is more about component structure than actual design.
+                    </Text>
+                    <Button
+                        icon={<Icon name='code' color='#ffffff' />}
+                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+                        title='VIEW NOW' />
+                </Card>
+            </View>
+        );
+    }
 
     render() {
         return (
-          <View></View>
+            <SafeAreaView style={styles.wrapperStyle}>
+                <Text style={styles.sectionLabelStyle}>MY REIVEW</Text>
+                <View style={styles.carouselStyle}>
+                    <Carousel
+                        ref={(c) => { this._carousel = c; }}
+                        data={[1, 2, 3]}
+                        renderItem={this._renderItem}
+                        sliderWidth={WIDTH}
+                        itemWidth={WIDTH * 0.8}
+                    />
+                </View>
+                <View style={styles.addButtonStyle}>
+                    <Icon
+                        raised
+                        name='md-add'
+                        type='ionicon'
+                        color='#3F5AA6'
+                        reverse={true}
+                        onPress={this.onPressAddMilestone}
+                        size={WIDTH * 0.07} />
+                </View>
+            </SafeAreaView>
         )
     }
 }
 
 const styles = StyleSheet.create(
     {
-        viewStyle:
+        wrapperStyle:
         {
-            borderWidth: 0.3,
-            borderBottomColor: 'gray',
-            paddingLeft: Dimensions.get('window').width * 0.05,
-            paddingRight: Dimensions.get('window').width * 0.05,
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height * 0.12,
-            paddingBottom: Dimensions.get('window').height * 0.01,
+            margin: WIDTH * 0.025,
+            flex: 1,
+        },
+        carouselStyle:
+        {
+            flex: 2,
+            alignItems: 'center',
+        },
+        addButtonStyle:
+        {
+            flex: 1,
+            alignSelf: 'flex-end',
+        },
+        sectionLabelStyle:
+        {
+            fontFamily: 'Avenir',
+            fontSize: WIDTH * 0.045,
+            color: '#3F5AA6',
+            fontWeight: '900',
+            fontStyle:'italic',
         },
     })
 

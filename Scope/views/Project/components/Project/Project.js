@@ -16,7 +16,7 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Card } from 'react-native-elements';
 import ProjectCard from '../../../../assets/images/projectCard.png';
 import firebase from 'react-native-firebase'
 
@@ -63,7 +63,7 @@ class Project extends Component {
     }
 
     componentDidMount() {
-        if(this.state.team_member.length == 0){
+        if (this.state.team_member.length == 0) {
             this.readTeamMember()
         }
     }
@@ -71,11 +71,15 @@ class Project extends Component {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress}>
-                <View style={styles.containerStyle}>
-                    <View>
-                        <Image source={ProjectCard} style={styles.projectCardStyle}></Image>
-                    </View>
-                    <View className="main_content" style={{ marginTop: -20 }}>
+                <Card containerStyle={{
+                    width: WIDTH * 0.9,
+                    height: HEIGHT * 0.145,
+                    borderRadius: 10,
+                    justifyContent: 'center',
+                    borderLeftColor: colors[Math.floor(Math.random(10)*colors.length*this.props.index)],
+                    borderLeftWidth: 4,
+                }}>
+                    <View className="main_content" style={{ marginTop: -HEIGHT * 0.02 }}>
                         <View className="project_menu_selection" style={styles.menuContainerStyle}>
                             <Menu style={{ marginLeft: WIDTH * 0.33 }}>
                                 <MenuTrigger>
@@ -127,7 +131,7 @@ class Project extends Component {
                                     renderItem={({ item, index }) => (
                                         <Avatar
                                             rounded
-                                            title={item.firstname[0]+ item.lastname[0]}
+                                            title={item.firstname[0] + item.lastname[0]}
                                             size={42}
                                             containerStyle={{ margin: 10 }}
                                         />
@@ -139,7 +143,8 @@ class Project extends Component {
                             </View>
                         </View>
                     </View>
-                </View>
+                    {/* </View> */}
+                </Card>
             </TouchableOpacity>
 
 
@@ -150,18 +155,9 @@ class Project extends Component {
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
+var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue', 'slateblue','springgreen','navajowhite'
+,'navy','mediumvioletred', 'mediumpurple', 'lightgrey','goldenrod','gainsboro','darkturquoise','darkred','cadetblue'];
 const styles = StyleSheet.create({
-    containerStyle:
-    {
-        width: WIDTH * 0.9,
-        height: HEIGHT * 0.145,
-        borderBottomWidth: 1,
-        borderTopWidth: 1,
-        borderTopColor: '#EBEEF7',
-        borderBottomColor: '#EBEEF7',
-        borderRadius: 10,
-        margin: 10,
-    },
     ViewStyle: {
         flexDirection: 'row',
     },
@@ -187,15 +183,15 @@ const styles = StyleSheet.create({
     },
     startDateStyle: {
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: WIDTH * 0.0325,
         fontFamily: 'Avenir',
-        marginLeft: 10,
+        marginLeft: WIDTH * 0.035,
         fontWeight: '200',
     },
     endDateStyle: {
         textAlign: 'center',
-        fontSize: 12,
-        marginLeft: 10,
+        fontSize: WIDTH * 0.0325,
+        marginLeft: WIDTH * 0.035,
         fontFamily: 'Avenir',
         fontWeight: '200',
     },
@@ -208,7 +204,7 @@ const styles = StyleSheet.create({
     menuContainerStyle:
     {
         alignSelf: 'flex-end',
-        paddingRight: 40
+        paddingRight: WIDTH * 0.05,
     },
     optionsContainerStyle:
         { width: WIDTH * 0.2, borderRadius: 8 },
