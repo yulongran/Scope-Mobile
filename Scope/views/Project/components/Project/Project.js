@@ -76,7 +76,7 @@ class Project extends Component {
                     height: HEIGHT * 0.145,
                     borderRadius: 10,
                     justifyContent: 'center',
-                    borderLeftColor: colors[Math.floor(Math.random(10)*colors.length*this.props.index)],
+                    borderLeftColor: colors[Math.floor(Math.random(10) * colors.length * this.props.index)],
                     borderLeftWidth: 4,
                 }}>
                     <View className="main_content" style={{ marginTop: -HEIGHT * 0.02 }}>
@@ -155,8 +155,8 @@ class Project extends Component {
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
-var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue', 'slateblue','springgreen','navajowhite'
-,'navy','mediumvioletred', 'mediumpurple', 'lightgrey','goldenrod','gainsboro','darkturquoise','darkred','cadetblue'];
+var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue', 'slateblue', 'springgreen', 'navajowhite'
+    , 'navy', 'mediumvioletred', 'mediumpurple', 'lightgrey', 'goldenrod', 'gainsboro', 'darkturquoise', 'darkred', 'cadetblue'];
 const styles = StyleSheet.create({
     ViewStyle: {
         flexDirection: 'row',

@@ -5,6 +5,7 @@ import ProjectNavigation from './navigation/ProjectNavigation';
 import AuthNavigation from './navigation/AuthNavigation'
 import firebase from 'react-native-firebase';
 import { firebaseConfig } from './firebaseConfig';
+import { Root } from "native-base";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -27,11 +28,13 @@ class App extends Component {
   }
   render() {
     return (
+      <Root>
       <MenuProvider>
       <View style={styles.container}>
         {this.state.user ? <ProjectNavigation /> : <AuthNavigation />}
       </View>
       </MenuProvider>
+      </Root>
     );
   }
 }

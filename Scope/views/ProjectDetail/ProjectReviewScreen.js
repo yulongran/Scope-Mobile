@@ -9,7 +9,7 @@ import MileStone from './components/Milestone/index';
 import { Avatar, ButtonGroup, Divider, colors } from 'react-native-elements';
 import Accordion from '@dooboo-ui/native-accordion';
 import { Ionicons } from "@expo/vector-icons";
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Title, Segment, Content } from 'native-base';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -38,6 +38,20 @@ class ProjectReviewScreen extends Component {
      */
     constructor(props) {
         super(props)
+        this.state = {
+            activePage: 1,
+        }
+    }
+
+    /** https://stackoverflow.com/questions/52392725/changing-segment-content-onpress */
+    selectComponent = (activePage) => () => this.setState({ activePage })
+
+    /** https://stackoverflow.com/questions/52392725/changing-segment-content-onpress */
+    _renderComponent = () => {
+        if (this.state.activePage === 1)
+            return <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation} />
+        else
+            return <Review />
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -63,19 +77,38 @@ class ProjectReviewScreen extends Component {
             <SafeAreaView>
                 <ScrollView>
                     <Container>
-                        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#3F5AA6' }}>
-                            <Tab heading="Milestone" activeTabStyle={styles.selectionTabStyle}
-                                tabStyle={{ backgroundColor: 'white' }}
-                                textStyle={styles.tabTextStyle}
-                                activeTextStyle={styles.tabTextStyle}>
-                                <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation} />
-                            </Tab>
-                            <Tab heading="Review" activeTabStyle={styles.selectionTabStyle} tabStyle={{ backgroundColor: 'white' }}
-                                textStyle={styles.tabTextStyle}
-                                activeTextStyle={styles.tabTextStyle}>
-                                <Review/>
-                            </Tab>
-                        </Tabs>
+                        <Segment style={{ backgroundColor: 'white' }}>
+                            <Button active={this.state.activePage === 1}
+                                transparent
+                                style={{
+                                    justifyContent: 'center',
+                                    width: WIDTH * 0.4,
+                                    borderRadius: WIDTH * 0.01,
+                                    borderWidth: 1,
+                                    borderColor: this.state.activePage == 1 ? '#3F5AA6' : '#BDCDD1',
+                                    borderLeftWidth: 1,
+                                    backgroundColor: this.state.activePage == 1 ? '#3F5AA6' : '#FFFFFF',
+                                }}
+                                onPress={this.selectComponent(1)}>
+                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6'}}>MileStone</Text>
+                            </Button>
+                            <Button active={this.state.activePage === 2} style={{
+                                justifyContent: 'center',
+                                width: WIDTH * 0.4,
+                                borderRadius: WIDTH * 0.01,
+                                borderWidth: 1,
+                                borderColor: this.state.activePage == 2 ? '#3F5AA6' : '#BDCDD1',
+                                borderLeftWidth: 1,
+                                backgroundColor: this.state.activePage == 2 ? '#3F5AA6' : '#FFFFFF',
+                            }}
+                                onPress={this.selectComponent(2)}><Text style={{
+                                    textAlign: 'center',
+                                    color: this.state.activePage == 2 ? '#FFFFFF' : '#3F5AA6'
+                                }}>Review</Text></Button>
+                        </Segment>
+                        <Content padder>
+                            {this._renderComponent()}
+                        </Content>
                     </Container>
                 </ScrollView>
             </SafeAreaView >

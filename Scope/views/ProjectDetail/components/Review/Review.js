@@ -91,7 +91,7 @@ const styles = StyleSheet.create(
             fontSize: WIDTH * 0.045,
             color: '#3F5AA6',
             fontWeight: '900',
-            fontStyle:'italic',
+            fontStyle: 'italic',
         },
     })
 

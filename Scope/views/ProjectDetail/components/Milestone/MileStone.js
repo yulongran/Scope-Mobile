@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import { Avatar, Divider, Icon } from 'react-native-elements';
 import AccordionView from './components/MilestoneAccordin';
-import FlashMessage from "react-native-flash-message";
-import { showMessage, hideMessage } from "react-native-flash-message";
 import firebase from 'react-native-firebase';
+import { Toast } from 'native-base';
 
 
 export class MileStone extends Component {
@@ -72,13 +71,11 @@ export class MileStone extends Component {
                     <View style={styles.projectIDContainer}>
                         <TouchableOpacity onPress={() => {
                             Clipboard.setString(this.props.navigation.getParam('uid')),
-                                showMessage({
-                                    message: "Copied to Clipboard",
-                                    type: "default",
-                                    backgroundColor: "white", // background color
-                                    color: "#3F5AA6", // text color
-                                    duration: 800,
-                                });
+                                Toast.show({
+                                    text: 'Copied to Clipboard',
+                                    duration: 1100,
+                                    textStyle: { textAlign: 'center' }
+                                })
                         }}>
                             <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
                         </TouchableOpacity>
@@ -98,12 +95,12 @@ export class MileStone extends Component {
                         renderItem={({ item }) => (
                             <View style={styles.avatarWrapper}>
                                 <Avatar
-                                    title={item.firstname[0]+item.lastname[0]}
+                                    title={item.firstname[0] + item.lastname[0]}
                                     rounded
                                     size={WIDTH * 0.15}
 
                                 />
-                        <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
+                                <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
                                 <Text style={styles.avatarNameStyle}>{item.lastname}</Text>
                             </View>
                         )}
@@ -122,7 +119,6 @@ export class MileStone extends Component {
                         style={styles.iconStyle} />
                 </View>
                 <AccordionView milestone={this.state.milestone} milestoneKey={this.state.milestoneKey} uid={this.props.navigation.getParam('uid')} />
-                <FlashMessage ref="myLocalFlashMessage" position={'center'} />
             </View >
 
         )
@@ -144,7 +140,7 @@ const styles = StyleSheet.create(
         projectIDStyle:
         {
             fontFamily: 'Avenir',
-            fontSize: WIDTH * 0.03,
+            fontSize: WIDTH * 0.027,
             color: '#3F5AA6',
         },
         projectIDContainer:
@@ -153,8 +149,8 @@ const styles = StyleSheet.create(
         },
         dividerStyle:
         {
-            backgroundColor: '#EBEEF7',
-            marginTop: HEIGHT * 0.01
+            backgroundColor: '#BDCDD1',
+            marginTop: HEIGHT * 0.01,
         },
         projectTitleStyle:
         {
