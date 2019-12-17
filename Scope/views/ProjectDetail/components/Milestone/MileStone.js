@@ -5,36 +5,14 @@ import {
     StyleSheet,
     Dimensions,
     FlatList,
+    Clipboard,
+    TouchableOpacity,
 } from 'react-native';
 import { Avatar, Divider, Icon } from 'react-native-elements';
 import AccordionView from './components/MilestoneAccordin';
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 import firebase from 'react-native-firebase';
-
-
-/**
- * Image Source from https://randomuser.me/
- * Credit to https://randomuser.me/
- */
-const ProfilePic = ["https://randomuser.me/api/portraits/med/men/1.jpg",
-    "https://randomuser.me/api/portraits/med/men/2.jpg",
-    "https://randomuser.me/api/portraits/med/men/3.jpg",
-    "https://randomuser.me/api/portraits/med/men/4.jpg",
-    "https://randomuser.me/api/portraits/med/men/5.jpg",
-    "https://randomuser.me/api/portraits/med/men/6.jpg",
-    "https://randomuser.me/api/portraits/med/men/7.jpg",
-    "https://randomuser.me/api/portraits/med/men/8.jpg",
-    "https://randomuser.me/api/portraits/med/men/9.jpg",
-    "https://randomuser.me/api/portraits/med/men/10.jpg",
-    "https://randomuser.me/api/portraits/med/women/1.jpg",
-    "https://randomuser.me/api/portraits/med/women/2.jpg",
-    "https://randomuser.me/api/portraits/med/women/3.jpg",
-    "https://randomuser.me/api/portraits/med/women/4.jpg",
-    "https://randomuser.me/api/portraits/med/women/5.jpg",
-    "https://randomuser.me/api/portraits/med/women/6.jpg",
-    "https://randomuser.me/api/portraits/med/women/7.jpg",
-    "https://randomuser.me/api/portraits/med/women/8.jpg",
-    "https://randomuser.me/api/portraits/med/women/9.jpg",
-]
 
 
 export class MileStone extends Component {
@@ -42,46 +20,68 @@ export class MileStone extends Component {
         super(props)
         this.state = {
             project: null,
-            team_member: null,
+            team_member: [],
+            milestone: null,
+            milestoneKey: null,
         }
     }
-
     readProjectData = () => {
         firebase.database().ref('Project/' + this.props.navigation.getParam('uid')).on('value', (snapshot) => {
             this.setState({ project: snapshot.val() })
         });
     }
-
+    readMilestoneData = () => {
+        firebase.database().ref('Project/' + this.props.navigation.getParam('uid') + '/Milestones').orderByChild('time').on('value', (snapshot) => {
+            if (snapshot.val() != undefined) {
+                this.setState({ milestone: Object.values(snapshot.val()).reverse() })
+                this.setState({ milestoneKey: Object.keys(snapshot.val()).reverse() })
+            }
+        })
+    }
     readTeamMember = () => {
-        // var ref = firebase.database().ref('Project');
-        // ref.orderByChild(uid).equalTo(this.props.navigation.getParam('uid')).on("value", (snapshot)=>
-        // {
-        //     console.log(snapshot.val())
-        // });
+        let users = []
+        firebase.database().ref(`Project/${this.props.navigation.getParam('uid')}/Users`).on('value', (snapshot) => {
+            Object.values(snapshot.val()).forEach(element => {
+                firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
+                    users.push(snapshot.val())
+                }).then(() => {
+                    this.setState({ team_member: users })
+                })
+            })
+        })
     }
-
     onPressAddMilestone = () => {
-        this.props.navigation.navigate("MilestoneCreationScreen")
+        this.props.navigation.navigate("MilestoneCreationScreen", { uid: this.props.navigation.getParam('uid') })
     }
-
-
     componentDidMount() {
-        console.log(this.props.navigation.getParam('uid'))
         if (this.state.project == null) {
             this.readProjectData()
         }
-        if (this.state.team_member == null) {
+        if (this.state.team_member.length == 0) {
             this.readTeamMember()
         }
+        if (this.state.milestone == null) {
+            this.readMilestoneData()
+        }
     }
-
     render() {
         return (
             <View style={styles.container} >
                 <View className="project_title">
                     <Text style={styles.projectTitleStyle}>{this.state.project != null ? this.state.project.project_title : null}</Text>
                     <View style={styles.projectIDContainer}>
-                        <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
+                        <TouchableOpacity onPress={() => {
+                            Clipboard.setString(this.props.navigation.getParam('uid')),
+                                showMessage({
+                                    message: "Copied to Clipboard",
+                                    type: "default",
+                                    backgroundColor: "white", // background color
+                                    color: "#3F5AA6", // text color
+                                    duration: 800,
+                                });
+                        }}>
+                            <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <Divider style={styles.dividerStyle} />
@@ -91,19 +91,20 @@ export class MileStone extends Component {
                 </View>
                 <View className="team_member" style={styles.flastListContainerStyle}>
                     <FlatList
-                        data={[1, 2, 3, 4, 5]}
-                        key={[1, 2, 3]}
+                        data={this.state.team_member}
+                        key={this.state.team_member.length}
                         contentContainerStyle={styles.profileListStyle}
+                        extraData={this.state}
                         renderItem={({ item }) => (
                             <View style={styles.avatarWrapper}>
                                 <Avatar
-                                    title={"RA"}
+                                    title={item.firstname[0]+item.lastname[0]}
                                     rounded
                                     size={WIDTH * 0.15}
 
                                 />
-                                <Text style={styles.avatarNameStyle}>First name</Text>
-                                <Text style={styles.avatarNameStyle}>Lastname</Text>
+                        <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
+                                <Text style={styles.avatarNameStyle}>{item.lastname}</Text>
                             </View>
                         )}
                         keyExtractor={(item, index) => index.toString()}
@@ -120,8 +121,10 @@ export class MileStone extends Component {
                         size={WIDTH * 0.045}
                         style={styles.iconStyle} />
                 </View>
-                <AccordionView />
-            </View>
+                <AccordionView milestone={this.state.milestone} milestoneKey={this.state.milestoneKey} uid={this.props.navigation.getParam('uid')} />
+                <FlashMessage ref="myLocalFlashMessage" position={'center'} />
+            </View >
+
         )
     }
 }
@@ -198,7 +201,8 @@ const styles = StyleSheet.create(
         },
         avatarWrapper:
         {
-            marginRight: WIDTH * 0.075,
+            marginLeft: WIDTH * 0.075 / 2,
+            marginRight: WIDTH * 0.075 / 2,
             alignItems: 'center'
         },
         milestoneMenuStyle:
@@ -213,6 +217,14 @@ const styles = StyleSheet.create(
         {
             alignSelf: 'flex-end',
             marginTop: -HEIGHT * 0.0065,
+        },
+        flashMessageStyle:
+        {
+            fontSize: WIDTH * 0.05,
+            fontFamily: 'Avenir',
+            textAlign: 'center',
+            fontWeight: '300',
+            justifyContent: 'center',
         },
 
     }

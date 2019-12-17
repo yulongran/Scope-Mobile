@@ -205,7 +205,6 @@ const styles = StyleSheet.create(
         inputWraperStyle:
         {
             alignSelf: 'center',
-            marginTop: HEIGHT*0.05,
         },
         inputContainerStyle:
         {

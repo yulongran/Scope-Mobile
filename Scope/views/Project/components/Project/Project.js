@@ -38,10 +38,10 @@ class Project extends Component {
     constructor(props) {
         super(props)
         this.state =
-            {
-                delete: false,
-                team_member: [1, 2, 3, 4],
-            }
+        {
+            delete: false,
+            team_member: [],
+        }
     }
 
     onPressDelete = () => {
@@ -49,7 +49,23 @@ class Project extends Component {
         firebase.database().ref('Project').child(uid).child(this.props.uid).remove();
     }
 
+    readTeamMember = () => {
+        let users = []
+        firebase.database().ref(`Project/${this.props.uid}/Users`).on('value', (snapshot) => {
+            Object.values(snapshot.val()).forEach(element => {
+                firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
+                    users.push(snapshot.val())
+                }).then(() => {
+                    this.setState({ team_member: users })
+                })
+            })
+        })
+    }
+
     componentDidMount() {
+        if(this.state.team_member.length == 0){
+            this.readTeamMember()
+        }
     }
 
     render() {
@@ -111,10 +127,7 @@ class Project extends Component {
                                     renderItem={({ item, index }) => (
                                         <Avatar
                                             rounded
-                                            source={{
-                                                uri:
-                                                    'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-                                            }}
+                                            title={item.firstname[0]+ item.lastname[0]}
                                             size={42}
                                             containerStyle={{ margin: 10 }}
                                         />

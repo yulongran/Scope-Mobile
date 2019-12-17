@@ -156,8 +156,8 @@ const TabNavigator = createBottomTabNavigator(
                 alignContent: 'center',
                 marginTop: 9,
             },
-            inactiveTintColor: 'white',
-            activeTintColor: '#BACAFF',
+            inactiveTintColor: '#BACAFF',
+            activeTintColor: 'white',
         }
     },
 

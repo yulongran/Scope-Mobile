@@ -127,6 +127,7 @@ class ProjectScreen extends Component {
           </View>
           <FloatingAction
             actions={actions}
+            overlayColor={"#3F5AA6"}
             onPressItem={name => {
               if (name == 'add_project') {
                 this.props.navigation.navigate("ProjectCreation");
@@ -150,17 +151,10 @@ const HEIGHT = Dimensions.get('screen').height;
 const actions = [
   {
     text: "Add Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white"/>,
     name: "add_project",
-    position: 2
+    position: 2,
   },
-  {
-    text: "Join Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
-    name: "join_project",
-    position: 1
-  },
-
 ];
 
 

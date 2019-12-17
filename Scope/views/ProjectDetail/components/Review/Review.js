@@ -6,7 +6,6 @@ import {
     Dimensions,
     Button,
     TouchableOpacity,
-    AsyncStorage,
 } from 'react-native'
 
 const HEIGHT = Dimensions.get('screen').height;
