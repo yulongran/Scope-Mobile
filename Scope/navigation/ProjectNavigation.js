@@ -78,10 +78,6 @@ const Stack = createStackNavigator(
         EvaluationScreen:
         {
             screen: EvaluationScreen,
-            navigationOptions: () => ({
-                headerBackTitle: null,
-            }),
-
         },
 
 
@@ -111,7 +107,7 @@ const TabNavigator = createBottomTabNavigator(
                 labelStyle: {
                     fontSize: 12,
                     fontFamily: 'Avenir',
-                  },
+                },
             },
         },
         Search:
@@ -123,7 +119,7 @@ const TabNavigator = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
                     <Ionicons name="ios-search" size={23} color={tintColor} />
                 ),
-                
+
             },
         },
         Profile:

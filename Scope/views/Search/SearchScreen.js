@@ -3,11 +3,11 @@ import {
     View, Text, StyleSheet,
     Dimensions, FlatList, TouchableOpacity,
     TextInput,
-    Image, 
-} from 'react-native'
-import ProfilePic from '../../assets/images/profile_default.jpg';
-import UserRequest from '../../services/User/index';
-
+    Image,
+} from 'react-native';
+import { Container, Header, Left, Body, Right, Title } from 'native-base'
+import { SearchBar, Button } from "react-native-elements";
+import firebase from 'react-native-firebase';
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
@@ -15,135 +15,54 @@ class SearchScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            search: '',
-            user_firstname: '',
-            user_lastname: '',
-            people: [],
+            uid: null,
+            project:null,
         }
     }
 
-    updateSearch(text) {
-        this.setState({
-            search: text
-        });
+    searchProject = (text) => {
+        this.setState({ uid: text })
     }
 
-    onChangeText(text) {
-        if (text.length == 0) {
-            this.setState(
-                {
-                    people: [],
-                }
-            )
-        }
-        this.setState(
-            {
-                search: text
-            }
-        )
-    }
-
-    componentDidMount() {
-        //this.fetchPeople()
+    onPressSearch = () => {
+        firebase.database().ref(`Project/${this.state.uid}`).once('value', (snapshot)=>
+        {
+            console.log(snapshot.val())
+        })
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={{ flexDirection: 'row' }}>
-                    <TextInput
-                        style={{
-                            height: HEIGHT * 0.06,
-                            borderTopColor: 'gray',
-                            borderBottomColor: 'gray',
-                            borderLeftColor: 'white',
-                            borderRightColor: 'white',
-                            borderWidth: 0.5,
-                            width: WIDTH * 0.7,
-                            marginLeft: WIDTH * 0.05
-                        }}
-                        onChangeText={text => this.onChangeText(text)}
-                        value={this.state.search}
-                        placeholder={"Search"}
-                    >
-                    </TextInput>
-                    <TouchableOpacity style={{
-                        alignItems: 'center',
-                        alignContent: 'center',
-                        justifyContent: 'center',
-                        borderWidth: 0.5,
-                        borderRightColor: "white",
-                        borderLeftColor: 'white',
-                        borderTopColor: 'gray',
-                        borderBottomColor: 'gray',
-                    }}
-                        onPress={async () => {
-                            var text = this.state.search
-                            if (text.length == 0) {
-                                return false;
-                            }
-                            var name = text.split(',');
-                            if (name.length == 1) {
-                                this.setState(
-                                    {
-                                        user_firstname: name[0],
-                                    }
-                                )
-                            }
-                            else {
-                                this.setState(
-                                    {
-                                        user_firstname: name[0],
-                                        user_lastname: name[1],
-                                    }
-                                )
-                            }
-                            var result =await UserRequest.fetchPeople(this.state.user_firstname, this.state.user_lastname)
-                            if(result !=false)
-                            {
-                                this.setState({
-                                    people: result
-                                })
-                            }
-                        }}>
-                        <Text style={{ color: 'blue' }}>Search</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ alignItems: 'center' }}>
-                    <FlatList
-                        data={this.state.people}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={{
-                                marginRight: WIDTH * 0.015,
-                                width: WIDTH * 0.27,
-                                height: WIDTH * 0.3,
-                                marginTop: HEIGHT * 0.01,
-                            }}>
-                                <Image source={ProfilePic} style={{
-                                    width: WIDTH * 0.2,
-                                    height: WIDTH * 0.2,
-                                    borderRadius: WIDTH * 0.2 / 2,
-                                    alignSelf: 'center',
-                                }} />
-                                <Text style={{
-                                    marginTop: HEIGHT * 0.008,
-                                    fontSize: WIDTH * 0.03,
-                                    alignSelf: 'center'
-                                }}>{item.user_firstname}</Text>
-                                <Text style={{
-                                    fontSize: WIDTH * 0.03,
-                                    alignSelf: 'center'
-                                }}>
-                                    {item.user_lastname}
-                                </Text>
-                            </TouchableOpacity>
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        contentContainerStyle={{ width: WIDTH * 0.85 }}
-                        numColumns={3}
+            <Container>
+                <Header style={{ backgroundColor: 'white' }} searchBar rounded>
+                    <Left />
+                    <Body>
+                        <Title style={styles.titleStyle}>Project Search</Title>
+                    </Body>
+                    <Right />
+                </Header>
+                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                    <SearchBar
+                        placeholder="Search"
+                        showCancel={true}
+                        inputStyle={{ fontSize: WIDTH * 0.045, fontFamily: 'Avenir' }}
+                        inputContainerStyle={styles.searchStyle}
+                        containerStyle={styles.searchSectionStyle}
+                        round={true}
+                        lightTheme={true}
+                        onChangeText={text => this.searchProject(text)}
+                        value={this.state.uid}
                     />
+                    <Button
+                        title="Search"
+                        raised
+                        type={'clear'}
+                        titleStyle={{ color: '#3F5AA6' }}
+                        onPress={this.onPressSearch}
+                    />
+
                 </View>
-            </View>
+            </Container>
         )
     }
 }
@@ -151,21 +70,29 @@ class SearchScreen extends Component {
 
 const styles = StyleSheet.create(
     {
-        container: {
-            flex: 3,
-            backgroundColor: '#fff',
-            marginTop: HEIGHT * 0.10,
-        },
-        text: {
-            fontSize: 30,
+        titleStyle:
+        {
+            fontFamily: 'Avenir',
+            fontSize: WIDTH * 0.07,
+            textAlign: 'center',
+            flex: 1,
+            color: '#192A59',
+            fontWeight: '900',
+            width: WIDTH,
         },
         searchStyle: {
-            width: Dimensions.get("window").width * 0.9,
-            marginBottom: 7,
-            backgroundColor: "white",
-            marginTop: Dimensions.get("window").height * 0.01,
-            alignSelf: 'center',
-
+            width: WIDTH * 0.75,
+            height: HEIGHT * 0.05,
+            borderRadius: 15,
+            borderWidth: 0.6,
+            borderBottomWidth: 0.6,
+            backgroundColor: 'white',
+        },
+        searchSectionStyle:
+        {
+            backgroundColor: 'white',
+            borderTopColor: 'white',
+            borderBottomColor: 'white',
         },
     }
 )

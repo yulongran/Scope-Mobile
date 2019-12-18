@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
     View, Text,
-    Image, StyleSheet, AsyncStorage,
-    Dimensions, SafeAreaView, FlatList, TouchableOpacity, ScrollView
+    ImageBackground, StyleSheet, AsyncStorage,
+    Dimensions, SafeAreaView, FlatList, TouchableOpacity, ScrollView,
 } from 'react-native'
 import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
@@ -14,6 +14,10 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Segment, Con
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
+/**
+ * 
+ * @param {<a href="http://www.freepik.com">Designed by rawpixel.com / Freepik</a>} num 
+ */
 /**https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript */
 function romanize(num) {
     var lookup = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 }, roman = '', i;
@@ -51,7 +55,7 @@ class ProjectReviewScreen extends Component {
         if (this.state.activePage === 1)
             return <MileStone uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation} />
         else
-            return <Review />
+            return <Review uid={this.props.navigation.getParam('uid')} navigation={this.props.navigation} />
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -75,7 +79,7 @@ class ProjectReviewScreen extends Component {
     render() {
         return (
             <SafeAreaView>
-                <ScrollView>
+                <ScrollView style={{ backgroundColor: '#FBFBFB' }}>
                     <Container>
                         <Segment style={{ backgroundColor: 'white' }}>
                             <Button active={this.state.activePage === 1}
@@ -90,7 +94,7 @@ class ProjectReviewScreen extends Component {
                                     backgroundColor: this.state.activePage == 1 ? '#3F5AA6' : '#FFFFFF',
                                 }}
                                 onPress={this.selectComponent(1)}>
-                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6'}}>MileStone</Text>
+                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6' }}>MileStone</Text>
                             </Button>
                             <Button active={this.state.activePage === 2} style={{
                                 justifyContent: 'center',
@@ -187,6 +191,11 @@ const styles = StyleSheet.create(
             fontWeight: '900',
             fontStyle: 'italic',
         },
+        backgroundImage: {
+            flex: 1,
+            alignSelf: 'stretch',
+            width: null,
+        }
     }
 )
 

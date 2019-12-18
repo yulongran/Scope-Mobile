@@ -27,11 +27,6 @@ class ProjectScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Project',
-      headerStyle:
-      {
-        // borderBottomColor: '#EBEEF7',
-        // borderWidth: 1,
-      },
       headerTintColor: '#192A59',
       headerTitleStyle:
       {
@@ -78,13 +73,13 @@ class ProjectScreen extends Component {
           project_uid.push(element.uid)
         })
         this.setState({ projectKeys: Object.values(snapshot.val()) })
-        let project_tmp =[]
+        let project_tmp = []
         project_uid.forEach((element) => {
           firebase.database().ref('Project/' + element).on('value', (snapshot) => {
             project_tmp.push(snapshot.val())
           })
         })
-        this.setState({project: project_tmp})
+        this.setState({ project: project_tmp })
       })
     }
   }
@@ -92,54 +87,55 @@ class ProjectScreen extends Component {
   render() {
     return (
       <SafeAreaView>
-        <View style={styles.container}>
-          <View className="SearchBar" style={styles.searchSectionStyle}>
-            <SearchBar
-              placeholder="Search"
-              showCancel={true}
-              inputStyle={{ backgroundColor: "white" }}
-              inputContainerStyle={styles.searchStyle}
-              containerStyle={styles.searchSectionStyle}
-              lightTheme={true}
-              onChangeText={text => this.filterProject(text)}
-              value={this.state.search}
-              onClear={() => { }}
+          <View style={styles.container}>
+            <View className="SearchBar" style={styles.searchSectionStyle}>
+              <SearchBar
+                placeholder="Search"
+                showCancel={true}
+                inputStyle={{fontSize:WIDTH*0.045, fontFamily:'Avenir'}}
+                inputContainerStyle={styles.searchStyle}
+                containerStyle={styles.searchSectionStyle}
+                round={true}
+                lightTheme={true}
+                onChangeText={text => this.filterProject(text)}
+                value={this.state.search}
+                onClear={() => { }}
+              />
+            </View>
+            <View style={styles.projectListStyle}>
+              <FlatList
+                data={this.state.project}
+                renderItem={({ item, index }) => (
+                  <Project
+                    project_title={item.project_title}
+                    project_course={item.project_course}
+                    project_startDate={item.project_startDate}
+                    project_endDate={item.project_endDate}
+                    index={index}
+                    uid={this.state.projectKeys !== null ? this.state.projectKeys[index].uid : null}
+                    onPress={() => {
+                      this.props.navigation.navigate("Review", { uid: this.state.projectKeys[index].uid })
+                    }}
+                  />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                extraData={this.state.project}
+              />
+            </View>
+            <FloatingAction
+              actions={actions}
+              onPressItem={name => {
+                if (name == 'add_project') {
+                  this.props.navigation.navigate("ProjectCreation");
+                }
+                if (name == 'join_project') {
+                  this.props.navigation.navigate('ProjectJoinScreen')
+                }
+              }}
+              buttonSize={45}
+              color={"#3F5AA6"}
             />
           </View>
-          <View style={styles.projectListStyle}>
-            <FlatList
-              data={this.state.project}
-              renderItem={({ item, index }) => (
-                <Project
-                  project_title={item.project_title}
-                  project_course={item.project_course}
-                  project_startDate={item.project_startDate}
-                  project_endDate={item.project_endDate}
-                  index = {index}
-                  uid={this.state.projectKeys !== null ? this.state.projectKeys[index].uid : null}
-                  onPress={() => {
-                    this.props.navigation.navigate("Review", { uid: this.state.projectKeys[index].uid})
-                  }}
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              extraData={this.state.project}
-            />
-          </View>
-          <FloatingAction
-            actions={actions}
-            onPressItem={name => {
-              if (name == 'add_project') {
-                this.props.navigation.navigate("ProjectCreation");
-              }
-              if (name == 'join_project') {
-                this.props.navigation.navigate('ProjectJoinScreen')
-              }
-            }}
-            buttonSize={45}
-            color={"#3F5AA6"}
-          />
-        </View >
       </SafeAreaView>
     );
   }
@@ -151,7 +147,7 @@ const HEIGHT = Dimensions.get('screen').height;
 const actions = [
   {
     text: "Add Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white"/>,
+    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
     name: "add_project",
     position: 2,
   },
@@ -183,7 +179,7 @@ const styles = StyleSheet.create({
     marginLeft: WIDTH * 0.02
   },
   searchStyle: {
-    width: Dimensions.get("window").width * 0.9,
+    width: WIDTH*0.9,
     height: HEIGHT * 0.05,
     borderRadius: 15,
     borderWidth: 0.6,
@@ -193,6 +189,7 @@ const styles = StyleSheet.create({
   searchSectionStyle:
   {
     backgroundColor: 'white',
+    borderColor:'white',
   },
   projectListStyle:
   {
