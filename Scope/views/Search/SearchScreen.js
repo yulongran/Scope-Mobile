@@ -4,10 +4,12 @@ import {
     Dimensions, FlatList, TouchableOpacity,
     TextInput,
     Image,
+    Alert,
 } from 'react-native';
 import { Container, Header, Left, Body, Right, Title } from 'native-base'
 import { SearchBar, Button } from "react-native-elements";
 import firebase from 'react-native-firebase';
+import Project from './components/Project/index';
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
@@ -16,7 +18,8 @@ class SearchScreen extends Component {
         super(props)
         this.state = {
             uid: null,
-            project:null,
+            project: null,
+            projectKey: null
         }
     }
 
@@ -25,10 +28,44 @@ class SearchScreen extends Component {
     }
 
     onPressSearch = () => {
-        firebase.database().ref(`Project/${this.state.uid}`).once('value', (snapshot)=>
-        {
-            console.log(snapshot.val())
+        firebase.database().ref(`Project/${this.state.uid}`).once('value', (snapshot) => {
+            this.setState({ project: snapshot.val() })
+            this.setState({ projectKey: snapshot.key })
         })
+    }
+
+    onPressJoinProject = () => {
+        Alert.alert(
+            'Join this Project',
+            '',
+            [
+                {
+                    text: 'Yes', onPress: () => {
+                        let my_uid = firebase.auth().currentUser.uid;
+                        firebase.database().ref(`Project/${this.state.uid}/Users`).orderByChild('uid').equalTo(my_uid).once('value', (snapshot) => {
+                            if (!snapshot.exists()) {
+                                firebase.database().ref(`Project/${this.state.uid}/Users`).push({
+                                    uid: my_uid,
+                                }).then(() => {
+                                    firebase.database().ref(`Users/${my_uid}/Project`).push({
+                                        uid: this.state.uid
+                                    })
+                                }).then(()=>
+                                {
+                                    alert("Successfully Join this Project")
+                                })
+                            }
+                        }).then(() => {
+
+                        })
+                    }
+                },
+                { text: 'No', style: 'cancel' },
+            ],
+            {
+                cancelable: true
+            }
+        )
     }
 
     render() {
@@ -45,7 +82,7 @@ class SearchScreen extends Component {
                     <SearchBar
                         placeholder="Search"
                         showCancel={true}
-                        inputStyle={{ fontSize: WIDTH * 0.045, fontFamily: 'Avenir' }}
+                        inputStyle={{ fontSize: WIDTH * 0.035, fontFamily: 'Avenir', color: '#3F5AA6' }}
                         inputContainerStyle={styles.searchStyle}
                         containerStyle={styles.searchSectionStyle}
                         round={true}
@@ -60,7 +97,18 @@ class SearchScreen extends Component {
                         titleStyle={{ color: '#3F5AA6' }}
                         onPress={this.onPressSearch}
                     />
-
+                </View>
+                <View>
+                    {this.state.project != null ?
+                        <Project
+                            project_title={this.state.project.project_title}
+                            project_course={this.state.project.project_course}
+                            project_startDate={this.state.project.project_startDate}
+                            project_endDate={this.state.project.project_endDate}
+                            onPress={this.onPressJoinProject}
+                            index={1}
+                            uid={this.state.projectKey != null ? this.state.projectKey : null}
+                        /> : <View />}
                 </View>
             </Container>
         )
