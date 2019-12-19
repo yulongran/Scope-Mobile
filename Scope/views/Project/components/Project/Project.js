@@ -160,6 +160,7 @@ var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue'
 const styles = StyleSheet.create({
     ViewStyle: {
         flexDirection: 'row',
+        marginTop: -HEIGHT*0.02,
     },
     rightSideStyle:
     {
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
     {
         alignSelf: 'flex-end',
         paddingRight: WIDTH * 0.05,
+        marginTop: HEIGHT*0.02,
     },
     optionsContainerStyle:
         { width: WIDTH * 0.2, borderRadius: 8 },

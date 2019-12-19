@@ -11,11 +11,9 @@ import { Ionicons } from "@expo/vector-icons";
 import ProfileScreen from '../views/Profile/index';
 import SearchScreen from '../views/Search/index';
 import ProjectScreen from '../views/Project/index';
-import TeamScreen from '../views/Team/index';
 import ProjectReviewScreen from '../views/ProjectDetail/index';
 import EvaluationScreen from "../views/Evaluation/index";
 import ProjectCreationScreen from "../views/ProjectCreation/index";
-import ProjectJoinScreen from "../views/ProjectJoin/index";
 import MilestoneCreationScreen from '../views/MilestoneCreation/index';
 
 
@@ -48,14 +46,6 @@ const Stack = createStackNavigator(
                 headerBackTitle: null,
             }),
         },
-        Team:
-        {
-            screen: TeamScreen,
-            navigationOptions: () => ({
-                headerBackTitle: null,
-            }),
-
-        },
         Review:
         {
             screen: ProjectReviewScreen,
@@ -70,10 +60,6 @@ const Stack = createStackNavigator(
         ProjectCreation:
         {
             screen: ProjectCreationScreen,
-        },
-        ProjectJoinScreen:
-        {
-            screen: ProjectJoinScreen
         },
         EvaluationScreen:
         {

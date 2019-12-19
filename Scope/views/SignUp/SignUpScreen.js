@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert } from 'react-native';
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Ionicons } from "@expo/vector-icons";
-import UserRequest from '../../services/User/index';
 import { Input } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
@@ -14,6 +13,7 @@ class SignUpScreen extends Component {
             lastname: '',
             email: '',
             password: '',
+            institution: '',
         };
     }
 
@@ -25,14 +25,15 @@ class SignUpScreen extends Component {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((value) => {
                 firebase.database().ref('Users/' + value.user.uid).set({
-                    username: this.state.email,
+                    email: this.state.email,
                     firstname: this.state.firstname,
                     lastname: this.state.lastname,
+                    institution: this.state.institution,
                 });
             }).catch((err) => {
                 console.log(err)
                 Alert.alert(
-                    'Unable to Sign Up',
+                    'Email Already Exists',
                 );
             })
     }
@@ -72,6 +73,19 @@ class SignUpScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
+                            <Ionicons name="md-school" size={21} color="#3F5AA6" />}
+                        label='Institution'
+                        onChangeText={val => this.onChangeText('institution', val)}
+                        inputContainerStyle={styles.inputStyle}
+                        rightIconContainerStyle={styles.rightIconStyle}
+                        containerStyle={styles.inputContainerStyle}
+                        labelStyle={styles.inputLabelStyle}
+                        inputStyle={styles.inputTextStyle}
+                    />
+                </View>
+                <View style={styles.inputView}>
+                    <Input
+                        rightIcon={
                             <Ionicons name="md-mail" size={21} color="#3F5AA6" />}
                         label='Email'
                         onChangeText={val => this.onChangeText('email', val)}
@@ -94,10 +108,12 @@ class SignUpScreen extends Component {
                         labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
                         secureTextEntry={true}
-                        
+
                     />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}>
+                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress} 
+                disabled={this.state.email.length==0 || this.state.firstname.length==0||this.state.lastname.length==0
+                ||this.state.lastname.length==0||this.state.institution.length==0}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -122,9 +138,9 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.035,
+            marginTop: HEIGHT * 0.01,
             width: WIDTH * 0.75,
-            marginBottom: HEIGHT * 0.06,
+            marginBottom: HEIGHT * 0.03,
         },
         textInput:
         {
@@ -160,7 +176,7 @@ const styles = StyleSheet.create(
         {
             color: '#3F5AA6',
             marginLeft: Dimensions.get('window').width * 0.07,
-            marginTop: Dimensions.get('window').height * 0.08,
+            marginTop: Dimensions.get('window').height * 0.05,
             alignSelf: 'flex-start',
         },
         inputTextStyle:

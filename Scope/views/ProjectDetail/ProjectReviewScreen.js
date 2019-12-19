@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text,
-    ImageBackground, StyleSheet, AsyncStorage,
+    ImageBackground, StyleSheet,
     Dimensions, SafeAreaView, FlatList, TouchableOpacity, ScrollView,
 } from 'react-native'
 import Review from './components/Review/index';

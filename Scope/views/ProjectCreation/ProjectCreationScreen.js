@@ -68,7 +68,7 @@ class ProjectCreationScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView>
+            <SafeAreaView style={{flex:1}}>
                 <View className="form" style={styles.inputWraperStyle}>
                     <View className="project_input">
                         <Input
@@ -150,7 +150,7 @@ class ProjectCreationScreen extends Component {
                         </View>
                     </View>
                 </View>
-                <View className="submit_button" style={{ alignSelf: 'stretch' }}>
+                <View className="submit_button" style={{ justifyContent:'flex-end' }}>
                     <Button
                         title="SUBMIT"
                         type="solid"
@@ -168,11 +168,11 @@ const styles = StyleSheet.create(
     {
         submitButtonStyle:
         {
+            marginBottom: HEIGHT*0.005,
             width: WIDTH * 0.8,
             backgroundColor: '#3F5AA6',
             alignSelf: 'center',
             borderRadius: (WIDTH + HEIGHT) / 2,
-            marginTop: HEIGHT * 0.03,
         },
         datePickerStyle:
         {
@@ -204,6 +204,7 @@ const styles = StyleSheet.create(
         },
         inputWraperStyle:
         {
+            flex:1,
             alignSelf: 'center',
         },
         inputContainerStyle:

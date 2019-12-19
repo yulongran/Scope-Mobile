@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, SafeAreaView, Alert
+    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView, Alert
 } from 'react-native';
 import { Input } from 'react-native-elements'
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
@@ -48,12 +48,6 @@ class HomeScreen extends Component {
             })
     }
 
-    async componentDidMount() {
-        const token = await AsyncStorage.getItem('id_token')
-        if (token) {
-            this.props.navigation.navigate("Project")
-        }
-    }
     render() {
         return (
             <SafeAreaView>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, Icon, Avatar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import { string } from 'prop-types';
@@ -11,9 +11,14 @@ class ProfileScreen extends Component {
     constructor(props) {
         super(props)
         this.state =
-            {
-                user: null,
-            }
+        {
+            user: null,
+            firstname: null,
+            lastname: null,
+            contact: null,
+            institution: null,
+            edit: false,
+        }
     }
 
     onPressSignOut = () => {
@@ -41,6 +46,12 @@ class ProfileScreen extends Component {
         if (uid !== null && !this.state.user) {
             firebase.database().ref('Users/' + uid).on('value', (snapshot) => {
                 this.setState({ user: snapshot.val() })
+                this.setState({
+                    firstname: snapshot.val().firstname,
+                    lastname: snapshot.val().lastname,
+                    contact: snapshot.val().email,
+                    institution: snapshot.val().institution,
+                })
             });
         }
 
@@ -53,149 +64,121 @@ class ProfileScreen extends Component {
                     <Avatar
                         title={this.state.user != null ? this.state.user.firstname[0] + this.state.user.lastname[0] : null}
                         rounded
-                        size='xlarge'
+                        size={WIDTH * 0.3}
                         containerStyle={{ alignSelf: 'center' }}
                         showEditButton
                         onEditPress={this.onUploadPress}
                     />
-
-                    <Text style={styles.nameStyle}>{this.state.user != null ? this.state.user.firstname : null} {this.state.user != null ? this.state.user.lastname : null}</Text>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Icon
-                        reverse
-                        name='ios-contact'
-                        type='ionicon'
-                        color='#BACAFF'
-                        iconStyle={styles.iconStyle}
-                    />
-                    <View style={styles.infoStyle}>
-                        <Text style={styles.textStyle}>First Name</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user != null ? this.state.user.firstname : null}
-                            onChangeText={value => this.onChangeText('institution', value)}
-                        ></TextInput>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.nameStyle}>{this.state.user != null ? this.state.user.firstname : null} {this.state.user != null ? this.state.user.lastname : null}</Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                </View>
+                <View style={{ flex: 2, marginTop: HEIGHT * 0.01 }}>
+                    <View style={styles.viewStyle}>
                         <Icon
-                            name='right'
-                            type='antdesign'
-                            color='#3F5AA6'
-                            size={WIDTH * 0.055}
+                            reverse
+                            name='ios-contact'
+                            type='ionicon'
+                            color='#BACAFF'
+                            iconStyle={styles.iconStyle}
                         />
+                        <View style={styles.infoStyle}>
+                            <Text style={styles.textStyle}>First Name</Text>
+                            <TextInput
+                                style={styles.inputStyle}
+                                editable={this.state.edit}
+                                value={this.state.firstname != null ? this.state.firstname : null}
+                                onChangeText={value => this.onChangeText('firstname', value)}
+                            ></TextInput>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Icon
+                                name='right'
+                                type='antdesign'
+                                color='#3F5AA6'
+                                size={WIDTH * 0.055}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Icon
-                        reverse
-                        name='ios-contact'
-                        type='ionicon'
-                        color='#BACAFF'
-                        iconStyle={styles.iconStyle}
-                    />
-                    <View style={styles.infoStyle}>
-                        <Text style={styles.textStyle}>Last Name</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user != null ? this.state.user.lastname : null}
-                            onChangeText={value => this.onChangeText('institution', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.viewStyle}>
                         <Icon
-                            name='right'
-                            type='antdesign'
-                            color='#3F5AA6'
-                            size={WIDTH * 0.055}
+                            reverse
+                            name='ios-contact'
+                            type='ionicon'
+                            color='#BACAFF'
+                            iconStyle={styles.iconStyle}
                         />
+                        <View style={styles.infoStyle}>
+                            <Text style={styles.textStyle}>Last Name</Text>
+                            <TextInput
+                                style={styles.inputStyle}
+                                editable={this.state.edit}
+                                value={this.state.lastname != null ? this.state.lastname : null}
+                                onChangeText={value => this.onChangeText('lastname', value)}
+                            ></TextInput>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Icon
+                                name='right'
+                                type='antdesign'
+                                color='#3F5AA6'
+                                size={WIDTH * 0.055}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Icon
-                        reverse
-                        name='contacts'
-                        type='antdesign'
-                        color='#BACAFF'
-                        iconStyle={styles.iconStyle}
-                    />
-                    <View style={styles.infoStyle}>
-                        <Text style={styles.textStyle}>Contact Info</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user != null ? this.state.user.username : null}
-                            onChangeText={value => this.onChangeText('institution', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.viewStyle}>
                         <Icon
-                            name='right'
+                            reverse
+                            name='contacts'
                             type='antdesign'
-                            color='#3F5AA6'
-                            size={WIDTH * 0.055}
+                            color='#BACAFF'
+                            iconStyle={styles.iconStyle}
                         />
+                        <View style={styles.infoStyle}>
+                            <Text style={styles.textStyle}>Contact Info</Text>
+                            <TextInput
+                                style={styles.inputStyle}
+                                editable={this.state.edit}
+                                value={this.state.contact != null ? this.state.contact : null}
+                                onChangeText={value => this.onChangeText('contact', value)}
+                            ></TextInput>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Icon
+                                name='right'
+                                type='antdesign'
+                                color='#3F5AA6'
+                                size={WIDTH * 0.055}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Icon
-                        reverse
-                        name='ios-school'
-                        type='ionicon'
-                        color='#BACAFF'
-                        iconStyle={styles.iconStyle}
-                    />
-                    <View style={styles.infoStyle}>
-                        <Text style={styles.textStyle}>Institution</Text>
-                        <TextInput
-                            style={styles.inputStyle}
-                            value={this.state.user_institution}
-                            onChangeText={value => this.onChangeText('institution', value)}
-                        ></TextInput>
-                    </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.viewStyle}>
                         <Icon
-                            name='right'
-                            type='antdesign'
-                            color='#3F5AA6'
-                            size={WIDTH * 0.055}
+                            reverse
+                            name='ios-school'
+                            type='ionicon'
+                            color='#BACAFF'
+                            iconStyle={styles.iconStyle}
                         />
+                        <View style={styles.infoStyle}>
+                            <Text style={styles.textStyle}>Institution</Text>
+                            <TextInput
+                                style={styles.inputStyle}
+                                editable={this.state.edit}
+                                value={this.state.institution != null ? this.state.institution : null}
+                                onChangeText={value => this.onChangeText('institution', value)}
+                            ></TextInput>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Icon
+                                name='right'
+                                type='antdesign'
+                                color='#3F5AA6'
+                                size={WIDTH * 0.055}
+                            />
+                        </View>
                     </View>
                 </View>
-                {/* <View style={styles.viewStyle}>
-                    <Text style={styles.textStyle}>First Name</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_firstName}
-                        onChangeText={value => this.onChangeText('firstName', value)}
-                    ></TextInput>
-                </View> */}
-                {/* <View style={styles.viewStyle}>
-                    <Text style={styles.textStyle}>Last Name</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.user_lastName}
-                        onChangeText={value => this.onChangeText('lastName', value)}
-                    ></TextInput>
-                </View>
-                <View style={styles.viewStyle}>
-                    <Text style={styles.textStyle}>User ID</Text>
-                    <TextInput
-                        style={styles.inputStyle}
-                        value={this.state.studentID}
-                        onChangeText={value => this.onChangeText('studentID', value)}
-                    ></TextInput>
-                </View>
-                <View style={{
-                    marginTop: HEIGHT * 0.12,
-                }}>
-                    <Button
-                        title="Log Out"
-                        type="solid"
-                        buttonStyle={styles.submitButtonStyle}
-                        onPress={() => {
-                            this.logOut()
-                        }} />
-                </View> */}
                 <View className='sign_out_button' style={styles.signOutStyle}>
                     <Button
                         title="Sign Out"
@@ -213,7 +196,7 @@ class ProfileScreen extends Component {
 const styles = StyleSheet.create(
     {
         container: {
-            flex: 3,
+            flex: 1,
             backgroundColor: '#FAFBFF',
         },
         textStyle: {
@@ -251,6 +234,7 @@ const styles = StyleSheet.create(
         },
         profileStyle:
         {
+            flex: 1,
             alignSelf: 'center',
             marginTop: HEIGHT * 0.08,
             marginBottom: HEIGHT * 0.06,

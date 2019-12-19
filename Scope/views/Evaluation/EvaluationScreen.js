@@ -123,7 +123,7 @@ class EvaluationScreen extends Component {
                         count={4}
                         reviews={rating}
                         defaultRating={0}
-                        size={WIDTH * 0.06}
+                        size={WIDTH * 0.04}
                         starContainerStyle={{ backgroundColor: '#FAFBFF' }}
                         onFinishRating={this.ratingCompleted}
                         selectedColor={'#3F5AA6'}
@@ -132,7 +132,7 @@ class EvaluationScreen extends Component {
                 </View>
                 <Container style={styles.textAreaContainerStyle}>
                     <Content padder>
-                        <View style={{ flexDirection: 'row' }}>
+                        {/* <View style={{ flexDirection: 'row' }}>
                             <CheckBox checked={this.state.anonymous} color="#3F5AA6" onPress={this.onPressAnonymous} />
                             <Body>
                                 <Text style={{
@@ -143,11 +143,11 @@ class EvaluationScreen extends Component {
                                 }}>Remain Anonymous</Text>
                             </Body>
 
-                        </View>
+                        </View> */}
                         <Form style={{ backgroundColor: 'white', padding: WIDTH * 0.05 }}>
                             <Textarea rowSpan={5} style={styles.textAreaStyle} bordered placeholder="Leave a Review" onChangeText={this.onChangeTextArea} />
                         </Form>
-                        <View className="submit_button">
+                        <View className="submit_button" style={{ justifyContent: 'flex-end' }}>
                             <Button
                                 title="SUBMIT"
                                 type="solid"

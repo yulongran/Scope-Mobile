@@ -58,9 +58,9 @@ class ProjectScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    if (!this.state.project && !this.state.projectKeys) {
-      this.fetchProject()
+  async componentDidMount() {
+    if (!this.state.project) {
+      await this.fetchProject()
     }
   }
 
@@ -76,12 +76,11 @@ class ProjectScreen extends Component {
           this.setState({ projectKeys: Object.values(snapshot.val()) })
           let project_tmp = []
           project_uid.forEach((element) => {
-            firebase.database().ref('Project/' + element).once('value', (snapshot) => {
+            firebase.database().ref('Project/' + element).on('value', (snapshot) => {
               project_tmp.push(snapshot.val())
+              this.setState({ project: project_tmp })
             })
           })
-          this.setState({ project: project_tmp })
-          console.log(this.state.project)
         }
       })
     }
@@ -106,6 +105,7 @@ class ProjectScreen extends Component {
             />
           </View>
           <View style={styles.projectListStyle}>
+            {console.log(this.state.project)}
             <FlatList
               data={this.state.project}
               renderItem={({ item, index }) => (
@@ -122,7 +122,7 @@ class ProjectScreen extends Component {
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
-              extraData={this.state.project != null ? this.state.project : {}}
+              extraData={this.state}
             />
           </View>
           <FloatingAction
