@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, Icon, Avatar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
-import { string } from 'prop-types';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
@@ -29,29 +29,69 @@ class ProfileScreen extends Component {
         this.setState({ [key]: val })
     }
 
-    /**
-     * Update Information to the data base
-     * when user clicked back button or logout
-     */
-    updateInformation() {
 
+    saveImage(ref, image, imageName) {
+        var firebaseStorageRef = firebase.storage().ref(ref);
+        const imageRef = firebaseStorageRef.child(imageName + ".jpeg");
+        imageRef.putFile(image.path, { contentType: 'image/jpeg' }).then(function () {
+            return imageRef.getDownloadURL();
+        }).then(function (url) {
+            firebase.database().ref(`Users/${firebase.auth().currentUser.uid}`).update({
+                avatar: url
+            })
+        }).catch(function (error) {
+            console.log(error)
+        });
+    }
+    onUploadPress = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+        }).then(image => {
+            let my_uid = firebase.auth().currentUser.uid;
+            this.saveImage('Avatar', image, `${my_uid}`)
+        });
     }
 
-    onUploadPress = () => {
-        alert("Upload Pictures")
+    uploadToFirebase = (blob) => {
+
+        return new Promise((resolve, reject) => {
+
+            var storageRef = firebase.storage().ref();
+
+            storageRef.child('uploads/photo.jpg').put(blob, {
+                contentType: 'image/jpeg'
+            }).then((snapshot) => {
+
+                blob.close(); // let's free up the blob
+
+                resolve(snapshot);
+
+            }).catch((error) => {
+
+                reject(error);
+
+            });
+
+        });
+
+
     }
 
     componentDidMount() {
         const uid = firebase.auth().currentUser.uid;
         if (uid !== null && !this.state.user) {
             firebase.database().ref('Users/' + uid).on('value', (snapshot) => {
-                this.setState({ user: snapshot.val() })
-                this.setState({
-                    firstname: snapshot.val().firstname,
-                    lastname: snapshot.val().lastname,
-                    contact: snapshot.val().email,
-                    institution: snapshot.val().institution,
-                })
+                if (snapshot.val() != null) {
+                    this.setState({ user: snapshot.val() })
+                    this.setState({
+                        firstname: snapshot.val().firstname,
+                        lastname: snapshot.val().lastname,
+                        contact: snapshot.val().email,
+                        institution: snapshot.val().institution,
+                    })
+                }
             });
         }
 
@@ -64,9 +104,13 @@ class ProfileScreen extends Component {
                     <Avatar
                         title={this.state.user != null ? this.state.user.firstname[0] + this.state.user.lastname[0] : null}
                         rounded
+                        source={{
+                            uri:
+                                this.state.user != null && this.state.user.avatar != null ? this.state.user.avatar : null,
+                        }}
                         size={WIDTH * 0.3}
-                        containerStyle={{ alignSelf: 'center' }}
                         showEditButton
+                        containerStyle={{ alignSelf: 'center' }}
                         onEditPress={this.onUploadPress}
                     />
                     <View style={{ flexDirection: 'row' }}>

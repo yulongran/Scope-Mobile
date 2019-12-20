@@ -6,18 +6,10 @@ import {
     Dimensions,
     TouchableOpacity,
     Alert,
-    Image,
     FlatList,
 } from 'react-native'
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
 import { Avatar, Card } from 'react-native-elements';
-import ProjectCard from '../../../../assets/images/projectCard.png';
 import firebase from 'react-native-firebase'
 
 /**
@@ -46,19 +38,30 @@ class Project extends Component {
 
     onPressDelete = () => {
         const uid = firebase.auth().currentUser.uid;
-        firebase.database().ref('Project').child(uid).child(this.props.uid).remove();
+        firebase.database().ref(`Users/${uid}/Project`).once('value', (snapshot)=>
+        {
+           Object.values(snapshot.val()).forEach((element, index)=>
+           {
+                if(element.uid == this.props.uid)
+                {
+                    firebase.database().ref(`Users/${uid}/Project/${Object.keys(snapshot.val())[index]}`).remove()
+                }
+           })
+        })
     }
 
     readTeamMember = () => {
         let users = []
         firebase.database().ref(`Project/${this.props.uid}/Users`).on('value', (snapshot) => {
-            Object.values(snapshot.val()).forEach(element => {
-                firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
-                    users.push(snapshot.val())
-                }).then(() => {
-                    this.setState({ team_member: users })
+            if (snapshot.val() != null) {
+                Object.values(snapshot.val()).forEach(element => {
+                    firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
+                        users.push(snapshot.val())
+                    }).then(() => {
+                        this.setState({ team_member: users })
+                    })
                 })
-            })
+            }
         })
     }
 
@@ -70,7 +73,23 @@ class Project extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={this.props.onPress}>
+            <TouchableOpacity onPress={this.props.onPress} style={{ justifyContent: 'center' }} onLongPress={() => {
+                Alert.alert(
+                    'Permanent delete project',
+                    '',
+                    [
+                        {
+                            text: 'Yes', onPress: () => {
+                                this.onPressDelete()
+                            }
+                        },
+                        { text: 'No', style: 'cancel' },
+                    ],
+                    {
+                        cancelable: true
+                    }
+                )
+            }}>
                 <Card containerStyle={{
                     width: WIDTH * 0.9,
                     height: HEIGHT * 0.145,
@@ -79,14 +98,14 @@ class Project extends Component {
                     borderLeftColor: colors[Math.floor(Math.random(10) * colors.length * this.props.index)],
                     borderLeftWidth: 4,
                 }}>
-                    <View className="main_content" style={{ marginTop: -HEIGHT * 0.02 }}>
-                        <View className="project_menu_selection" style={styles.menuContainerStyle}>
-                            <Menu style={{ marginLeft: WIDTH * 0.33 }}>
+                    <View className="main_content" style={{ justifyContent: 'center' }}>
+                        {/* <View className="project_menu_selection" style={styles.menuContainerStyle}>
+                            <Menu style={{ marginLeft: WIDTH * 0.33 }} >
                                 <MenuTrigger>
                                     <Ionicons
                                         name="ios-more"
                                         color="#000000"
-                                        size={WIDTH * 0.04}
+                                        size={WIDTH * 0.06}
                                     />
                                 </MenuTrigger>
                                 <MenuOptions optionsContainerStyle={styles.optionsContainerStyle}>
@@ -110,7 +129,7 @@ class Project extends Component {
                                     }} />
                                 </MenuOptions>
                             </Menu>
-                        </View>
+                        </View> */}
                         <View style={styles.ViewStyle} >
                             <View className="left_container">
                                 <Text style={styles.ProjectNameStyle}>{this.props.project_title}</Text>
@@ -133,6 +152,10 @@ class Project extends Component {
                                             rounded
                                             title={item.firstname[0] + item.lastname[0]}
                                             size={42}
+                                            source={{
+                                                uri:
+                                                    item.avatar != null ? item.avatar : null,
+                                            }}
                                             containerStyle={{ margin: 10 }}
                                         />
                                     )}
@@ -144,8 +167,8 @@ class Project extends Component {
                         </View>
                     </View>
                     {/* </View> */}
-                </Card>
-            </TouchableOpacity>
+                </Card >
+            </TouchableOpacity >
 
 
 
@@ -160,7 +183,6 @@ var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue'
 const styles = StyleSheet.create({
     ViewStyle: {
         flexDirection: 'row',
-        marginTop: -HEIGHT*0.02,
     },
     rightSideStyle:
     {
@@ -202,12 +224,12 @@ const styles = StyleSheet.create({
         height: WIDTH * 0.07,
         width: WIDTH * 0.07,
     },
-    menuContainerStyle:
-    {
-        alignSelf: 'flex-end',
-        paddingRight: WIDTH * 0.05,
-        marginTop: HEIGHT*0.02,
-    },
+    // menuContainerStyle:
+    // {
+    //     alignSelf: 'flex-end',
+    //     paddingRight: WIDTH * 0.05,
+    //     marginTop: HEIGHT * 0.02,
+    // },
     optionsContainerStyle:
         { width: WIDTH * 0.2, borderRadius: 8 },
 

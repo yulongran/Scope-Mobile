@@ -50,6 +50,9 @@ class ProjectCreationScreen extends Component {
                     project_startDate: this.state.project_startDate,
                     project_endDate: this.state.project_endDate,
                 }).then((data) => {
+                    firebase.database().ref(`Project/${data.path.split('/')[1]}`).update({
+                        uid: data.path.split('/')[1],
+                    })
                     firebase.database().ref('Project/' + data.path.split('/')[1]).child('Users').push(
                         {
                             uid: uid
@@ -68,7 +71,7 @@ class ProjectCreationScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{flex:1}}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <View className="form" style={styles.inputWraperStyle}>
                     <View className="project_input">
                         <Input
@@ -150,7 +153,7 @@ class ProjectCreationScreen extends Component {
                         </View>
                     </View>
                 </View>
-                <View className="submit_button" style={{ justifyContent:'flex-end' }}>
+                <View className="submit_button" style={{ justifyContent: 'flex-end' }}>
                     <Button
                         title="SUBMIT"
                         type="solid"
@@ -168,7 +171,7 @@ const styles = StyleSheet.create(
     {
         submitButtonStyle:
         {
-            marginBottom: HEIGHT*0.005,
+            marginBottom: HEIGHT * 0.005,
             width: WIDTH * 0.8,
             backgroundColor: '#3F5AA6',
             alignSelf: 'center',
@@ -204,7 +207,7 @@ const styles = StyleSheet.create(
         },
         inputWraperStyle:
         {
-            flex:1,
+            flex: 1,
             alignSelf: 'center',
         },
         inputContainerStyle:

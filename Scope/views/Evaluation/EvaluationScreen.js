@@ -63,7 +63,12 @@ class EvaluationScreen extends Component {
     _renderItem({ item, index }) {
         return (
             <View style={{ alignItems: 'center' }}>
-                <Avatar rounded title={item.firstname[0] + item.lastname[0]} size={WIDTH * 0.25} />
+                <Avatar
+                    rounded title={item.firstname[0] + item.lastname[0]} size={WIDTH * 0.20}
+                    source={{
+                        uri:
+                            item.avatar != null ? item.avatar : null,
+                    }} />
                 <Text style={styles.nameStyle}>{item.firstname} {item.lastname}</Text>
             </View>
         );
@@ -132,18 +137,6 @@ class EvaluationScreen extends Component {
                 </View>
                 <Container style={styles.textAreaContainerStyle}>
                     <Content padder>
-                        {/* <View style={{ flexDirection: 'row' }}>
-                            <CheckBox checked={this.state.anonymous} color="#3F5AA6" onPress={this.onPressAnonymous} />
-                            <Body>
-                                <Text style={{
-                                    fontFamily: 'Avenir',
-                                    fontWeight: '800',
-                                    fontSize: WIDTH * 0.05,
-                                    color: '#3F5AA6',
-                                }}>Remain Anonymous</Text>
-                            </Body>
-
-                        </View> */}
                         <Form style={{ backgroundColor: 'white', padding: WIDTH * 0.05 }}>
                             <Textarea rowSpan={5} style={styles.textAreaStyle} bordered placeholder="Leave a Review" onChangeText={this.onChangeTextArea} />
                         </Form>

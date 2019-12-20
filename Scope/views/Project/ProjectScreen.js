@@ -105,7 +105,6 @@ class ProjectScreen extends Component {
             />
           </View>
           <View style={styles.projectListStyle}>
-            {console.log(this.state.project)}
             <FlatList
               data={this.state.project}
               renderItem={({ item, index }) => (
@@ -115,9 +114,9 @@ class ProjectScreen extends Component {
                   project_startDate={item.project_startDate}
                   project_endDate={item.project_endDate}
                   index={index}
-                  uid={this.state.projectKeys !== null ? this.state.projectKeys[index].uid : null}
+                  uid={this.state.project!=null?item.uid:null}
                   onPress={() => {
-                    this.props.navigation.navigate("Review", { uid: this.state.projectKeys[index].uid })
+                    this.props.navigation.navigate("Review", { uid: this.state.project != null ? item.uid : null })
                   }}
                 />
               )}

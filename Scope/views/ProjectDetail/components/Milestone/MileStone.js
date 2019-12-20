@@ -98,7 +98,10 @@ export class MileStone extends Component {
                                     title={item.firstname[0] + item.lastname[0]}
                                     rounded
                                     size={WIDTH * 0.15}
-
+                                    source={{
+                                        uri:
+                                            item.avatar != null ? item.avatar : null,
+                                    }}
                                 />
                                 <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
                                 <Text style={styles.avatarNameStyle}>{item.lastname}</Text>
@@ -145,7 +148,7 @@ const styles = StyleSheet.create(
         },
         projectIDContainer:
         {
-            marginLeft: WIDTH * 0.5,
+            marginLeft: WIDTH * 0.4,
         },
         dividerStyle:
         {
