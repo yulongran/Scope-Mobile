@@ -27,14 +27,15 @@ class ProjectCreationScreen extends Component {
         return {
             title: 'Project Creation',
             headerTintColor: '#192A59',
-            headerTitleStyle:
-            {
+            headerRight: <View/>,
+              headerTitleStyle:
+              {
+                flex:1,
                 fontFamily: 'Avenir',
-                fontSize: WIDTH * 0.06,
-                textAlign: 'center',
-                flex: 1,
+                fontSize: WIDTH*0.06,
                 fontWeight: '900',
-            },
+                textAlign:'center',
+              },
         };
     }
 
@@ -73,7 +74,7 @@ class ProjectCreationScreen extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View className="form" style={styles.inputWraperStyle}>
-                    <View className="project_input">
+                    <View className="project_input" style={styles.inputOutterContainerStyle}>
                         <Input
                             label="Project Title"
                             labelStyle={styles.labelStyle}
@@ -84,18 +85,17 @@ class ProjectCreationScreen extends Component {
                                 this.setState({ project_title: value })
                             }} />
                     </View>
-                    <View className="course_input">
+                    <View className="course_input" style={styles.inputOutterContainerStyle}>
                         <Input
-                            label="Course"
+                            label ="Course"
                             labelStyle={styles.labelStyle}
                             inputContainerStyle={styles.inputContainerStyle}
-                            containerStyle={styles.inputOutterContainerStyle}
                             inputStyle={{ fontFamily: 'Avenir', color: '#3F5AA6' }}
                             onChangeText={(value) => {
                                 this.setState({ project_course: value })
                             }} />
                     </View>
-                    <View className="project_description" style={styles.inputOutterContainerStyle}>
+                    <View className="project_description">
                         <Text style={styles.labelStyle}>Description</Text>
                         <TextInput
                             style={styles.descriptionStyle}
@@ -107,6 +107,7 @@ class ProjectCreationScreen extends Component {
                             }}
                             value={this.state.project_description}
                             multiline={true}
+                            textAlignVertical={'top'}
                         ></TextInput>
                     </View>
                     <View className="date_picker" style={styles.inputOutterContainerStyle}>
@@ -193,7 +194,7 @@ const styles = StyleSheet.create(
             fontSize: WIDTH * 0.04,
             width: WIDTH * 0.9,
             marginTop: HEIGHT * 0.010,
-            padding: WIDTH * 0.05,
+            padding: WIDTH * 0.025,
             fontFamily: 'Avenir',
             color: '#3F5AA6',
         },
@@ -208,17 +209,18 @@ const styles = StyleSheet.create(
         inputWraperStyle:
         {
             flex: 1,
-            alignSelf: 'center',
+            alignItems:'center',
+            marginTop: HEIGHT*0.01,
         },
         inputContainerStyle:
         {
-            alignItems: 'flex-start',
-            width: WIDTH * 0.85,
+            width: WIDTH * 0.9,
             borderBottomColor: '#BDCDD1',
+            height:HEIGHT*0.05,
         },
         inputOutterContainerStyle:
         {
-            marginTop: HEIGHT * 0.01,
+            alignItems:'center',
         },
     }
 )

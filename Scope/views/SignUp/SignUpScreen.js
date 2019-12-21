@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert } from 'react-native';
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
-import { Ionicons } from "@expo/vector-icons";
-import { Input } from 'react-native-elements';
+import { Input, Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
 class SignUpScreen extends Component {
@@ -41,13 +40,13 @@ class SignUpScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Ionicons onPress={() => this.props.navigation.navigate('Home')}
-                    name="md-arrow-round-back" size={40} style={styles.backIconStyle}></Ionicons>
+                <Icon onPress={() => this.props.navigation.navigate('Home')}
+                    name="arrow-left" type='feather' size={40} iconStyle={styles.backIconStyle} />
                 <Image source={ScopeLogo} style={styles.logo}></Image>
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-person" size={21} color="#3F5AA6" />}
+                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
                         label='First Name'
                         onChangeText={val => this.onChangeText('firstname', val)}
                         inputContainerStyle={styles.inputStyle}
@@ -60,7 +59,7 @@ class SignUpScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-person" size={21} color="#3F5AA6" />}
+                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
                         label='Last Name'
                         onChangeText={val => this.onChangeText('lastname', val)}
                         inputContainerStyle={styles.inputStyle}
@@ -73,7 +72,7 @@ class SignUpScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-school" size={21} color="#3F5AA6" />}
+                            <Icon name="md-school" type='ionicon' size={21} color="#3F5AA6" />}
                         label='Institution'
                         onChangeText={val => this.onChangeText('institution', val)}
                         inputContainerStyle={styles.inputStyle}
@@ -86,7 +85,7 @@ class SignUpScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-mail" size={21} color="#3F5AA6" />}
+                            <Icon name="md-mail" type='ionicon' size={21} color="#3F5AA6" />}
                         label='Email'
                         onChangeText={val => this.onChangeText('email', val)}
                         inputContainerStyle={styles.inputStyle}
@@ -99,7 +98,7 @@ class SignUpScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-lock" size={21} color="#3F5AA6" />}
+                            <Icon name="md-lock" type='ionicon' size={21} color="#3F5AA6" />}
                         label='Password'
                         onChangeText={val => this.onChangeText('password', val)}
                         inputContainerStyle={styles.inputStyle}
@@ -111,9 +110,9 @@ class SignUpScreen extends Component {
 
                     />
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress} 
-                disabled={this.state.email.length==0 || this.state.firstname.length==0||this.state.lastname.length==0
-                ||this.state.lastname.length==0||this.state.institution.length==0}>
+                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}
+                    disabled={this.state.email.length == 0 || this.state.firstname.length == 0 || this.state.lastname.length == 0
+                        || this.state.lastname.length == 0 || this.state.institution.length == 0}>
                     <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -130,7 +129,6 @@ const WIDTH = Dimensions.get('screen').width;
 const styles = StyleSheet.create(
     {
         container: {
-            alignItems: 'center',
             flex: 1,
         },
         text: {
@@ -138,9 +136,9 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.01,
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.03,
+            alignSelf:'center',
         },
         textInput:
         {
@@ -166,6 +164,7 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             backgroundColor: '#3F5AA6',
             marginTop: HEIGHT * 0.015,
+            alignSelf:'center',
         },
         forgetStyle:
         {
@@ -175,9 +174,8 @@ const styles = StyleSheet.create(
         backIconStyle:
         {
             color: '#3F5AA6',
-            marginLeft: Dimensions.get('window').width * 0.07,
-            marginTop: Dimensions.get('window').height * 0.05,
             alignSelf: 'flex-start',
+            margin: HEIGHT * 0.02,
         },
         inputTextStyle:
         {
@@ -193,6 +191,7 @@ const styles = StyleSheet.create(
         inputView:
         {
             borderRadius: 10,
+            alignSelf:'center',
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: HEIGHT * 0.015,
@@ -205,6 +204,10 @@ const styles = StyleSheet.create(
         inputContainerStyle:
         {
             width: WIDTH * 0.8,
+        },
+        inputStyle:
+        {
+            height: HEIGHT * 0.05,
         },
 
     }

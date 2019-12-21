@@ -8,8 +8,7 @@ import {
     Alert,
     FlatList,
 } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import { Avatar, Card } from 'react-native-elements';
+import { Avatar, Card, Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 
 /**
@@ -38,15 +37,12 @@ class Project extends Component {
 
     onPressDelete = () => {
         const uid = firebase.auth().currentUser.uid;
-        firebase.database().ref(`Users/${uid}/Project`).once('value', (snapshot)=>
-        {
-           Object.values(snapshot.val()).forEach((element, index)=>
-           {
-                if(element.uid == this.props.uid)
-                {
+        firebase.database().ref(`Users/${uid}/Project`).once('value', (snapshot) => {
+            Object.values(snapshot.val()).forEach((element, index) => {
+                if (element.uid == this.props.uid) {
                     firebase.database().ref(`Users/${uid}/Project/${Object.keys(snapshot.val())[index]}`).remove()
                 }
-           })
+            })
         })
     }
 
@@ -99,47 +95,16 @@ class Project extends Component {
                     borderLeftWidth: 4,
                 }}>
                     <View className="main_content" style={{ justifyContent: 'center' }}>
-                        {/* <View className="project_menu_selection" style={styles.menuContainerStyle}>
-                            <Menu style={{ marginLeft: WIDTH * 0.33 }} >
-                                <MenuTrigger>
-                                    <Ionicons
-                                        name="ios-more"
-                                        color="#000000"
-                                        size={WIDTH * 0.06}
-                                    />
-                                </MenuTrigger>
-                                <MenuOptions optionsContainerStyle={styles.optionsContainerStyle}>
-                                    <MenuOption text='Edit' />
-                                    <MenuOption text='Remove' onSelect={() => {
-                                        Alert.alert(
-                                            'Permanent delete project',
-                                            '',
-                                            [
-                                                {
-                                                    text: 'Yes', onPress: () => {
-                                                        this.onPressDelete()
-                                                    }
-                                                },
-                                                { text: 'No', style: 'cancel' },
-                                            ],
-                                            {
-                                                cancelable: true
-                                            }
-                                        )
-                                    }} />
-                                </MenuOptions>
-                            </Menu>
-                        </View> */}
                         <View style={styles.ViewStyle} >
                             <View className="left_container">
                                 <Text style={styles.ProjectNameStyle}>{this.props.project_title}</Text>
                                 <View style={{ marginTop: HEIGHT * 0.01, marginLeft: WIDTH * 0.03 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                        <Icon name="ios-calendar" type='ionicon' size={18} color='red' />
                                         <Text style={styles.startDateStyle}>From {this.props.project_startDate}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Ionicons name="ios-calendar" size={18} color='red'></Ionicons>
+                                        <Icon name="ios-calendar" type='ionicon' size={18} color='red' />
                                         <Text style={styles.endDateStyle}>To      {this.props.project_endDate}</Text>
                                     </View>
                                 </View>

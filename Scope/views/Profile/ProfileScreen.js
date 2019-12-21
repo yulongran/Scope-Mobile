@@ -117,7 +117,7 @@ class ProfileScreen extends Component {
                         <Text style={styles.nameStyle}>{this.state.user != null ? this.state.user.firstname : null} {this.state.user != null ? this.state.user.lastname : null}</Text>
                     </View>
                 </View>
-                <View style={{ flex: 2, marginTop: HEIGHT * 0.01 }}>
+                <View style={{ flex: 2}}>
                     <View style={styles.viewStyle}>
                         <Icon
                             reverse
@@ -227,7 +227,7 @@ class ProfileScreen extends Component {
                     <Button
                         title="Sign Out"
                         raised
-                        buttonStyle={{ backgroundColor: '#FF0000' }}
+                        buttonStyle={{ backgroundColor: '#ED4337' }}
                         titleStyle={styles.signOutTextStyle}
                         onPress={this.onPressSignOut}
                     />
@@ -245,10 +245,9 @@ const styles = StyleSheet.create(
         },
         textStyle: {
             color: '#3F5AA6',
-            fontSize: WIDTH * 0.045,
+            fontSize: WIDTH * 0.04,
             fontFamily: 'Avenir',
             fontWeight: '800',
-
         },
         viewStyle:
         {
@@ -264,12 +263,12 @@ const styles = StyleSheet.create(
         {
             color: '#828899',
             fontFamily: 'Avenir',
-            fontSize: WIDTH * 0.035,
+            fontSize: WIDTH * 0.04,
+            height:HEIGHT*0.05,
         },
         nameStyle:
         {
             alignSelf: 'center',
-            marginTop: HEIGHT * 0.02,
             fontSize: WIDTH * 0.07,
             fontWeight: '800',
             fontStyle: 'italic',
@@ -280,8 +279,8 @@ const styles = StyleSheet.create(
         {
             flex: 1,
             alignSelf: 'center',
-            marginTop: HEIGHT * 0.08,
-            marginBottom: HEIGHT * 0.06,
+            marginTop: HEIGHT * 0.035,
+            marginBottom: HEIGHT * 0.04,
         },
         iconStyle:
         {
@@ -292,6 +291,7 @@ const styles = StyleSheet.create(
         {
             marginLeft: WIDTH * 0.02,
             flex: 3,
+            justifyContent:'center',
         },
         signOutTextStyle:
             { fontFamily: 'Avenir', fontWeight: '800', fontSize: WIDTH * 0.05, alignSelf: 'center' },
@@ -301,7 +301,7 @@ const styles = StyleSheet.create(
             justifyContent: 'flex-end',
             width: WIDTH * 0.8,
             alignSelf: 'center',
-            paddingBottom: HEIGHT * 0.03,
+            paddingBottom: HEIGHT * 0.015,
             borderRadius: (WIDTH + HEIGHT) / 2,
         },
     }

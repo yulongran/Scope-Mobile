@@ -6,8 +6,7 @@ import {
     Alert,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
-import { Ionicons } from "@expo/vector-icons";
-import { Text, Button } from 'react-native-elements';
+import { Text, Button, Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
 
@@ -50,7 +49,7 @@ class AccordionView extends Component {
                 <Text style={styles.headerTextStyle}>Milestone {this.romanize(index + 1)}</Text>
                 <Text style={styles.headerTitleStyle}>{section.milestone_title}</Text>
                 <View style={styles.iconStyle}>
-                    {isActive ? <Ionicons name="ios-arrow-up" size={32} color="#3F5AA6" /> : <Ionicons name="ios-arrow-down" size={32} color="#3F5AA6" />}
+                    {isActive ? <Icon name="ios-arrow-up" type='ionicon' size={WIDTH*0.06} color="#3F5AA6" /> : <Icon name="ios-arrow-down" type='ionicon' size={WIDTH*0.06} color="#3F5AA6" />}
                 </View>
             </View>
         );
@@ -62,8 +61,8 @@ class AccordionView extends Component {
                 <Text style={styles.contentTextStyle}>{section.milestone_description}</Text>
                 <View style={{ alignSelf: 'flex-end' }}>
                     <Button
-                        icon={<Ionicons name='md-remove-circle' size={WIDTH * 0.07} color="#ED4337" />}
-                        buttonStyle={{ backgroundColor: 'white' }}
+                        icon={<Icon name='md-remove-circle' type='ionicon' size={WIDTH * 0.07} color="#ED4337" />}
+                        buttonStyle={{ backgroundColor: 'white'}}
                         onPress={() => {
                             Alert.alert(
                                 'Permanent delete Milestone',

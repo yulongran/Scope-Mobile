@@ -6,9 +6,8 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Icon } from "react-native-elements";
 import Project from "./components/Project/index";
-import { Ionicons } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 import firebase from 'react-native-firebase';
 
@@ -32,10 +31,9 @@ class ProjectScreen extends Component {
       headerTitleStyle:
       {
         fontFamily: 'Avenir',
-        fontSize: 28,
+        fontSize: WIDTH * 0.08,
         textAlign: 'left',
-        flex: 1,
-        marginLeft: 30,
+        marginLeft: WIDTH*0.07,
         fontWeight: '900',
       },
     };
@@ -114,7 +112,7 @@ class ProjectScreen extends Component {
                   project_startDate={item.project_startDate}
                   project_endDate={item.project_endDate}
                   index={index}
-                  uid={this.state.project!=null?item.uid:null}
+                  uid={this.state.project != null ? item.uid : null}
                   onPress={() => {
                     this.props.navigation.navigate("Review", { uid: this.state.project != null ? item.uid : null })
                   }}
@@ -126,6 +124,7 @@ class ProjectScreen extends Component {
           </View>
           <FloatingAction
             actions={actions}
+            animated={false}
             onPressItem={name => {
               if (name == 'add_project') {
                 this.props.navigation.navigate("ProjectCreation");
@@ -149,9 +148,10 @@ const HEIGHT = Dimensions.get('screen').height;
 const actions = [
   {
     text: "Add Project",
-    icon: <Ionicons name="md-add" size={WIDTH * 0.05} color="white" />,
+    icon: <Icon name="md-add" type='ionicon' size={WIDTH * 0.05} color="white" />,
     name: "add_project",
     position: 2,
+    color: "#3F5AA6",
   },
 ];
 

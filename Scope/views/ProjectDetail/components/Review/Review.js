@@ -43,7 +43,11 @@ export class Review extends Component {
                 <Card containerStyle={{ borderRadius: WIDTH * 0.05 / 2, backgroundColor: '#FAFBFF', }}>
                     <View style={{ height: HEIGHT * 0.4 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Avatar rounded title={item.reviewer_firstname[0]} size={WIDTH * 0.1} />
+                            {console.log(item)}
+                            <Avatar rounded source={{
+                                uri:
+                                    item.reviewer.avatar != null ? item.reviewer.avatar : null,
+                            }} title={item.reviewer_firstname[0]} size={WIDTH * 0.1} />
                             <View style={{ flexDirection: 'row', marginLeft: WIDTH * 0.01 }}>
                                 <Text style={{
                                     fontFamily: 'Avenir',
@@ -162,7 +166,7 @@ const styles = StyleSheet.create(
             borderRadius: WIDTH * 0.05 / 2,
             height: HEIGHT * 0.2,
             borderColor: '#EBEEF7',
-            backgroundColor:'white',
+            backgroundColor: 'white',
         },
     })
 

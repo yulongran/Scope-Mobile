@@ -8,7 +8,6 @@ import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
 import { Avatar, ButtonGroup, Divider, colors } from 'react-native-elements';
 import Accordion from '@dooboo-ui/native-accordion';
-import { Ionicons } from "@expo/vector-icons";
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Segment, Content } from 'native-base';
 
 const WIDTH = Dimensions.get('window').width;
@@ -62,14 +61,15 @@ class ProjectReviewScreen extends Component {
         return {
             title: 'Project Detail',
             headerTintColor: '#192A59',
-            headerTitleStyle:
-            {
+            headerRight: <View/>,
+              headerTitleStyle:
+              {
+                flex:1,
                 fontFamily: 'Avenir',
-                fontSize: 28,
-                textAlign: 'center',
-                flex: 1,
+                fontSize: WIDTH*0.06,
                 fontWeight: '900',
-            },
+                textAlign:'center',
+              },
         };
     }
 
@@ -94,7 +94,7 @@ class ProjectReviewScreen extends Component {
                                     backgroundColor: this.state.activePage == 1 ? '#3F5AA6' : '#FFFFFF',
                                 }}
                                 onPress={this.selectComponent(1)}>
-                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6' }}>MileStone</Text>
+                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6' }}>Milestone</Text>
                             </Button>
                             <Button active={this.state.activePage === 2} style={{
                                 justifyContent: 'center',

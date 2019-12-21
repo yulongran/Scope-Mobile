@@ -6,7 +6,7 @@ import {
     StyleSheet,
 } from "react-native";
 import { createStackNavigator } from 'react-navigation-stack'
-import { Ionicons } from "@expo/vector-icons";
+import { Icon } from 'react-native-elements';
 // Views 
 import ProfileScreen from '../views/Profile/index';
 import SearchScreen from '../views/Search/index';
@@ -42,16 +42,10 @@ const Stack = createStackNavigator(
         Project:
         {
             screen: ProjectScreen,
-            navigationOptions: () => ({
-                headerBackTitle: null,
-            }),
         },
         Review:
         {
             screen: ProjectReviewScreen,
-            navigationOptions: () => ({
-                headerBackTitle: null,
-            }),
         },
         MilestoneCreationScreen:
         {
@@ -71,7 +65,6 @@ const Stack = createStackNavigator(
     {
         initialRouteName: 'Project',
     },
-
 )
 
 
@@ -88,12 +81,8 @@ const TabNavigator = createBottomTabNavigator(
             {
                 tabBarLabel: 'PROJECT',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="ios-archive" size={22} color={tintColor} />
+                    <Icon name="ios-document" type='ionicon' size={22} color={tintColor} />
                 ),
-                labelStyle: {
-                    fontSize: 12,
-                    fontFamily: 'Avenir',
-                },
             },
         },
         Search:
@@ -103,9 +92,8 @@ const TabNavigator = createBottomTabNavigator(
             {
                 tabBarLabel: 'SEARCH',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="ios-search" size={23} color={tintColor} />
+                    <Icon name="ios-search" type='ionicon' size={23} color={tintColor} />
                 ),
-
             },
         },
         Profile:
@@ -115,7 +103,7 @@ const TabNavigator = createBottomTabNavigator(
             {
                 tabBarLabel: 'PROFILE',
                 tabBarIcon: ({ tintColor, activeTintColor }) => (
-                    <Ionicons name="md-people" size={25} color={tintColor} />
+                    <Icon name="md-people" type='ionicon' size={25} color={tintColor} />
                 )
             },
         },
@@ -129,14 +117,12 @@ const TabNavigator = createBottomTabNavigator(
             },
             labelStyle:
             {
-                fontSize: 13,
-                marginTop: 5,
+                fontSize: WIDTH*0.035,
             },
             tabStyle:
             {
                 justifyContent: 'center',
                 alignContent: 'center',
-                marginTop: 9,
             },
             inactiveTintColor: '#BACAFF',
             activeTintColor: 'white',

@@ -2,26 +2,18 @@ import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView, Alert
 } from 'react-native';
-import { Input } from 'react-native-elements'
+import { Input, Icon } from 'react-native-elements'
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
-import { Ionicons } from "@expo/vector-icons";
 import firebase from 'react-native-firebase';
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
         this.state =
-            {
-                username: '',
-                password: '',
-            }
-        // this.props.navigation.addListener('willFocus', (refresh) => {
-        //     this.setState(
-        //         {
-        //             username: '',
-        //             password: '',
-        //         })
-        // })
+        {
+            username: '',
+            password: '',
+        }
     }
 
     // https://stackoverflow.com/questions/32913338/react-native-get-textinput-value
@@ -57,23 +49,25 @@ class HomeScreen extends Component {
                 <View style={styles.inputView}>
                     <Input
                         rightIcon={
-                            <Ionicons name="md-person" size={21} color="#3F5AA6" />}
+                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
                         label='Username'
                         onChangeText={val => this.onChangeText('username', val)}
                         rightIconContainerStyle={styles.rightIconStyle}
                         containerStyle={styles.inputContainerStyle}
                         labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
+                        inputContainerStyle={{ height: HEIGHT * 0.05 }}
                     />
                     <Input
                         rightIcon={
-                            <Ionicons name="md-lock" size={21} color="#3F5AA6" />}
+                            <Icon name="md-lock" type='ionicon' zsize={21} color="#3F5AA6" />}
                         label='Password'
                         onChangeText={val => this.onChangeText('password', val)}
                         rightIconContainerStyle={styles.rightIconStyle}
                         containerStyle={styles.inputContainerStyle}
                         labelStyle={styles.inputLabelStyle}
                         inputStyle={styles.inputTextStyle}
+                        inputContainerStyle={{ height: HEIGHT * 0.05 }}
                         secureTextEntry={true}
                     />
                 </View>
@@ -85,10 +79,10 @@ class HomeScreen extends Component {
                     <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                 </TouchableOpacity>
                 <View style={styles.signInUpStyle}>
-                    <TouchableOpacity style={styles.forgetStyle}>
+                    <TouchableOpacity>
                         <Text style={{ color: '#3F5AA6' }}>Forget Password</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: HEIGHT * 0.02 }}
+                    <TouchableOpacity
                         onPress={() =>
                             this.props.navigation.navigate("SignUp")
                         }>
@@ -114,10 +108,10 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.15,
+            marginTop: HEIGHT * 0.10,
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.06,
-            marginLeft: WIDTH * 0.15,
+            marginLeft: WIDTH * 0.05,
             alignSelf: 'center',
         },
         textInput:
@@ -127,7 +121,6 @@ const styles = StyleSheet.create(
         },
         inputView:
         {
-            borderRadius: 10,
             alignItems: 'center',
             backgroundColor: 'white',
         },
@@ -143,7 +136,7 @@ const styles = StyleSheet.create(
         touchableStyle:
         {
             borderRadius: 10,
-            height: HEIGHT * 0.05,
+            height: HEIGHT * 0.055,
             width: WIDTH * 0.80,
             alignItems: 'center',
             justifyContent: 'center',
@@ -168,8 +161,11 @@ const styles = StyleSheet.create(
         },
         signInUpStyle:
         {
+            marginTop: HEIGHT * 0.017,
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
+            width: WIDTH * 0.8,
+            alignSelf: 'center',
         },
     }
 )

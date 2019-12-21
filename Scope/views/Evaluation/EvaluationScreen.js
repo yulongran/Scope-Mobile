@@ -29,13 +29,15 @@ class EvaluationScreen extends Component {
         return {
             title: 'Evaluation',
             headerTintColor: '#192A59',
-            headerTitleStyle:
-            {
+            headerRight: <View/>,
+              headerTitleStyle:
+              {
+                flex:1,
                 fontFamily: 'Avenir',
-                fontSize: WIDTH * 0.06,
-                textAlign: 'center',
+                fontSize: WIDTH*0.06,
                 fontWeight: '900',
-            },
+                textAlign:'center',
+              },
         };
     }
 

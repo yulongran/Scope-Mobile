@@ -7,7 +7,7 @@ import {
     Alert,
 } from 'react-native';
 import { Container, Header, Left, Body, Right, Title } from 'native-base'
-import { SearchBar, Button } from "react-native-elements";
+import { SearchBar, Button, Divider } from "react-native-elements";
 import firebase from 'react-native-firebase';
 import Project from './components/Project/index';
 const HEIGHT = Dimensions.get('screen').height;
@@ -50,8 +50,7 @@ class SearchScreen extends Component {
                                     firebase.database().ref(`Users/${my_uid}/Project`).push({
                                         uid: this.state.uid
                                     })
-                                }).then(()=>
-                                {
+                                }).then(() => {
                                     alert("Successfully Join this Project")
                                 })
                             }
@@ -71,16 +70,12 @@ class SearchScreen extends Component {
     render() {
         return (
             <Container>
-                <Header style={{ backgroundColor: 'white' }} searchBar rounded>
-                    <Left />
-                    <Body>
-                        <Title style={styles.titleStyle}>Project Search</Title>
-                    </Body>
-                    <Right />
+                <Header style={{ backgroundColor: 'white' }}>
+                    <Title style={styles.titleStyle}>Project Search</Title>
                 </Header>
                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                     <SearchBar
-                        placeholder="Search"
+                        placeholder="Search by Project ID"
                         showCancel={true}
                         inputStyle={{ fontSize: WIDTH * 0.035, fontFamily: 'Avenir', color: '#3F5AA6' }}
                         inputContainerStyle={styles.searchStyle}
@@ -92,7 +87,6 @@ class SearchScreen extends Component {
                     />
                     <Button
                         title="Search"
-                        raised
                         type={'clear'}
                         titleStyle={{ color: '#3F5AA6' }}
                         onPress={this.onPressSearch}
@@ -139,7 +133,6 @@ const styles = StyleSheet.create(
         searchSectionStyle:
         {
             backgroundColor: 'white',
-            borderTopColor: 'white',
             borderBottomColor: 'white',
         },
     }
