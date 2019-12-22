@@ -16,7 +16,6 @@ class EvaluationScreen extends Component {
         this.state =
         {
             team_member: null,
-            team_memberKey: null,
             reviewee: 0,
             rating: 0,
             review_description: '',
@@ -29,31 +28,21 @@ class EvaluationScreen extends Component {
         return {
             title: 'Evaluation',
             headerTintColor: '#192A59',
-            headerRight: <View/>,
-              headerTitleStyle:
-              {
-                flex:1,
+            headerRight: <View />,
+            headerTitleStyle:
+            {
+                flex: 1,
                 fontFamily: 'Avenir',
-                fontSize: WIDTH*0.06,
+                fontSize: WIDTH * 0.06,
                 fontWeight: '900',
-                textAlign:'center',
-              },
+                textAlign: 'center',
+            },
         };
     }
 
     readTeamMember = () => {
-        let users = []
-        let usersKey = []
         firebase.database().ref(`Project/${this.props.navigation.getParam('uid')}/Users`).on('value', (snapshot) => {
-            Object.values(snapshot.val()).forEach(element => {
-                usersKey.push(element.uid)
-                firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
-                    users.push(snapshot.val())
-                }).then(() => {
-                    this.setState({ team_member: users })
-                    this.setState({ team_memberKey: usersKey })
-                })
-            })
+            this.setState({ team_member: Object.values(snapshot.val()) })
         })
     }
 
@@ -67,16 +56,13 @@ class EvaluationScreen extends Component {
             <View style={{ alignItems: 'center' }}>
                 <Avatar
                     rounded title={item.firstname[0] + item.lastname[0]} size={WIDTH * 0.20}
-                    source={{
-                        uri:
-                            item.avatar != null ? item.avatar : null,
-                    }} />
+                    source={item.avatar != null ? { uri: item.avatar } : null} />
                 <Text style={styles.nameStyle}>{item.firstname} {item.lastname}</Text>
             </View>
         );
     }
     onChangeItem = (index) => {
-        this.setState({ reviewee: index })
+        this.setState({ reviewee: index})
     }
 
     onChangeTextArea = (value) => {
@@ -93,13 +79,14 @@ class EvaluationScreen extends Component {
             reviewer = snapshot.val();
         }).then(() => {
             firebase.database().ref(`Project/${this.props.navigation.getParam('uid')}`).child('Reviews').push({
-                reviewee: this.state.team_memberKey[this.state.reviewee],
-                reviewer: reviewer,
+                reviewee: this.state.team_member[this.state.reviewee].uid,
+                reviewer: firebase.auth().currentUser.uid,
                 review_description: this.state.review_description,
                 rating: this.state.rating,
                 anonymous: this.state.anonymous,
                 reviewer_firstname: reviewer.firstname,
                 reviewee_firstname: this.state.team_member[this.state.reviewee].firstname,
+                reviewer_avatar: reviewer.avatar,
             }).then(() => {
                 this.props.navigation.goBack();
             })

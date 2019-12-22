@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
 import { Input, Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase';
+import TermsAndCondition from './components/index';
 
 class SignUpScreen extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class SignUpScreen extends Component {
             email: '',
             password: '',
             institution: '',
+            accepted: false,
         };
     }
 
@@ -29,6 +31,7 @@ class SignUpScreen extends Component {
                     lastname: this.state.lastname,
                     institution: this.state.institution,
                 });
+                firebase.auth().currentUser.sendEmailVerification();
             }).catch((err) => {
                 console.log(err)
                 Alert.alert(
@@ -37,85 +40,92 @@ class SignUpScreen extends Component {
             })
     }
 
+    onPressAccept = () => {
+        this.setState({ accepted: true })
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                <Icon onPress={() => this.props.navigation.navigate('Home')}
-                    name="arrow-left" type='feather' size={40} iconStyle={styles.backIconStyle} />
-                <Image source={ScopeLogo} style={styles.logo}></Image>
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='First Name'
-                        onChangeText={val => this.onChangeText('firstname', val)}
-                        inputContainerStyle={styles.inputStyle}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='Last Name'
-                        onChangeText={val => this.onChangeText('lastname', val)}
-                        inputContainerStyle={styles.inputStyle}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-school" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='Institution'
-                        onChangeText={val => this.onChangeText('institution', val)}
-                        inputContainerStyle={styles.inputStyle}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-mail" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='Email'
-                        onChangeText={val => this.onChangeText('email', val)}
-                        inputContainerStyle={styles.inputStyle}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-lock" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='Password'
-                        onChangeText={val => this.onChangeText('password', val)}
-                        inputContainerStyle={styles.inputStyle}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                        secureTextEntry={true}
+            <ScrollView>
+                <TermsAndCondition onPressAccept={this.onPressAccept} navigation={this.props.navigation}/>
+                <View style={styles.container}>
+                    <Icon onPress={() => this.props.navigation.navigate('Home')}
+                        name="arrow-left" type='feather' size={40} iconStyle={styles.backIconStyle} />
+                    <Image source={ScopeLogo} style={styles.logo}></Image>
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='First Name'
+                            onChangeText={val => this.onChangeText('firstname', val)}
+                            inputContainerStyle={styles.inputStyle}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                        />
+                    </View>
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='Last Name'
+                            onChangeText={val => this.onChangeText('lastname', val)}
+                            inputContainerStyle={styles.inputStyle}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                        />
+                    </View>
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-school" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='Institution'
+                            onChangeText={val => this.onChangeText('institution', val)}
+                            inputContainerStyle={styles.inputStyle}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                        />
+                    </View>
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-mail" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='Email'
+                            onChangeText={val => this.onChangeText('email', val)}
+                            inputContainerStyle={styles.inputStyle}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                        />
+                    </View>
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-lock" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='Password'
+                            onChangeText={val => this.onChangeText('password', val)}
+                            inputContainerStyle={styles.inputStyle}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                            secureTextEntry={true}
 
-                    />
+                        />
+                    </View>
+                    <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}
+                        disabled={this.state.email.length == 0 || this.state.firstname.length == 0 || this.state.lastname.length == 0
+                            || this.state.lastname.length == 0 || thisa.state.institution.length == 0}>
+                        <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}
-                    disabled={this.state.email.length == 0 || this.state.firstname.length == 0 || this.state.lastname.length == 0
-                        || this.state.lastname.length == 0 || this.state.institution.length == 0}>
-                    <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -138,7 +148,7 @@ const styles = StyleSheet.create(
         {
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.03,
-            alignSelf:'center',
+            alignSelf: 'center',
         },
         textInput:
         {
@@ -164,7 +174,7 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             backgroundColor: '#3F5AA6',
             marginTop: HEIGHT * 0.015,
-            alignSelf:'center',
+            alignSelf: 'center',
         },
         forgetStyle:
         {
@@ -191,7 +201,7 @@ const styles = StyleSheet.create(
         inputView:
         {
             borderRadius: 10,
-            alignSelf:'center',
+            alignSelf: 'center',
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: HEIGHT * 0.015,

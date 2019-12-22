@@ -44,14 +44,20 @@ class SearchScreen extends Component {
                         let my_uid = firebase.auth().currentUser.uid;
                         firebase.database().ref(`Project/${this.state.uid}/Users`).orderByChild('uid').equalTo(my_uid).once('value', (snapshot) => {
                             if (!snapshot.exists()) {
-                                firebase.database().ref(`Project/${this.state.uid}/Users`).push({
-                                    uid: my_uid,
-                                }).then(() => {
-                                    firebase.database().ref(`Users/${my_uid}/Project`).push({
-                                        uid: this.state.uid
+                                firebase.database().ref(`Users/${my_uid}`).once('value', (snapshot) => {
+                                    let user = snapshot.val()
+                                    firebase.database().ref(`Project/${this.state.uid}/Users`).push({
+                                        uid: my_uid,
+                                        firstname: user.firstname,
+                                        lastname: user.lastname,
+                                        avatar: user.avatar != null ? user.avatar : null
+                                    }).then(() => {
+                                        firebase.database().ref(`Users/${my_uid}/Project`).push({
+                                            uid: this.state.uid
+                                        })
+                                    }).then(() => {
+                                        alert("Successfully Join this Project")
                                     })
-                                }).then(() => {
-                                    alert("Successfully Join this Project")
                                 })
                             }
                         }).then(() => {

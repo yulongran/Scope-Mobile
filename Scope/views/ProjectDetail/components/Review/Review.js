@@ -43,11 +43,9 @@ export class Review extends Component {
                 <Card containerStyle={{ borderRadius: WIDTH * 0.05 / 2, backgroundColor: '#FAFBFF', }}>
                     <View style={{ height: HEIGHT * 0.4 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {console.log(item)}
-                            <Avatar rounded source={{
-                                uri:
-                                    item.reviewer.avatar != null ? item.reviewer.avatar : null,
-                            }} title={item.reviewer_firstname[0]} size={WIDTH * 0.1} />
+                            <Avatar rounded
+                                source={item.reviewer_avatar != null ? { uri: item.reviewer_avatar } : null} 
+                                title={item.reviewer_firstname[0]} size={WIDTH * 0.1} />
                             <View style={{ flexDirection: 'row', marginLeft: WIDTH * 0.01 }}>
                                 <Text style={{
                                     fontFamily: 'Avenir',

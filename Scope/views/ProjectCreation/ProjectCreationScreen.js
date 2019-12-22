@@ -27,15 +27,15 @@ class ProjectCreationScreen extends Component {
         return {
             title: 'Project Creation',
             headerTintColor: '#192A59',
-            headerRight: <View/>,
-              headerTitleStyle:
-              {
-                flex:1,
+            headerRight: <View />,
+            headerTitleStyle:
+            {
+                flex: 1,
                 fontFamily: 'Avenir',
-                fontSize: WIDTH*0.06,
+                fontSize: WIDTH * 0.06,
                 fontWeight: '900',
-                textAlign:'center',
-              },
+                textAlign: 'center',
+            },
         };
     }
 
@@ -54,17 +54,22 @@ class ProjectCreationScreen extends Component {
                     firebase.database().ref(`Project/${data.path.split('/')[1]}`).update({
                         uid: data.path.split('/')[1],
                     })
-                    firebase.database().ref('Project/' + data.path.split('/')[1]).child('Users').push(
-                        {
-                            uid: uid
-                        },
-                        firebase.database().ref('Users/' + uid).child('Project').push(
+                    firebase.database().ref(`Users/${uid}`).once('value', (snapshot) => {
+                        let user = snapshot.val()
+                        firebase.database().ref('Project/' + data.path.split('/')[1]).child('Users').push(
                             {
-                                uid: data.path.split('/')[1]
-                            }
+                                uid: uid,
+                                firstname: user.firstname,
+                                lastname: user.lastname,
+                                avatar: user.avatar != null ? user.avatar : null
+                            },
+                            firebase.database().ref('Users/' + uid).child('Project').push(
+                                {
+                                    uid: data.path.split('/')[1]
+                                }
+                            )
                         )
-                    )
-
+                    })
                     this.props.navigation.navigate("Project")
                 })
         }
@@ -87,7 +92,7 @@ class ProjectCreationScreen extends Component {
                     </View>
                     <View className="course_input" style={styles.inputOutterContainerStyle}>
                         <Input
-                            label ="Course"
+                            label="Course"
                             labelStyle={styles.labelStyle}
                             inputContainerStyle={styles.inputContainerStyle}
                             inputStyle={{ fontFamily: 'Avenir', color: '#3F5AA6' }}
@@ -209,18 +214,18 @@ const styles = StyleSheet.create(
         inputWraperStyle:
         {
             flex: 1,
-            alignItems:'center',
-            marginTop: HEIGHT*0.01,
+            alignItems: 'center',
+            marginTop: HEIGHT * 0.01,
         },
         inputContainerStyle:
         {
             width: WIDTH * 0.9,
             borderBottomColor: '#BDCDD1',
-            height:HEIGHT*0.05,
+            height: HEIGHT * 0.05,
         },
         inputOutterContainerStyle:
         {
-            alignItems:'center',
+            alignItems: 'center',
         },
     }
 )

@@ -38,15 +38,8 @@ export class MileStone extends Component {
         })
     }
     readTeamMember = () => {
-        let users = []
         firebase.database().ref(`Project/${this.props.navigation.getParam('uid')}/Users`).on('value', (snapshot) => {
-            Object.values(snapshot.val()).forEach(element => {
-                firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
-                    users.push(snapshot.val())
-                }).then(() => {
-                    this.setState({ team_member: users })
-                })
-            })
+            this.setState({ team_member: Object.values(snapshot.val()) })
         })
     }
     onPressAddMilestone = () => {
@@ -98,10 +91,7 @@ export class MileStone extends Component {
                                     title={item.firstname[0] + item.lastname[0]}
                                     rounded
                                     size={WIDTH * 0.15}
-                                    source={{
-                                        uri:
-                                            item.avatar != null ? item.avatar : null,
-                                    }}
+                                    source={item.avatar != null ? { uri: item.avatar } : null}
                                 />
                                 <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
                                 <Text style={styles.avatarNameStyle}>{item.lastname}</Text>

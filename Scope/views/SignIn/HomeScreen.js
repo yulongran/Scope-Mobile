@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView, Alert
+    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView, Alert,
+    ScrollView
 } from 'react-native';
 import { Input, Icon } from 'react-native-elements'
 import ScopeLogo from '../../assets/images/ScopeLogo.png';
@@ -43,52 +44,55 @@ class HomeScreen extends Component {
     render() {
         return (
             <SafeAreaView>
-                <View style={styles.logo}>
-                    <Image source={ScopeLogo}></Image>
-                </View >
-                <View style={styles.inputView}>
-                    <Input
-                        rightIcon={
-                            <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
-                        label='Username'
-                        onChangeText={val => this.onChangeText('username', val)}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                        inputContainerStyle={{ height: HEIGHT * 0.05 }}
-                    />
-                    <Input
-                        rightIcon={
-                            <Icon name="md-lock" type='ionicon' zsize={21} color="#3F5AA6" />}
-                        label='Password'
-                        onChangeText={val => this.onChangeText('password', val)}
-                        rightIconContainerStyle={styles.rightIconStyle}
-                        containerStyle={styles.inputContainerStyle}
-                        labelStyle={styles.inputLabelStyle}
-                        inputStyle={styles.inputTextStyle}
-                        inputContainerStyle={{ height: HEIGHT * 0.05 }}
-                        secureTextEntry={true}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={styles.touchableStyle}
-                    onPress={() => {
-                        this.onLoginPress()
-                    }}>
-                    <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
-                </TouchableOpacity>
-                <View style={styles.signInUpStyle}>
-                    <TouchableOpacity>
-                        <Text style={{ color: '#3F5AA6' }}>Forget Password</Text>
-                    </TouchableOpacity>
+                <ScrollView>
+                    <View style={styles.logo}>
+                        <Image source={ScopeLogo}></Image>
+                    </View >
+                    <View style={styles.inputView}>
+                        <Input
+                            rightIcon={
+                                <Icon name="md-person" type='ionicon' size={21} color="#3F5AA6" />}
+                            label='Username'
+                            onChangeText={val => this.onChangeText('username', val)}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                            inputContainerStyle={{ height: HEIGHT * 0.05 }}
+                        />
+                        <Input
+                            rightIcon={
+                                <Icon name="md-lock" type='ionicon' zsize={21} color="#3F5AA6" />}
+                            label='Password'
+                            onChangeText={val => this.onChangeText('password', val)}
+                            rightIconContainerStyle={styles.rightIconStyle}
+                            containerStyle={styles.inputContainerStyle}
+                            labelStyle={styles.inputLabelStyle}
+                            inputStyle={styles.inputTextStyle}
+                            inputContainerStyle={{ height: HEIGHT * 0.05 }}
+                            secureTextEntry={true}
+                        />
+                    </View>
                     <TouchableOpacity
-                        onPress={() =>
-                            this.props.navigation.navigate("SignUp")
-                        }>
-                        <Text style={{ color: '#3F5AA6' }}>Sign Up</Text>
+                        style={styles.touchableStyle}
+                        onPress={() => {
+                            this.onLoginPress()
+                        }}>
+                        <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
                     </TouchableOpacity>
-                </View>
+                    <View style={styles.signInUpStyle}>
+                        <TouchableOpacity onPress={() =>
+                            this.props.navigation.navigate("ForegetPassword")}>
+                            <Text style={{ color: '#3F5AA6' }}>Forget Password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() =>
+                                this.props.navigation.navigate("SignUp")
+                            }>
+                            <Text style={{ color: '#3F5AA6' }}>Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         )
 
@@ -108,7 +112,7 @@ const styles = StyleSheet.create(
         },
         logo:
         {
-            marginTop: HEIGHT * 0.10,
+            marginTop: HEIGHT * 0.13,
             width: WIDTH * 0.75,
             marginBottom: HEIGHT * 0.06,
             marginLeft: WIDTH * 0.05,

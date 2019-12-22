@@ -36,6 +36,7 @@ class ProfileScreen extends Component {
         imageRef.putFile(image.path, { contentType: 'image/jpeg' }).then(function () {
             return imageRef.getDownloadURL();
         }).then(function (url) {
+            console.log(url)
             firebase.database().ref(`Users/${firebase.auth().currentUser.uid}`).update({
                 avatar: url
             })
@@ -51,7 +52,10 @@ class ProfileScreen extends Component {
         }).then(image => {
             let my_uid = firebase.auth().currentUser.uid;
             this.saveImage('Avatar', image, `${my_uid}`)
-        });
+        }).catch((err)=>
+        {
+            console.log(err)
+        })
     }
 
     uploadToFirebase = (blob) => {
@@ -104,10 +108,7 @@ class ProfileScreen extends Component {
                     <Avatar
                         title={this.state.user != null ? this.state.user.firstname[0] + this.state.user.lastname[0] : null}
                         rounded
-                        source={{
-                            uri:
-                                this.state.user != null && this.state.user.avatar != null ? this.state.user.avatar : null,
-                        }}
+                        source={this.state.user!=null &&  this.state.user.avatar!=null? {uri: this.state.user.avatar}:null}
                         size={WIDTH * 0.3}
                         showEditButton
                         containerStyle={{ alignSelf: 'center' }}

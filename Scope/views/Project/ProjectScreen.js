@@ -104,7 +104,7 @@ class ProjectScreen extends Component {
           </View>
           <View style={styles.projectListStyle}>
             <FlatList
-              data={this.state.project}
+              data={this.state.project!=null ? this.state.project:[]}
               renderItem={({ item, index }) => (
                 <Project
                   project_title={item.project_title}

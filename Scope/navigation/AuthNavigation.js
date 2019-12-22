@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import HomeScreen from "../views/SignIn/index";
 import SignUpScreen from '../views/SignUp/index';
 import TabNavigator from './ProjectNavigation';
+import ForegetPasswordScreen from '../views/ForgetPassword/index';
 
 const Auth_Stack = createStackNavigator(
     {
@@ -17,6 +18,13 @@ const Auth_Stack = createStackNavigator(
         SignUp:
         {
             screen: SignUpScreen,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        ForegetPassword:
+        {
+            screen: ForegetPasswordScreen,
             navigationOptions: {
                 header: null,
             }

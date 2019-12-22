@@ -50,13 +50,7 @@ class Project extends Component {
         let users = []
         firebase.database().ref(`Project/${this.props.uid}/Users`).on('value', (snapshot) => {
             if (snapshot.val() != null) {
-                Object.values(snapshot.val()).forEach(element => {
-                    firebase.database().ref(`Users/${element.uid}`).once('value', (snapshot) => {
-                        users.push(snapshot.val())
-                    }).then(() => {
-                        this.setState({ team_member: users })
-                    })
-                })
+                this.setState({team_member: Object.values(snapshot.val())})
             }
         })
     }
@@ -91,7 +85,7 @@ class Project extends Component {
                     height: HEIGHT * 0.145,
                     borderRadius: 10,
                     justifyContent: 'center',
-                    borderLeftColor: colors[Math.floor(Math.random(10) * colors.length * this.props.index)],
+                    borderLeftColor: colors[Math.floor(Math.random() * colors.length)],
                     borderLeftWidth: 4,
                 }}>
                     <View className="main_content" style={{ justifyContent: 'center' }}>
@@ -117,10 +111,7 @@ class Project extends Component {
                                             rounded
                                             title={item.firstname[0] + item.lastname[0]}
                                             size={42}
-                                            source={{
-                                                uri:
-                                                    item.avatar != null ? item.avatar : null,
-                                            }}
+                                            source={item.avatar != null ? { uri: item.avatar } : null}
                                             containerStyle={{ margin: 10 }}
                                         />
                                     )}
