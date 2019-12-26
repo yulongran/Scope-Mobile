@@ -37,19 +37,19 @@ Adobe XD Design may vary from actual mobile application due to:
 ## IV Major Features
 
 <p float="left">
-  <img src="App_Screenshot/Login.png" width="300" />
-  <img src="App_Screenshot/Project.png" width="300" /> 
-  <img src="App_Screenshot/ProjectDetail.png" width="300" />
+  <img src="App_Screenshot/Login.png" width="250" />
+  <img src="App_Screenshot/Project.png" width="250" /> 
+  <img src="App_Screenshot/ProjectDetail.png" width="250" />
 </p>
 
 <p float="left">
-  <img src="App_Screenshot/ProjectReview.png" width="300" />
-  <img src="App_Screenshot/Profile.png" width="300" /> 
-<img src="App_Screenshot/Simulator Screen Shot - iPhone X - 2019-12-25 at 12.11.25.png" width="300" /> 
+  <img src="App_Screenshot/ProjectReview.png" width="250" />
+  <img src="App_Screenshot/Profile.png" width="250" /> 
+<img src="App_Screenshot/Simulator Screen Shot - iPhone X - 2019-12-25 at 12.11.25.png" width="250" /> 
 </p>
 
 <p float="left">
-  <img src="App_Screenshot/Simulator Screen Shot - iPhone X - 2019-12-25 at 12.11.42.png" width="300" />
+  <img src="App_Screenshot/Simulator Screen Shot - iPhone X - 2019-12-25 at 12.11.42.png" width="250" />
 </p>
 
 
