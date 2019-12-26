@@ -18,7 +18,7 @@ The project Scope is a mobile application that can be used by instructor or scho
 
 #### Problem or Opportunity
 
-Today, the majority of the institution has a great teaching evaluation system to recognize a teacher's performance. The system provides accurate data and valuable feedback for the instructor to improve classroom effectiveness. However, at this moment, the majority of the student's project assessment is relying on the instructor. In a real industry, it is common practice to evaluate a team member's work with a performance review to identify strengths, weaknesses, and establish goals for the future. The absence of a student's project evaluation system limits the growth and opportunities for the students.
+The majority of the student's project assessment is relying on the instructor. In a real industry, it is common practice to evaluate a team member's work with a performance review to identify strengths, weaknesses, and establish goals for the future. The absence of a student's project evaluation system limits the growth and opportunities for the students.
 
 #### Solution
 
@@ -32,6 +32,16 @@ Adobe XD Design may vary from actual mobile application due to:
 
 ## III System Requirement   
 
-![System_threeTierDiagram](3Tier_Layers.png)
+![System_threeTierDiagram](system_requirement.jpeg)
 
 ## IV Major Features
+
+![Login_Screen](App_Screenshot/Login.png)
+![Project_Screen](App_Screenshot/Project.png)
+![ProjectDetail_Screen](App_Screenshot/ProjectDetail.png)
+![ProjectReview_Screen](App_Screenshot/ProjectDetail.png)
+![Profile_Screen](App_Screenshot/Profile.png)
+
+## Credit
+
+The idea of Scope originates from the SJSU-CS157A group project if you are looking for more details of the project performance management system. Check out the following  https://github.com/SJSU-Fall2019/CS157A_Team10.
