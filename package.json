@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@dooboo-ui/native": "^0.4.3",
-    "@dooboo-ui/native-accordion": "^0.4.0",
-    "react-native-panel": "^1.0.4"
-  }
-}

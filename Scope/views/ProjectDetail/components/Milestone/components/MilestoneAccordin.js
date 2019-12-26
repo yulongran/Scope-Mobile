@@ -4,6 +4,8 @@ import {
     StyleSheet,
     Dimensions,
     Alert,
+    ScrollView,
+    SafeAreaView,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Text, Button, Icon } from 'react-native-elements';
@@ -15,6 +17,7 @@ class AccordionView extends Component {
         super(props)
         this.state = {
             activeSections: [],
+            refresh: false,
         };
     }
     /**https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript */
@@ -49,7 +52,7 @@ class AccordionView extends Component {
                 <Text style={styles.headerTextStyle}>Milestone {this.romanize(index + 1)}</Text>
                 <Text style={styles.headerTitleStyle}>{section.milestone_title}</Text>
                 <View style={styles.iconStyle}>
-                    {isActive ? <Icon name="ios-arrow-up" type='ionicon' size={WIDTH*0.06} color="#3F5AA6" /> : <Icon name="ios-arrow-down" type='ionicon' size={WIDTH*0.06} color="#3F5AA6" />}
+                    {isActive ? <Icon name="ios-arrow-up" type='ionicon' size={WIDTH * 0.06} color="#3F5AA6" /> : <Icon name="ios-arrow-down" type='ionicon' size={WIDTH * 0.06} color="#3F5AA6" />}
                 </View>
             </View>
         );
@@ -62,7 +65,7 @@ class AccordionView extends Component {
                 <View style={{ alignSelf: 'flex-end' }}>
                     <Button
                         icon={<Icon name='md-remove-circle' type='ionicon' size={WIDTH * 0.07} color="#ED4337" />}
-                        buttonStyle={{ backgroundColor: 'white'}}
+                        buttonStyle={{ backgroundColor: 'white' }}
                         onPress={() => {
                             Alert.alert(
                                 'Permanent delete Milestone',
@@ -92,16 +95,18 @@ class AccordionView extends Component {
 
     render() {
         return (
-            <Accordion
-                sections={this.props.milestone != null ? this.props.milestone : []}
-                activeSections={this.state.activeSections}
-                renderSectionTitle={this._renderSectionTitle}
-                renderHeader={this._renderHeader}
-                renderContent={this._renderContent}
-                onChange={this._updateSections}
-                sectionContainerStyle={styles.containerStyle}
-                underlayColor={'white'}
-            />
+            <View>
+                < Accordion
+                    sections={this.props.milestone != null ? this.props.milestone : []}
+                    activeSections={this.state.activeSections}
+                    renderSectionTitle={this._renderSectionTitle}
+                    renderHeader={this._renderHeader}
+                    renderContent={this._renderContent}
+                    onChange={this._updateSections}
+                    sectionContainerStyle={styles.containerStyle}
+                    underlayColor={'white'}
+                />
+            </View>
         );
     }
 }

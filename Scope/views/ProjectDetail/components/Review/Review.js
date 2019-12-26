@@ -4,11 +4,10 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    TouchableOpacity,
     SafeAreaView,
     ScrollView
 } from 'react-native';
-import { Card, ListItem, Button, Icon, Avatar, AirbnbRating } from 'react-native-elements'
+import { Card, Icon, Avatar, AirbnbRating } from 'react-native-elements'
 import Carousel from 'react-native-snap-carousel';
 import firebase from 'react-native-firebase';
 
@@ -125,11 +124,12 @@ const styles = StyleSheet.create(
         carouselStyle:
         {
             alignItems: 'center',
+            flex:1,
+            height: HEIGHT*0.6,
         },
         addButtonStyle:
         {
             alignSelf: 'flex-end',
-            marginTop: HEIGHT * 0.12,
         },
         sectionLabelStyle:
         {

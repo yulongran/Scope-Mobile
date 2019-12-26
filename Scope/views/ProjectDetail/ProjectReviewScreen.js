@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import {
-    View, Text,
-    ImageBackground, StyleSheet,
-    Dimensions, SafeAreaView, FlatList, TouchableOpacity, ScrollView,
+    View, Text, StyleSheet,
+    Dimensions, SafeAreaView, ScrollView, Alert,
 } from 'react-native'
 import Review from './components/Review/index';
 import MileStone from './components/Milestone/index';
-import { Avatar, ButtonGroup, Divider, colors } from 'react-native-elements';
-import Accordion from '@dooboo-ui/native-accordion';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Segment, Content } from 'native-base';
+import { Container, Button, Segment, Content } from 'native-base';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -61,15 +58,15 @@ class ProjectReviewScreen extends Component {
         return {
             title: 'Project Detail',
             headerTintColor: '#192A59',
-            headerRight: <View/>,
-              headerTitleStyle:
-              {
-                flex:1,
+            headerRight: <View />,
+            headerTitleStyle:
+            {
+                flex: 1,
                 fontFamily: 'Avenir',
-                fontSize: WIDTH*0.06,
+                fontSize: WIDTH * 0.06,
                 fontWeight: '900',
-                textAlign:'center',
-              },
+                textAlign: 'center',
+            },
         };
     }
 
@@ -78,42 +75,40 @@ class ProjectReviewScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView>
-                <ScrollView style={{ backgroundColor: '#FBFBFB' }}>
-                    <Container>
-                        <Segment style={{ backgroundColor: 'white' }}>
-                            <Button active={this.state.activePage === 1}
-                                transparent
-                                style={{
-                                    justifyContent: 'center',
-                                    width: WIDTH * 0.4,
-                                    borderRadius: WIDTH * 0.01,
-                                    borderWidth: 1,
-                                    borderColor: this.state.activePage == 1 ? '#3F5AA6' : '#BDCDD1',
-                                    borderLeftWidth: 1,
-                                    backgroundColor: this.state.activePage == 1 ? '#3F5AA6' : '#FFFFFF',
-                                }}
-                                onPress={this.selectComponent(1)}>
-                                <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6' }}>Milestone</Text>
-                            </Button>
-                            <Button active={this.state.activePage === 2} style={{
+            <SafeAreaView style={{ flex: 1 }} >
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <Segment style={{ backgroundColor: 'white' }}>
+                        <Button active={this.state.activePage === 1}
+                            transparent
+                            style={{
                                 justifyContent: 'center',
                                 width: WIDTH * 0.4,
                                 borderRadius: WIDTH * 0.01,
                                 borderWidth: 1,
-                                borderColor: this.state.activePage == 2 ? '#3F5AA6' : '#BDCDD1',
+                                borderColor: this.state.activePage == 1 ? '#3F5AA6' : '#BDCDD1',
                                 borderLeftWidth: 1,
-                                backgroundColor: this.state.activePage == 2 ? '#3F5AA6' : '#FFFFFF',
+                                backgroundColor: this.state.activePage == 1 ? '#3F5AA6' : '#FFFFFF',
                             }}
-                                onPress={this.selectComponent(2)}><Text style={{
-                                    textAlign: 'center',
-                                    color: this.state.activePage == 2 ? '#FFFFFF' : '#3F5AA6'
-                                }}>Review</Text></Button>
-                        </Segment>
-                        <Content padder>
-                            {this._renderComponent()}
-                        </Content>
-                    </Container>
+                            onPress={this.selectComponent(1)}>
+                            <Text style={{ color: this.state.activePage == 1 ? '#FFFFFF' : '#3F5AA6' }}>Milestone</Text>
+                        </Button>
+                        <Button active={this.state.activePage === 2} style={{
+                            justifyContent: 'center',
+                            width: WIDTH * 0.4,
+                            borderRadius: WIDTH * 0.01,
+                            borderWidth: 1,
+                            borderColor: this.state.activePage == 2 ? '#3F5AA6' : '#BDCDD1',
+                            borderLeftWidth: 1,
+                            backgroundColor: this.state.activePage == 2 ? '#3F5AA6' : '#FFFFFF',
+                        }}
+                            onPress={this.selectComponent(2)}><Text style={{
+                                textAlign: 'center',
+                                color: this.state.activePage == 2 ? '#FFFFFF' : '#3F5AA6'
+                            }}>Review</Text></Button>
+                    </Segment>
+                    <Content style={{ flexGrow: 1 }}>
+                        {this._renderComponent()}
+                    </Content>
                 </ScrollView>
             </SafeAreaView >
         )

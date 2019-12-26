@@ -7,11 +7,13 @@ import {
     FlatList,
     Clipboard,
     TouchableOpacity,
+    ScollView,
 } from 'react-native';
 import { Avatar, Divider, Icon } from 'react-native-elements';
 import AccordionView from './components/MilestoneAccordin';
 import firebase from 'react-native-firebase';
 import { Toast } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export class MileStone extends Component {
@@ -22,6 +24,7 @@ export class MileStone extends Component {
             team_member: [],
             milestone: null,
             milestoneKey: null,
+            milestoneUpdate: null,
         }
     }
     readProjectData = () => {
@@ -35,7 +38,12 @@ export class MileStone extends Component {
                 this.setState({ milestone: Object.values(snapshot.val()).reverse() })
                 this.setState({ milestoneKey: Object.keys(snapshot.val()).reverse() })
             }
+            else {
+                this.setState({ milestone: [] })
+                this.setState({ milestoneKey: [] })
+            }
         })
+        firebase.database().ref()
     }
     readTeamMember = () => {
         firebase.database().ref(`Project/${this.props.navigation.getParam('uid')}/Users`).on('value', (snapshot) => {
@@ -58,62 +66,61 @@ export class MileStone extends Component {
     }
     render() {
         return (
-            <View style={styles.container} >
-                <View className="project_title">
-                    <Text style={styles.projectTitleStyle}>{this.state.project != null ? this.state.project.project_title : null}</Text>
-                    <View style={styles.projectIDContainer}>
-                        <TouchableOpacity onPress={() => {
-                            Clipboard.setString(this.props.navigation.getParam('uid')),
-                                Toast.show({
-                                    text: 'Copied to Clipboard',
-                                    duration: 1100,
-                                    textStyle: { textAlign: 'center' }
-                                })
-                        }}>
-                            <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
-                        </TouchableOpacity>
+            <ScrollView style={styles.container}>
+                    <View className="project_title">
+                        <Text style={styles.projectTitleStyle}>{this.state.project != null ? this.state.project.project_title : null}</Text>
+                        <View style={styles.projectIDContainer}>
+                            <TouchableOpacity onPress={() => {
+                                Clipboard.setString(this.props.navigation.getParam('uid')),
+                                    Toast.show({
+                                        text: 'Copied to Clipboard',
+                                        duration: 1100,
+                                        textStyle: { textAlign: 'center' }
+                                    })
+                            }}>
+                                <Text style={styles.projectIDStyle}> ID:{this.props.navigation.getParam('uid')}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <Divider style={styles.dividerStyle} />
-                <View className="project_description" style={styles.sectionContainerStyle}>
-                    <Text style={styles.sectionLabelStyle}>DESCRIPTION</Text>
-                    <Text style={styles.descriptionStyle}>{this.state.project != null ? this.state.project.project_description : null} </Text>
-                </View>
-                <View className="team_member" style={styles.flastListContainerStyle}>
-                    <FlatList
-                        data={this.state.team_member}
-                        key={this.state.team_member.length}
-                        contentContainerStyle={styles.profileListStyle}
-                        extraData={this.state}
-                        renderItem={({ item }) => (
-                            <View style={styles.avatarWrapper}>
-                                <Avatar
-                                    title={item.firstname[0] + item.lastname[0]}
-                                    rounded
-                                    size={WIDTH * 0.15}
-                                    source={item.avatar != null ? { uri: item.avatar } : null}
-                                />
-                                <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
-                                <Text style={styles.avatarNameStyle}>{item.lastname}</Text>
-                            </View>
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        horizontal={true} />
-                </View>
-                <View className="milestone_menu" style={styles.milestoneMenuStyle}>
-                    <Text style={styles.sectionLabelStyle}>MILESTONE</Text>
-                    <Icon
-                        raised
-                        name='md-add'
-                        type='ionicon'
-                        color='#192A59'
-                        onPress={this.onPressAddMilestone}
-                        size={WIDTH * 0.045}
-                        style={styles.iconStyle} />
-                </View>
-                <AccordionView milestone={this.state.milestone} milestoneKey={this.state.milestoneKey} uid={this.props.navigation.getParam('uid')} />
-            </View >
-
+                    <Divider style={styles.dividerStyle} />
+                    <View className="project_description" style={styles.sectionContainerStyle}>
+                        <Text style={styles.sectionLabelStyle}>DESCRIPTION</Text>
+                        <Text style={styles.descriptionStyle}>{this.state.project != null ? this.state.project.project_description : null} </Text>
+                    </View>
+                    <View className="team_member" style={styles.flastListContainerStyle}>
+                        <FlatList
+                            data={this.state.team_member}
+                            key={this.state.team_member.length}
+                            contentContainerStyle={styles.profileListStyle}
+                            extraData={this.state}
+                            renderItem={({ item }) => (
+                                <View style={styles.avatarWrapper}>
+                                    <Avatar
+                                        title={item.firstname[0] + item.lastname[0]}
+                                        rounded
+                                        size={WIDTH * 0.15}
+                                        source={item.avatar != null ? { uri: item.avatar } : null}
+                                    />
+                                    <Text style={styles.avatarNameStyle}>{item.firstname}</Text>
+                                    <Text style={styles.avatarNameStyle}>{item.lastname}</Text>
+                                </View>
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                            horizontal={true} />
+                    </View>
+                    <View className="milestone_menu" style={styles.milestoneMenuStyle}>
+                        <Text style={styles.sectionLabelStyle}>MILESTONE</Text>
+                        <Icon
+                            raised
+                            name='md-add'
+                            type='ionicon'
+                            color='#192A59'
+                            onPress={this.onPressAddMilestone}
+                            size={WIDTH * 0.045}
+                            style={styles.iconStyle} />
+                    </View>
+                    <AccordionView milestone={this.state.milestone} milestoneKey={this.state.milestoneKey} uid={this.props.navigation.getParam('uid')} />
+            </ScrollView >
         )
     }
 }
@@ -128,7 +135,7 @@ const styles = StyleSheet.create(
             marginLeft: WIDTH * 0.05,
             marginRight: WIDTH * 0.05,
             marginTop: WIDTH * 0.02,
-
+            flexGrow: 1,
         },
         projectIDStyle:
         {

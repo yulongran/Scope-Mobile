@@ -33,7 +33,7 @@ class ProjectScreen extends Component {
         fontFamily: 'Avenir',
         fontSize: WIDTH * 0.08,
         textAlign: 'left',
-        marginLeft: WIDTH*0.07,
+        marginLeft: WIDTH * 0.07,
         fontWeight: '900',
       },
     };
@@ -74,7 +74,7 @@ class ProjectScreen extends Component {
           this.setState({ projectKeys: Object.values(snapshot.val()) })
           let project_tmp = []
           project_uid.forEach((element) => {
-            firebase.database().ref('Project/' + element).on('value', (snapshot) => {
+            firebase.database().ref('Project/' + element).once('value', (snapshot) => {
               project_tmp.push(snapshot.val())
               this.setState({ project: project_tmp })
             })
@@ -104,7 +104,7 @@ class ProjectScreen extends Component {
           </View>
           <View style={styles.projectListStyle}>
             <FlatList
-              data={this.state.project!=null ? this.state.project:[]}
+              data={this.state.project != null ? this.state.project : []}
               renderItem={({ item, index }) => (
                 <Project
                   project_title={item.project_title}
@@ -113,6 +113,9 @@ class ProjectScreen extends Component {
                   project_endDate={item.project_endDate}
                   index={index}
                   uid={this.state.project != null ? item.uid : null}
+                  setProject={() => {
+                    this.setState({ project: null, projectKeys:null })
+                  }}
                   onPress={() => {
                     this.props.navigation.navigate("Review", { uid: this.state.project != null ? item.uid : null })
                   }}

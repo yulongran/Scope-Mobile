@@ -1,2 +1,0 @@
-// Bug List
-    - After User Sign In, the project screen does not update itself 

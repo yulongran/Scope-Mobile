@@ -121,7 +121,7 @@ class SignUpScreen extends Component {
                     </View>
                     <TouchableOpacity style={styles.touchableStyle} onPress={this.onSignUpPress}
                         disabled={this.state.email.length == 0 || this.state.firstname.length == 0 || this.state.lastname.length == 0
-                            || this.state.lastname.length == 0 || thisa.state.institution.length == 0}>
+                            || this.state.lastname.length == 0 || this.state.institution.length == 0}>
                         <Text style={{ color: 'white', fontSize: 18 }}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

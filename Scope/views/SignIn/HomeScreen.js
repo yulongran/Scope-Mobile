@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView, Alert,
+    View, Text, StyleSheet, Image, Dimensions,TouchableOpacity, SafeAreaView, Alert,
     ScrollView
 } from 'react-native';
 import { Input, Icon } from 'react-native-elements'

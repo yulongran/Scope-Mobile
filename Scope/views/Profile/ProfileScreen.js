@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TextInput } from 'react-native';
 import { Button, Icon, Avatar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -52,8 +52,7 @@ class ProfileScreen extends Component {
         }).then(image => {
             let my_uid = firebase.auth().currentUser.uid;
             this.saveImage('Avatar', image, `${my_uid}`)
-        }).catch((err)=>
-        {
+        }).catch((err) => {
             console.log(err)
         })
     }
@@ -108,7 +107,7 @@ class ProfileScreen extends Component {
                     <Avatar
                         title={this.state.user != null ? this.state.user.firstname[0] + this.state.user.lastname[0] : null}
                         rounded
-                        source={this.state.user!=null &&  this.state.user.avatar!=null? {uri: this.state.user.avatar}:null}
+                        source={this.state.user != null && this.state.user.avatar != null ? { uri: this.state.user.avatar } : null}
                         size={WIDTH * 0.3}
                         showEditButton
                         containerStyle={{ alignSelf: 'center' }}
@@ -118,7 +117,7 @@ class ProfileScreen extends Component {
                         <Text style={styles.nameStyle}>{this.state.user != null ? this.state.user.firstname : null} {this.state.user != null ? this.state.user.lastname : null}</Text>
                     </View>
                 </View>
-                <View style={{ flex: 2}}>
+                <View style={{ flex: 2 }}>
                     <View style={styles.viewStyle}>
                         <Icon
                             reverse
@@ -182,7 +181,12 @@ class ProfileScreen extends Component {
                         <View style={styles.infoStyle}>
                             <Text style={styles.textStyle}>Contact Info</Text>
                             <TextInput
-                                style={styles.inputStyle}
+                                style={{
+                                    color: '#828899',
+                                    fontFamily: 'Avenir',
+                                    fontSize: WIDTH * 0.032,
+                                    height: HEIGHT * 0.05,
+                                }}
                                 editable={this.state.edit}
                                 value={this.state.contact != null ? this.state.contact : null}
                                 onChangeText={value => this.onChangeText('contact', value)}
@@ -265,7 +269,7 @@ const styles = StyleSheet.create(
             color: '#828899',
             fontFamily: 'Avenir',
             fontSize: WIDTH * 0.04,
-            height:HEIGHT*0.05,
+            height: HEIGHT * 0.05,
         },
         nameStyle:
         {
@@ -278,10 +282,11 @@ const styles = StyleSheet.create(
         },
         profileStyle:
         {
-            flex: 1,
+            flex: 1.5,
             alignSelf: 'center',
             marginTop: HEIGHT * 0.035,
             marginBottom: HEIGHT * 0.04,
+            justifyContent:'center',
         },
         iconStyle:
         {
@@ -292,7 +297,7 @@ const styles = StyleSheet.create(
         {
             marginLeft: WIDTH * 0.02,
             flex: 3,
-            justifyContent:'center',
+            justifyContent: 'center',
         },
         signOutTextStyle:
             { fontFamily: 'Avenir', fontWeight: '800', fontSize: WIDTH * 0.05, alignSelf: 'center' },

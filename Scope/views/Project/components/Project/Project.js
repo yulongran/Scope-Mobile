@@ -41,6 +41,7 @@ class Project extends Component {
             Object.values(snapshot.val()).forEach((element, index) => {
                 if (element.uid == this.props.uid) {
                     firebase.database().ref(`Users/${uid}/Project/${Object.keys(snapshot.val())[index]}`).remove()
+                    this.props.setProject()
                 }
             })
         })
@@ -50,7 +51,7 @@ class Project extends Component {
         let users = []
         firebase.database().ref(`Project/${this.props.uid}/Users`).on('value', (snapshot) => {
             if (snapshot.val() != null) {
-                this.setState({team_member: Object.values(snapshot.val())})
+                this.setState({ team_member: Object.values(snapshot.val()) })
             }
         })
     }
@@ -90,8 +91,10 @@ class Project extends Component {
                 }}>
                     <View className="main_content" style={{ justifyContent: 'center' }}>
                         <View style={styles.ViewStyle} >
-                            <View className="left_container">
+                            <View className="top_container">
                                 <Text style={styles.ProjectNameStyle}>{this.props.project_title}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
                                 <View style={{ marginTop: HEIGHT * 0.01, marginLeft: WIDTH * 0.03 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Icon name="ios-calendar" type='ionicon' size={18} color='red' />
@@ -102,23 +105,23 @@ class Project extends Component {
                                         <Text style={styles.endDateStyle}>To      {this.props.project_endDate}</Text>
                                     </View>
                                 </View>
-                            </View>
-                            <View className="right_avatar_container" style={styles.rightSideStyle}>
-                                <FlatList
-                                    data={this.state.team_member}
-                                    renderItem={({ item, index }) => (
-                                        <Avatar
-                                            rounded
-                                            title={item.firstname[0] + item.lastname[0]}
-                                            size={42}
-                                            source={item.avatar != null ? { uri: item.avatar } : null}
-                                            containerStyle={{ margin: 10 }}
-                                        />
-                                    )}
-                                    keyExtractor={(item, index) => index.toString()}
-                                    extraData={this.state.team_member}
-                                    horizontal={true}
-                                />
+                                <View className="right_avatar_container" style={{ marginLeft: WIDTH * 0.05 }}>
+                                    <FlatList
+                                        data={this.state.team_member != null && this.state.team_member.length > 3 ? this.state.team_member.slice(0, 3) : this.state.team_member}
+                                        renderItem={({ item, index }) => (
+                                            <Avatar
+                                                rounded
+                                                title={item.firstname[0] + item.lastname[0]}
+                                                size={WIDTH * 0.09}
+                                                source={item.avatar != null ? { uri: item.avatar } : null}
+                                                containerStyle={{ margin: WIDTH * 0.02 }}
+                                            />
+                                        )}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        extraData={this.state.team_member}
+                                        horizontal={true}
+                                    />
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -138,13 +141,7 @@ var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'rosybrown', 'skyblue'
     , 'navy', 'mediumvioletred', 'mediumpurple', 'lightgrey', 'goldenrod', 'gainsboro', 'darkturquoise', 'darkred', 'cadetblue'];
 const styles = StyleSheet.create({
     ViewStyle: {
-        flexDirection: 'row',
-    },
-    rightSideStyle:
-    {
-        marginLeft: WIDTH * 0.09,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
+        flexDirection: 'column',
     },
     ProjectNameStyle: {
         color: '#3F5AA6',

@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet,
-    Dimensions, FlatList, TouchableOpacity,
-    TextInput,
-    Image,
+    View, StyleSheet,
+    Dimensions,
     Alert,
 } from 'react-native';
-import { Container, Header, Left, Body, Right, Title } from 'native-base'
-import { SearchBar, Button, Divider } from "react-native-elements";
+import { Container, Header, Title } from 'native-base'
+import { SearchBar, Button, } from "react-native-elements";
 import firebase from 'react-native-firebase';
 import Project from './components/Project/index';
 const HEIGHT = Dimensions.get('screen').height;
@@ -57,6 +55,11 @@ class SearchScreen extends Component {
                                         })
                                     }).then(() => {
                                         alert("Successfully Join this Project")
+                                        this.setState({
+                                            project: null,
+                                            projectKey: null,
+                                            uid: null,
+                                        })
                                     })
                                 })
                             }
@@ -76,7 +79,7 @@ class SearchScreen extends Component {
     render() {
         return (
             <Container>
-                <Header style={{ backgroundColor: 'white' }}>
+                <Header style={{ backgroundColor: 'white', alignItems: 'center' }}>
                     <Title style={styles.titleStyle}>Project Search</Title>
                 </Header>
                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>

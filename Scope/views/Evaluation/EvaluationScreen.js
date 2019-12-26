@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, Dimensions, Image, TextInput, SafeAreaView
+    View, Text, StyleSheet, Dimensions, SafeAreaView
 } from 'react-native'
 import Carousel from 'react-native-snap-carousel';
 import { Avatar, AirbnbRating, Button } from 'react-native-elements';
-import { Container, Content, Textarea, Form, CheckBox, Body } from "native-base";
+import { Container, Content, Textarea, Form, } from "native-base";
 import firebase from 'react-native-firebase';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -62,7 +62,7 @@ class EvaluationScreen extends Component {
         );
     }
     onChangeItem = (index) => {
-        this.setState({ reviewee: index})
+        this.setState({ reviewee: index })
     }
 
     onChangeTextArea = (value) => {
